@@ -1,15 +1,17 @@
 
-![](https://github.com/TinyTakinTeller/TakinGodotTemplate/blob/master/.github/docs/image/readme_logo.png)
+![](https://github.com/Robo-Cart/godot-topdown-shooter-game/tree/master/.github/docs/image/readme_header.png)
 
 
-# Takin - Godot Template [v0.7]
+# Topdown Shooter Game
 
-**Godot 4.4** template for game projects (GDScript), inspired by [Maaack's Godot Game Template](https://github.com/Maaack/Godot-Game-Template).
+Inspired by the likes of SmashTV, Moonlighter, Alien Breed and Enter the Gungeon.  
 
-Fusion of curated plugins, essential features and best practices to kick-start new projects.
+Twinstick, single screen, SmashTV/Binding of Isaac-like level navigation and potentially local multiplayer.
 
 
 **README**
+Uses https://github.com/TinyTakinTeller/TakinGodotTemplate as a base.  
+
 - 👁️ [Preview](https://github.com/TinyTakinTeller/TakinGodotTemplate/blob/master/.github/docs/PREVIEW.md)
 - 📂 [Structure](https://github.com/TinyTakinTeller/TakinGodotTemplate/blob/master/.github/docs/STRUCTURE.md)
 - ⭐ [Features](https://github.com/TinyTakinTeller/TakinGodotTemplate/blob/master/.github/docs/FEATURES.md)

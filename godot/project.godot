@@ -27,8 +27,8 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 
 [application]
 
-config/name="TakinGodotTemplate"
-config/version="0.7.2"
+config/name="Topdown Shooter"
+config/version="0.1"
 run/main_scene="res://root/scenes/scene/boot_splash_scene/boot_splash_scene.tscn"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 boot_splash/bg_color=Color(0, 0, 0, 1)
