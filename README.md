@@ -1,5 +1,5 @@
 
-![](https://github.com/Robo-Cart/godot-topdown-shooter-game/tree/master/.github/docs/image/readme_header.png)
+![](https://raw.githubusercontent.com/Robo-Cart/godot-topdown-shooter-game/refs/heads/master/.github/docs/image/readme_header.jpg)
 
 
 # Topdown Shooter Game
