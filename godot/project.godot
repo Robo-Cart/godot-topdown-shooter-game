@@ -27,7 +27,7 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 
 [application]
 
-config/name="Topdown Shooter"
+config/name="godot-topdown-shooter-game"
 config/version="0.1"
 run/main_scene="res://root/scenes/scene/boot_splash_scene/boot_splash_scene.tscn"
 config/features=PackedStringArray("4.6", "GL Compatibility")

@@ -8,7 +8,7 @@ extends Node
 ## Original File MIT License Copyright (c) 2024 TinyTakinTeller
 
 const GAME_TITLE: String = "GAME_TITLE"
-const GAME_AUTHOR: String = "TinyTakinTeller"
+const GAME_AUTHOR: String = "RoboCart"
 
 @export var loader: ConfigurationControllerLoader
 

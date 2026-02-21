@@ -36,16 +36,6 @@ License: [CC0 (Public Domain)](https://creativecommons.org/publicdomain/zero/1.0
 [comment]: # ()
 [comment]: # (`image/game/animal/png/*`)
 
-#### Godot Logo (Boot Splash)
-Modified by: [TinyTakinTeller](https://github.com/TinyTakinTeller)\
-Created by: [Andrea Calabró](https://godotengine.org/press/)\
-Source: [godotengine.org: Press Kit](https://godotengine.org/press/)\
-License: [CC BY 4.0 International](https://github.com/godotengine/godot/blob/master/LOGO_LICENSE.txt)
-
-[comment]: # ()
-[comment]: # (`boot_splash_2560_1440.png`)
-[comment]: # (`icon_1024_1024.png`)
-
 #### UI Icons: Plus, Minus
 Created by: [Marek Belski](https://github.com/Maaack)  
 Source: [github: Godot Menus Template](https://github.com/Maaack/Godot-Menus-Template/tree/main/addons/maaacks_menus_template/base/assets/remapping_input_icons)\
