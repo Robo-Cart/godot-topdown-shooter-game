@@ -47,22 +47,22 @@ manager/music/bus="Music"
 
 [autoload]
 
-DebugMenu="*uid://cggqb75a8w8r"
-Log="*res://addons/logger/logger.gd"
 LogWrapper="*res://root/autoload/wrapper/log_wrapper/log_wrapper.tscn"
 TranslationServerWrapper="*res://root/autoload/wrapper/translation_server_wrapper/translation_server_wrapper.tscn"
-SceneManager="*uid://2iy8wfgenjka"
-Scenes="*uid://cqhqqsh5oectt"
 SceneManagerWrapper="*res://root/autoload/wrapper/scene_manager_wrapper/scene_manager_wrapper.tscn"
 AudioManagerWrapper="*res://root/autoload/wrapper/audio_manager_wrapper/audio_manager_wrapper.tscn"
-SoundManager="*uid://cwmemkwby0n6r"
-MusicManager="*uid://b7gw800fl3qms"
 SignalBus="*res://root/autoload/signal_bus/signal_bus.tscn"
 Data="*res://root/autoload/data/data.tscn"
 Overlay="*res://root/autoload/overlay/overlay.tscn"
 Configuration="*res://root/autoload/configuration/configuration.tscn"
 AssetReference="*res://root/autoload/reference/asset_reference/asset_reference.tscn"
 ResourceReference="*res://root/autoload/reference/resource_reference/resource_reference.tscn"
+SceneManager="*uid://2iy8wfgenjka"
+Scenes="*uid://cqhqqsh5oectt"
+SoundManager="*uid://cwmemkwby0n6r"
+MusicManager="*uid://b7gw800fl3qms"
+Log="*uid://fkh2vcehfwc7"
+DebugMenu="*uid://cggqb75a8w8r"
 
 [debug]
 
