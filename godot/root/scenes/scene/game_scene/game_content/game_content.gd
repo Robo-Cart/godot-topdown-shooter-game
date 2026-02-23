@@ -1,10 +1,5 @@
-class_name GameContent
-extends Control
-## Original File MIT License Copyright (c) 2024 TinyTakinTeller
+# TODO: Consider extending the game options with: [br]
+# - https://github.com/godotengine/godot-demo-projects/tree/master/3d/graphics_settings
+extends Node3D
 
-@onready var control_grab_focus: ControlGrabFocus = %ControlGrabFocus
-@onready var pause_menu_button: MenuButtonClass = %PauseMenuButton
-
-
-func _ready() -> void:
-	LogWrapper.debug(self, "Scene ready.")
+@onready var player: Player = %Player

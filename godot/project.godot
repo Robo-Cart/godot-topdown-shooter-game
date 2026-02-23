@@ -86,7 +86,6 @@ enabled=PackedStringArray("res://addons/debug_menu/plugin.cfg", "res://addons/fo
 folder_colors={
 "res://addons/": "gray",
 "res://root/": "purple",
-"res://root/artifacts/": "purple",
 "res://root/assets/": "green",
 "res://root/autoload/": "blue",
 "res://root/resources/": "teal",
