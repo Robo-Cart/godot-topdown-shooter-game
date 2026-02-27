@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://kdoccsakelgl"
-path="res://.godot/imported/GirlSample_ReadyIdle_UpLeft.png-347f9905e0df6464d541027ea69b648c.ctex"
+uid="uid://5y1q5ynppys7"
+path="res://.godot/imported/GirlSample_ReadyIdle_UpLeft.png-1364c151fef7e8f19358d953430a8734.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://root/assets/image/game/sprites/Player/Idle/GirlSample_ReadyIdle_UpLeft.png"
-dest_files=["res://.godot/imported/GirlSample_ReadyIdle_UpLeft.png-347f9905e0df6464d541027ea69b648c.ctex"]
+source_file="res://root/assets/image/game/sprites/player/Idle/GirlSample_ReadyIdle_UpLeft.png"
+dest_files=["res://.godot/imported/GirlSample_ReadyIdle_UpLeft.png-1364c151fef7e8f19358d953430a8734.ctex"]
 
 [params]
 

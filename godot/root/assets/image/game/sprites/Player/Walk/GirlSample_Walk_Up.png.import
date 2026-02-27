@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://o13ikfvr3rke"
-path="res://.godot/imported/GirlSample_Walk_Up.png-24d73556c4b0c51f8aec8b4a5a8e89fe.ctex"
+uid="uid://b3ccftik1sqct"
+path="res://.godot/imported/GirlSample_Walk_Up.png-166042a7b396b45790e8c22b492884c6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://root/assets/image/game/sprites/Player/Walk/GirlSample_Walk_Up.png"
-dest_files=["res://.godot/imported/GirlSample_Walk_Up.png-24d73556c4b0c51f8aec8b4a5a8e89fe.ctex"]
+source_file="res://root/assets/image/game/sprites/player/Walk/GirlSample_Walk_Up.png"
+dest_files=["res://.godot/imported/GirlSample_Walk_Up.png-166042a7b396b45790e8c22b492884c6.ctex"]
 
 [params]
 
