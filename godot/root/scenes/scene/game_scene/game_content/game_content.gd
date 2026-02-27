@@ -2,4 +2,4 @@
 # - https://github.com/godotengine/godot-demo-projects/tree/master/3d/graphics_settings
 extends Node2D
 
-@onready var player: Player = %Player_Man
+@onready var player_man: Player_Man = $Player_Man

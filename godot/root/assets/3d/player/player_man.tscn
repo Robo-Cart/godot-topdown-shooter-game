@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cf50doqniolbf"]
 
-[ext_resource type="PackedScene" uid="uid://c7alyh51jt1hc" path="res://root/assets/3d/Player/player_man.glb" id="1_c7unj"]
+[ext_resource type="PackedScene" uid="uid://bu47gfwq32b2x" path="res://root/assets/3d/player/player_man.glb" id="1_c7unj"]
 [ext_resource type="PackedScene" uid="uid://d2ytbkuje1jo" path="res://root/scenes/scene/game_scene/player/weapons/shotgun_old.tscn" id="2_a2lg8"]
 [ext_resource type="Script" uid="uid://bg57dsyw4efw1" path="res://root/scenes/scene/game_scene/player/scripts/weapon.gd" id="2_x0lsp"]
 [ext_resource type="PackedScene" uid="uid://dpc56iumpit12" path="res://root/scenes/scene/game_scene/player/weapons/machinegun.tscn" id="3_28ox6"]
@@ -9,21 +9,6 @@
 [ext_resource type="PackedScene" uid="uid://ps7prchd6euw" path="res://root/scenes/scene/game_scene/player/weapons/m4.tscn" id="7_0l2m7"]
 [ext_resource type="PackedScene" uid="uid://c0xm36g37hkel" path="res://root/scenes/scene/game_scene/player/weapons/rifle_old.tscn" id="8_7nqrf"]
 [ext_resource type="PackedScene" uid="uid://e48x7246jmcn" path="res://root/scenes/scene/game_scene/player/weapons/smg_compact.tscn" id="9_ipl68"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0l2m7"]
-albedo_color = Color(0.8192201, 0.619718, 0.4666338, 1)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7nqrf"]
-albedo_color = Color(0.21392485, 0.20648545, 0.21310988, 1)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ipl68"]
-albedo_color = Color(0.07551012, 0.07551012, 0.07551011, 1)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xn2uk"]
-albedo_color = Color(1, 0.55, 0.55, 1)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xnccj"]
-albedo_color = Color(0.055341892, 0.34309894, 0.30057406, 1)
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_c7unj"]
 animation = &"idle"
@@ -122,14 +107,7 @@ states/Walk/position = Vector2(524.6667, 102)
 [node name="player_man" unique_id=1570705270 instance=ExtResource("1_c7unj")]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0, 0)
 
-[node name="man-pedestrian-rival_Rig" parent="Armature/Skeleton3D" parent_id_path=PackedInt32Array(1583858978) index="0" unique_id=1694117319]
-surface_material_override/0 = SubResource("StandardMaterial3D_0l2m7")
-surface_material_override/1 = SubResource("StandardMaterial3D_7nqrf")
-surface_material_override/2 = SubResource("StandardMaterial3D_ipl68")
-surface_material_override/3 = SubResource("StandardMaterial3D_xn2uk")
-surface_material_override/4 = SubResource("StandardMaterial3D_xnccj")
-
-[node name="BoneAttachment3D" type="BoneAttachment3D" parent="Armature/Skeleton3D" parent_id_path=PackedInt32Array(1583858978) index="1" unique_id=1342073490]
+[node name="BoneAttachment3D" type="BoneAttachment3D" parent="Armature/Skeleton3D" parent_id_path=PackedInt32Array(966217385) index="1" unique_id=1342073490]
 transform = Transform3D(0.03324238, -0.98652476, 0.16019884, 0.07250401, -0.15748483, -0.984856, 0.9968134, 0.044353954, 0.06629188, -0.7270154, 1.4199369, -0.020191748)
 bone_name = "RightHand"
 bone_idx = 15
@@ -162,7 +140,7 @@ visible = false
 transform = Transform3D(-0.38198367, 0.8631589, -0.30749184, 0.3348962, 0.34513447, 0.94548684, 1.2353864, 0.17333004, -0.3513859, -0.008875847, 0.1077255, 0.03372089)
 visible = false
 
-[node name="AnimationPlayer" parent="." index="1" unique_id=540353055]
+[node name="AnimationPlayer" parent="." index="1" unique_id=873712169]
 autoplay = &"idle"
 
 [node name="AnimationTree" type="AnimationTree" parent="." index="2" unique_id=406367267]

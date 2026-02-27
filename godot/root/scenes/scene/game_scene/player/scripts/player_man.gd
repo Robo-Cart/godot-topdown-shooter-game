@@ -71,7 +71,7 @@ func _physics_process(delta: float) -> void:
 		$CentrePoint.global_rotation = input_move.angle()
 		look_vector = input_move.normalized()
 
-	if Input.is_action_pressed("Fire") and can_shoot:
+	if Input.is_action_pressed("fire") and can_shoot:
 		_shoot()
 		can_shoot = false
 		$ShootTimer.start()
