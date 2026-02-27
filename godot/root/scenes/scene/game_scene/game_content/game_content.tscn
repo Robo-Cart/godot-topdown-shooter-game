@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" uid="uid://02802v3ufvnm" path="res://root/scenes/scene/game_scene/game_content/game_content.gd" id="1_fagp1"]
 [ext_resource type="PackedScene" uid="uid://jx28vruddx8o" path="res://root/scenes/scene/game_scene/game_content/game_levels/level_001.tscn" id="2_ajkph"]
-[ext_resource type="PackedScene" uid="uid://cw05vfw5mgk1v" path="res://root/scenes/scene/game_scene/player/player_man.tscn" id="2_nrdgx"]
 
 [node name="GameContent" type="Node2D" unique_id=17153057]
 process_mode = 1
@@ -10,5 +9,3 @@ process_physics_priority = 1
 script = ExtResource("1_fagp1")
 
 [node name="Level001" parent="." unique_id=287349216 instance=ExtResource("2_ajkph")]
-
-[node name="Player_Man" parent="." unique_id=1625385929 instance=ExtResource("2_nrdgx")]
