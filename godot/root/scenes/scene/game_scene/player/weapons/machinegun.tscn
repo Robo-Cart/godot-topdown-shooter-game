@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://dpc56iumpit12"]
+
+[ext_resource type="PackedScene" uid="uid://pee0k167ky6o" path="res://Assets/3D/Weapons/SM_Machinegun.fbx" id="1_ka066"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2o043"]
+albedo_color = Color(0.54207873, 0.54207873, 0.54207873, 1)
+metallic = 0.51
+metallic_specular = 0.88
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ob66f"]
+albedo_color = Color(0.12834841, 0.12834841, 0.12834841, 1)
+metallic = 0.5
+metallic_specular = 0.48
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ka066"]
+albedo_color = Color(0, 0.39687485, 0.56833357, 1)
+
+[node name="SM_Machinegun" unique_id=1699494877 instance=ExtResource("1_ka066")]
+
+[node name="SM_Machinegun" parent="." index="0" unique_id=1536123954]
+surface_material_override/0 = SubResource("StandardMaterial3D_2o043")
+surface_material_override/1 = SubResource("StandardMaterial3D_ob66f")
+surface_material_override/2 = SubResource("StandardMaterial3D_ka066")
+surface_material_override/3 = SubResource("StandardMaterial3D_ob66f")

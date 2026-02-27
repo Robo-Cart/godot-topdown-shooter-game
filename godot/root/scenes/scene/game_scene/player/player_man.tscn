@@ -1,0 +1,93 @@
+[gd_scene format=3 uid="uid://cw05vfw5mgk1v"]
+
+[ext_resource type="Script" uid="uid://dqfhaupq6pxjf" path="res://root/scenes/scene/game_scene/player/scripts/player_man.gd" id="1_sonw0"]
+[ext_resource type="Script" uid="uid://dp7las3k0aedv" path="res://root/scenes/scene/game_scene/player/scripts/camera.gd" id="2_35iur"]
+[ext_resource type="PackedScene" uid="uid://gdtd3ifo2lka" path="res://root/scenes/scene/game_scene/player/player_man_3d.tscn" id="3_357pk"]
+[ext_resource type="AudioStream" uid="uid://dpsm18x5ojmb4" path="res://root/assets/audio/sfx/weapons/AR15 Single Shot 3.wav" id="4_7wfn2"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_h4fw4"]
+radius = 36.55575
+
+[sub_resource type="Gradient" id="Gradient_1l0tm"]
+offsets = PackedFloat32Array(0, 0.46961325, 1)
+colors = PackedColorArray(0.92, 0.24978006, 0.064399995, 1, 0.468777, 0.46877706, 0.468777, 1, 0.24115604, 0.24115604, 0.24115604, 0.22745098)
+
+[node name="Player_Man" type="CharacterBody2D" unique_id=1625385929]
+light_mask = 2
+visibility_layer = 3
+z_index = 1
+scale = Vector2(0.465, 0.465)
+collision_layer = 17
+script = ExtResource("1_sonw0")
+physicscontrol = true
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=718839102]
+position = Vector2(-8.333252, 25.000061)
+scale = Vector2(4.166667, 4.166667)
+zoom = Vector2(2, 2)
+position_smoothing_enabled = true
+script = ExtResource("2_35iur")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2033225291]
+position = Vector2(10.752699, 23.65591)
+shape = SubResource("CircleShape2D_h4fw4")
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="." unique_id=293805553]
+texture_filter = 1
+offset_left = -122.0
+offset_top = -124.0
+offset_right = 134.0
+offset_bottom = 132.0
+stretch = true
+stretch_shrink = 4
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer" unique_id=1549031253]
+transparent_bg = true
+handle_input_locally = false
+audio_listener_enable_2d = true
+size = Vector2i(64, 64)
+render_target_update_mode = 4
+
+[node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport" unique_id=1346847649]
+transform = Transform3D(1, 0, 0, 0, 0.23011775, 0.97316283, 0, -0.97316283, 0.23011775, -0.035351574, 3.2770088, 0.48836923)
+projection = 1
+fov = 57.1
+size = 3.0
+
+[node name="Player_Man_3D" parent="SubViewportContainer/SubViewport" unique_id=1570705270 instance=ExtResource("3_357pk")]
+
+[node name="ShootTimer" type="Timer" parent="." unique_id=442527250]
+one_shot = true
+
+[node name="CentrePoint" type="Node2D" parent="." unique_id=1507880759]
+position = Vector2(6.451613, 6.4516134)
+
+[node name="ShootPos" type="Marker2D" parent="CentrePoint" unique_id=1563328464]
+position = Vector2(92.47312, 23.65594)
+
+[node name="MuzzleParticles" type="CPUParticles2D" parent="CentrePoint/ShootPos" unique_id=1707625779]
+position = Vector2(-19.35484, 0)
+emitting = false
+amount = 16
+lifetime = 0.18000000000000002
+one_shot = true
+explosiveness = 0.74
+randomness = 0.48
+lifetime_randomness = 0.65
+emission_shape = 1
+emission_sphere_radius = 0.01
+spread = 12.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 423.08
+initial_velocity_max = 630.77
+scale_amount_min = 0.0
+scale_amount_max = 5.0
+color = Color(1, 1, 1, 0.9254902)
+color_ramp = SubResource("Gradient_1l0tm")
+
+[node name="GunShot" type="AudioStreamPlayer2D" parent="." unique_id=1265081744]
+stream = ExtResource("4_7wfn2")
+volume_db = -16.0
+pitch_scale = 0.63
+
+[connection signal="timeout" from="ShootTimer" to="." method="_on_shot_timer_timeout"]

@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://bsw2rarqmetlk"]
 
 [ext_resource type="Script" uid="uid://8k5x76604b8" path="res://root/scenes/scene/game_scene/game_scene.gd" id="1_cc2ll"]
-[ext_resource type="PackedScene" uid="uid://d1qehwioaldlb" path="res://root/scenes/scene/game_scene/sample_files_to_be_deleted/game_content.tscn" id="3_33wd1"]
+[ext_resource type="PackedScene" uid="uid://2r2xorepwlip" path="res://root/scenes/scene/game_scene/game_content/game_content.tscn" id="2_5l013"]
 [ext_resource type="PackedScene" uid="uid://bo52utxeld0r0" path="res://root/scenes/scene/game_scene/pause_menu/pause_menu.tscn" id="4_bipq8"]
 [ext_resource type="PackedScene" uid="uid://cvaa73qxuiw6n" path="res://root/scenes/component/builder/ui_builder/ui_builder.tscn" id="5_4r42l"]
 [ext_resource type="PackedScene" uid="uid://bea1npdsg7ii1" path="res://root/scenes/scene/menu_scene/options_menu/options_menu.tscn" id="5_4rg8g"]
@@ -10,7 +10,7 @@
 process_mode = 3
 script = ExtResource("1_cc2ll")
 
-[node name="GameContent" parent="." unique_id=824529224 instance=ExtResource("3_33wd1")]
+[node name="GameContent" parent="." unique_id=2058388711 instance=ExtResource("2_5l013")]
 
 [node name="PauseMenu" parent="." unique_id=1761261735 instance=ExtResource("4_bipq8")]
 unique_name_in_owner = true

@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://e48x7246jmcn"]
+
+[ext_resource type="PackedScene" uid="uid://cw1ydx8kqt826" path="res://Assets/3D/Weapons/SM_SMG_Compact.fbx" id="1_00u4e"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_iyrny"]
+albedo_color = Color(0.106236584, 0.10623657, 0.10623657, 1)
+metallic = 0.84
+metallic_specular = 0.31
+
+[node name="SM_SMG_Compact" unique_id=452574609 instance=ExtResource("1_00u4e")]
+
+[node name="SM_SMG_Compact" parent="." index="0" unique_id=1149912865]
+surface_material_override/0 = SubResource("StandardMaterial3D_iyrny")

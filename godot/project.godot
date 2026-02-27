@@ -57,12 +57,12 @@ Overlay="*res://root/autoload/overlay/overlay.tscn"
 Configuration="*res://root/autoload/configuration/configuration.tscn"
 AssetReference="*res://root/autoload/reference/asset_reference/asset_reference.tscn"
 ResourceReference="*res://root/autoload/reference/resource_reference/resource_reference.tscn"
-SceneManager="*uid://2iy8wfgenjka"
-Scenes="*uid://cqhqqsh5oectt"
 SoundManager="*uid://cwmemkwby0n6r"
 MusicManager="*uid://b7gw800fl3qms"
 Log="*uid://fkh2vcehfwc7"
 DebugMenu="*uid://cggqb75a8w8r"
+SceneManager="*uid://2iy8wfgenjka"
+Scenes="*uid://cqhqqsh5oectt"
 
 [debug]
 

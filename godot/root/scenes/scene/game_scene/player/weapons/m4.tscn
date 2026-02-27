@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://ps7prchd6euw"]
+
+[ext_resource type="PackedScene" uid="uid://2j0b6vuv21t6" path="res://Assets/3D/Weapons/SM_M4.fbx" id="1_31nw1"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_31nw1"]
+albedo_color = Color(0.06177687, 0.06177687, 0.06177687, 1)
+metallic = 0.47
+
+[node name="SM_M4" unique_id=392744926 instance=ExtResource("1_31nw1")]
+
+[node name="m4" parent="." index="0" unique_id=1355223160]
+surface_material_override/0 = SubResource("StandardMaterial3D_31nw1")

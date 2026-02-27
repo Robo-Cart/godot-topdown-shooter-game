@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://d2ytbkuje1jo"]
+
+[ext_resource type="PackedScene" uid="uid://ciqsi53mblc2t" path="res://Assets/3D/Weapons/SM_Shotgun_Old.fbx" id="1_7ehpc"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_j07d2"]
+albedo_color = Color(0.16896418, 0.082315765, 0.0022517492, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a7b1f"]
+albedo_color = Color(0.60662574, 0.60662585, 0.6066258, 1)
+metallic = 0.84
+metallic_specular = 0.12
+
+[node name="SM_Shotgun_Old" unique_id=1189881812 instance=ExtResource("1_7ehpc")]
+
+[node name="SM_Shotgun_Old" parent="." index="0" unique_id=1844006588]
+surface_material_override/0 = SubResource("StandardMaterial3D_j07d2")
+surface_material_override/1 = SubResource("StandardMaterial3D_a7b1f")

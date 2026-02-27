@@ -1,0 +1,58 @@
+[gd_scene format=3 uid="uid://jn2mle2pspd5"]
+
+[ext_resource type="Script" uid="uid://cl3inxxxcffu8" path="res://Assets/3D/Weapons/bullets/bullet_01.gd" id="1_hwh1t"]
+[ext_resource type="Texture2D" uid="uid://bbi1w2ip3nqqo" path="res://Assets/3D/Weapons/bullets/bullet.png" id="1_mh5wm"]
+[ext_resource type="AudioStream" uid="uid://do6fbkrowy2ut" path="res://Assets/Sounds/impacts/Body Flesh 10.wav" id="3_id111"]
+
+[sub_resource type="Gradient" id="Gradient_id111"]
+offsets = PackedFloat32Array(0, 0.46961325, 1)
+colors = PackedColorArray(0.9833358, 0.7587462, 0.11645999, 1, 0.468777, 0.46877706, 0.468777, 1, 0.24115604, 0.24115604, 0.24115604, 0.22745098)
+
+[node name="Bullet01" type="Sprite2D" unique_id=705673090]
+rotation = 3.1415927
+scale = Vector2(0.39488578, 0.39488578)
+texture = ExtResource("1_mh5wm")
+script = ExtResource("1_hwh1t")
+
+[node name="RayCast2D" type="RayCast2D" parent="." unique_id=132581369]
+position = Vector2(15.194266, -1.3283249e-06)
+rotation = 4.712389
+scale = Vector2(2.435, 2.435)
+target_position = Vector2(1.5001617e-06, 11.4399)
+collision_mask = 7
+hit_from_inside = true
+collide_with_areas = true
+
+[node name="DistanceTimeout" type="Timer" parent="." unique_id=318516296]
+wait_time = 3.0
+one_shot = true
+autostart = true
+
+[node name="Impact" type="AudioStreamPlayer2D" parent="." unique_id=226234005]
+position = Vector2(-1449.4624, -750.53766)
+scale = Vector2(2.1505377, 2.1505377)
+stream = ExtResource("3_id111")
+volume_db = 1.0
+
+[node name="HitParticle" type="CPUParticles2D" parent="." unique_id=437021047]
+position = Vector2(1.9073486e-06, 1.1368684e-13)
+emitting = false
+amount = 16
+lifetime = 0.18000000000000002
+one_shot = true
+explosiveness = 0.74
+randomness = 0.48
+lifetime_randomness = 0.65
+emission_shape = 1
+emission_sphere_radius = 0.01
+direction = Vector2(0, 0)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 423.08
+initial_velocity_max = 630.77
+scale_amount_min = 0.0
+scale_amount_max = 5.0
+color = Color(1, 1, 1, 0.9254902)
+color_ramp = SubResource("Gradient_id111")
+
+[connection signal="timeout" from="DistanceTimeout" to="." method="_on_distance_timeout_timeout"]

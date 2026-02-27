@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://cbvt74etaufvw"]
+
+[ext_resource type="PackedScene" uid="uid://cg2ju4kvxriga" path="res://Assets/3D/Weapons/SM_Shotgun_DoubleBarrel.fbx" id="1_5ri8n"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_i4mol"]
+albedo_color = Color(0.32420284, 0.32420272, 0.32420272, 1)
+metallic = 1.0
+metallic_specular = 0.19
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qpv0r"]
+albedo_color = Color(0.3899017, 0.20307603, 0.03353428, 1)
+
+[node name="SM_Shotgun_DoubleBarrel" unique_id=1876897389 instance=ExtResource("1_5ri8n")]
+
+[node name="SM_Shotgun_DoubleBarrel" parent="." index="0" unique_id=1375330009]
+surface_material_override/0 = SubResource("StandardMaterial3D_i4mol")
+surface_material_override/1 = SubResource("StandardMaterial3D_qpv0r")

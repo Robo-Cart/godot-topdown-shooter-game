@@ -1,0 +1,173 @@
+[gd_scene format=3 uid="uid://cf50doqniolbf"]
+
+[ext_resource type="PackedScene" uid="uid://c7alyh51jt1hc" path="res://root/assets/3d/Player/player_man.glb" id="1_c7unj"]
+[ext_resource type="PackedScene" uid="uid://d2ytbkuje1jo" path="res://root/scenes/scene/game_scene/player/weapons/shotgun_old.tscn" id="2_a2lg8"]
+[ext_resource type="Script" uid="uid://bg57dsyw4efw1" path="res://root/scenes/scene/game_scene/player/scripts/weapon.gd" id="2_x0lsp"]
+[ext_resource type="PackedScene" uid="uid://dpc56iumpit12" path="res://root/scenes/scene/game_scene/player/weapons/machinegun.tscn" id="3_28ox6"]
+[ext_resource type="PackedScene" uid="uid://o7v5l3gs25nl" path="res://root/scenes/scene/game_scene/player/weapons/mp40.tscn" id="4_1y3t0"]
+[ext_resource type="PackedScene" uid="uid://cbvt74etaufvw" path="res://root/scenes/scene/game_scene/player/weapons/shotgun_double_barrell.tscn" id="5_x0lsp"]
+[ext_resource type="PackedScene" uid="uid://ps7prchd6euw" path="res://root/scenes/scene/game_scene/player/weapons/m4.tscn" id="7_0l2m7"]
+[ext_resource type="PackedScene" uid="uid://c0xm36g37hkel" path="res://root/scenes/scene/game_scene/player/weapons/rifle_old.tscn" id="8_7nqrf"]
+[ext_resource type="PackedScene" uid="uid://e48x7246jmcn" path="res://root/scenes/scene/game_scene/player/weapons/smg_compact.tscn" id="9_ipl68"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0l2m7"]
+albedo_color = Color(0.8192201, 0.619718, 0.4666338, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7nqrf"]
+albedo_color = Color(0.21392485, 0.20648545, 0.21310988, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ipl68"]
+albedo_color = Color(0.07551012, 0.07551012, 0.07551011, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xn2uk"]
+albedo_color = Color(1, 0.55, 0.55, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xnccj"]
+albedo_color = Color(0.055341892, 0.34309894, 0.30057406, 1)
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_c7unj"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_a2lg8"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_xiy5x"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_xn2uk"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeBlendSpace2D" id="AnimationNodeBlendSpace2D_xnccj"]
+blend_point_0/node = SubResource("AnimationNodeAnimation_c7unj")
+blend_point_0/pos = Vector2(0, 1)
+blend_point_1/node = SubResource("AnimationNodeAnimation_a2lg8")
+blend_point_1/pos = Vector2(-1, 0)
+blend_point_2/node = SubResource("AnimationNodeAnimation_xiy5x")
+blend_point_2/pos = Vector2(0, -1)
+blend_point_3/node = SubResource("AnimationNodeAnimation_xn2uk")
+blend_point_3/pos = Vector2(1, 0)
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_28ox6"]
+animation = &"run back"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_mgyr7"]
+animation = &"run forward"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_1y3t0"]
+animation = &"run left"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_x0lsp"]
+animation = &"run right"
+
+[sub_resource type="AnimationNodeBlendSpace2D" id="AnimationNodeBlendSpace2D_xiy5x"]
+blend_point_0/node = SubResource("AnimationNodeAnimation_28ox6")
+blend_point_0/pos = Vector2(0, 1)
+blend_point_1/node = SubResource("AnimationNodeAnimation_mgyr7")
+blend_point_1/pos = Vector2(0, -1)
+blend_point_2/node = SubResource("AnimationNodeAnimation_1y3t0")
+blend_point_2/pos = Vector2(-1, 0)
+blend_point_3/node = SubResource("AnimationNodeAnimation_x0lsp")
+blend_point_3/pos = Vector2(1, 0)
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_8inwr"]
+animation = &"walk back"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_0l2m7"]
+animation = &"walk forward"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_7nqrf"]
+animation = &"walk left"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ipl68"]
+animation = &"walk right"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_xnccj"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_goldx"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_52ksr"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_moei5"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeBlendSpace2D" id="AnimationNodeBlendSpace2D_xn2uk"]
+blend_point_0/node = SubResource("AnimationNodeAnimation_8inwr")
+blend_point_0/pos = Vector2(0, 1)
+blend_point_1/node = SubResource("AnimationNodeAnimation_0l2m7")
+blend_point_1/pos = Vector2(0, -1)
+blend_point_2/node = SubResource("AnimationNodeAnimation_7nqrf")
+blend_point_2/pos = Vector2(-1, 0)
+blend_point_3/node = SubResource("AnimationNodeAnimation_ipl68")
+blend_point_3/pos = Vector2(1, 0)
+blend_point_4/node = SubResource("AnimationNodeAnimation_xnccj")
+blend_point_4/pos = Vector2(-0.05, 0)
+blend_point_5/node = SubResource("AnimationNodeAnimation_goldx")
+blend_point_5/pos = Vector2(0.05, 0)
+blend_point_6/node = SubResource("AnimationNodeAnimation_52ksr")
+blend_point_6/pos = Vector2(0, -0.05)
+blend_point_7/node = SubResource("AnimationNodeAnimation_moei5")
+blend_point_7/pos = Vector2(0, 0.05)
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_ipl68"]
+states/Idle/node = SubResource("AnimationNodeBlendSpace2D_xnccj")
+states/Idle/position = Vector2(350, 100)
+states/Run/node = SubResource("AnimationNodeBlendSpace2D_xiy5x")
+states/Run/position = Vector2(661.3333, 102)
+states/Walk/node = SubResource("AnimationNodeBlendSpace2D_xn2uk")
+states/Walk/position = Vector2(524.6667, 102)
+
+[node name="player_man" unique_id=1570705270 instance=ExtResource("1_c7unj")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0, 0)
+
+[node name="man-pedestrian-rival_Rig" parent="Armature/Skeleton3D" parent_id_path=PackedInt32Array(1583858978) index="0" unique_id=1694117319]
+surface_material_override/0 = SubResource("StandardMaterial3D_0l2m7")
+surface_material_override/1 = SubResource("StandardMaterial3D_7nqrf")
+surface_material_override/2 = SubResource("StandardMaterial3D_ipl68")
+surface_material_override/3 = SubResource("StandardMaterial3D_xn2uk")
+surface_material_override/4 = SubResource("StandardMaterial3D_xnccj")
+
+[node name="BoneAttachment3D" type="BoneAttachment3D" parent="Armature/Skeleton3D" parent_id_path=PackedInt32Array(1583858978) index="1" unique_id=1342073490]
+transform = Transform3D(0.03324238, -0.98652476, 0.16019884, 0.07250401, -0.15748483, -0.984856, 0.9968134, 0.044353954, 0.06629188, -0.7270154, 1.4199369, -0.020191748)
+bone_name = "RightHand"
+bone_idx = 15
+script = ExtResource("2_x0lsp")
+
+[node name="Shotgun_Old" parent="Armature/Skeleton3D/BoneAttachment3D" index="0" unique_id=1189881812 instance=ExtResource("2_a2lg8")]
+transform = Transform3D(-0.39901784, 0.8898529, -0.2786664, 0.49194553, 0.3186974, 0.89336, 1.7239611, 0.115017526, -0.31942588, 0.020606816, 0.066637516, 0.054940246)
+
+[node name="Machinegun" parent="Armature/Skeleton3D/BoneAttachment3D" index="1" unique_id=1699494877 instance=ExtResource("3_28ox6")]
+transform = Transform3D(-0.45406055, 1.1815429, -0.27805847, 0.66159594, 0.4009741, 0.90905696, 2.3423712, 0.115784116, -0.31066057, -0.061302423, 0.1115095, 0.015416011)
+visible = false
+
+[node name="Mp40" parent="Armature/Skeleton3D/BoneAttachment3D" index="2" unique_id=99879730 instance=ExtResource("4_1y3t0")]
+transform = Transform3D(-0.38339525, 1.2021222, -0.2784401, 0.6221159, 0.42572603, 0.87394005, 1.8479214, 0.106084995, -0.3519872, -0.025542974, 0.123989046, 0.03829883)
+visible = false
+
+[node name="Shotgun_Double_Barrel" parent="Armature/Skeleton3D/BoneAttachment3D" index="3" unique_id=1876897389 instance=ExtResource("5_x0lsp")]
+transform = Transform3D(-0.5559411, 1.2883143, -0.259084, 0.5556472, 0.45415828, 0.8985361, 2.004127, 0.23145992, -0.32098985, 0.02095145, 0.026392877, 0.058160804)
+visible = false
+
+[node name="M4" parent="Armature/Skeleton3D/BoneAttachment3D" index="4" unique_id=392744926 instance=ExtResource("7_0l2m7")]
+transform = Transform3D(-0.37417948, 0.9105119, -0.3505135, 0.39190203, 0.32192165, 1.2162044, 1.342227, 0.1598339, -0.45282084, 0.029727578, 0.24027213, 0.015303962)
+visible = false
+
+[node name="Rifle_Old" parent="Armature/Skeleton3D/BoneAttachment3D" index="5" unique_id=1444168954 instance=ExtResource("8_7nqrf")]
+transform = Transform3D(-0.35477248, 1.0762534, -0.2650976, 0.47756484, 0.37433115, 0.8810911, 1.532587, 0.1324941, -0.33592072, 0.0106521845, 0.08257496, 0.065512285)
+visible = false
+
+[node name="SM_SMG_Compact" parent="Armature/Skeleton3D/BoneAttachment3D" index="6" unique_id=452574609 instance=ExtResource("9_ipl68")]
+transform = Transform3D(-0.38198367, 0.8631589, -0.30749184, 0.3348962, 0.34513447, 0.94548684, 1.2353864, 0.17333004, -0.3513859, -0.008875847, 0.1077255, 0.03372089)
+visible = false
+
+[node name="AnimationPlayer" parent="." index="1" unique_id=540353055]
+autoplay = &"idle"
+
+[node name="AnimationTree" type="AnimationTree" parent="." index="2" unique_id=406367267]
+tree_root = SubResource("AnimationNodeStateMachine_ipl68")
+anim_player = NodePath("../AnimationPlayer")
+parameters/Idle/blend_position = Vector2(0, 0)
+parameters/Run/blend_position = Vector2(0, 0)
+parameters/Walk/blend_position = Vector2(0, 0)

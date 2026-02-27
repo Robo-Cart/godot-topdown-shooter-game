@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://c0xm36g37hkel"]
+
+[ext_resource type="PackedScene" uid="uid://b4uc8i8jwsk57" path="res://Assets/3D/Weapons/SM_Rifle_Old.fbx" id="1_wsc5g"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_frgqs"]
+albedo_color = Color(0.38958725, 0.19167677, 0.075425066, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_chh35"]
+albedo_color = Color(0.11612659, 0.11612659, 0.11612659, 1)
+metallic = 0.5
+metallic_specular = 0.25
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_iwajs"]
+albedo_color = Color(0.48962224, 0.48962224, 0.48962218, 1)
+metallic = 0.5
+
+[node name="SM_Rifle_Old" unique_id=1444168954 instance=ExtResource("1_wsc5g")]
+
+[node name="SM_Rifle_Old" parent="." index="0" unique_id=177769358]
+surface_material_override/0 = SubResource("StandardMaterial3D_frgqs")
+surface_material_override/1 = SubResource("StandardMaterial3D_chh35")
+surface_material_override/2 = SubResource("StandardMaterial3D_iwajs")

@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://o7v5l3gs25nl"]
+
+[ext_resource type="PackedScene" uid="uid://xl5qcg1g83s0" path="res://Assets/3D/Weapons/SM_Mp40.fbx" id="1_4ru0d"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hmwuf"]
+albedo_color = Color(0.08070004, 0.08070004, 0.08070004, 1)
+metallic = 0.53
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kxpkr"]
+albedo_color = Color(0.44738156, 0.21234447, 0.011880354, 1)
+
+[node name="SM_Mp40" unique_id=99879730 instance=ExtResource("1_4ru0d")]
+
+[node name="mp40" parent="." index="0" unique_id=1065858145]
+surface_material_override/0 = SubResource("StandardMaterial3D_hmwuf")
+surface_material_override/1 = SubResource("StandardMaterial3D_kxpkr")

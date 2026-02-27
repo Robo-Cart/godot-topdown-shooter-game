@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://clnv10f0xcwte"
+path="res://.godot/imported/Shotgun Boom 102.wav-592369b5e160cc8a7722cfe7bb11a7ce.sample"
+
+[deps]
+
+source_file="res://root/assets/audio/sfx/weapons/Shotgun Boom 102.wav"
+dest_files=["res://.godot/imported/Shotgun Boom 102.wav-592369b5e160cc8a7722cfe7bb11a7ce.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2
