@@ -20,13 +20,6 @@ https://superuser.com/questions/1861276/how-to-set-a-folder-to-the-path-environm
 
 https://github.com/Scony/godot-gdscript-toolkit
 
-**NEW PROJECT SCENE**
-
-When creating a new project you'll need to add a new game mode.  This can be done by adding an element to the scene at res://root/autoload/configuration/configuration_controller/game/game_mode_list_cfg/game_mode_list_cfg.tscn.
-
-First, create the new scene folder with a game_content scene and then add this to the root node in the game_mode_list_cfg scene.  Once done, the new game can be played by setting the game mode in the options menu before clicking play.
-
-Longer term, this needs to be made default and hidden from view by the player.
 
 **README**
 
