@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://jn2mle2pspd5"]
 
-[ext_resource type="Script" uid="uid://cl3inxxxcffu8" path="res://Assets/3D/Weapons/bullets/bullet_01.gd" id="1_hwh1t"]
-[ext_resource type="Texture2D" uid="uid://bbi1w2ip3nqqo" path="res://Assets/3D/Weapons/bullets/bullet.png" id="1_mh5wm"]
-[ext_resource type="AudioStream" uid="uid://do6fbkrowy2ut" path="res://Assets/Sounds/impacts/Body Flesh 10.wav" id="3_id111"]
+[ext_resource type="Script" uid="uid://cl3inxxxcffu8" path="res://root/assets/3d/weapons/bullets/bullet_01.gd" id="1_hwh1t"]
+[ext_resource type="Texture2D" uid="uid://bbo408dn72g1n" path="res://root/assets/3d/weapons/bullets/bullet.png" id="1_mh5wm"]
+[ext_resource type="AudioStream" uid="uid://do6fbkrowy2ut" path="res://root/assets/audio/sfx/impacts/Body Flesh 10.wav" id="3_id111"]
 
 [sub_resource type="Gradient" id="Gradient_id111"]
 offsets = PackedFloat32Array(0, 0.46961325, 1)
