@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://cw05vfw5mgk1v"]
 
-[ext_resource type="Script" uid="uid://dqfhaupq6pxjf" path="res://root/scenes/scene/game_scene/player/scripts/player.gd" id="1_sonw0"]
-[ext_resource type="Script" uid="uid://dp7las3k0aedv" path="res://root/scenes/scene/game_scene/player/scripts/camera.gd" id="2_35iur"]
-[ext_resource type="PackedScene" uid="uid://gdtd3ifo2lka" path="res://root/scenes/scene/game_scene/player/player_3d.tscn" id="3_357pk"]
+[ext_resource type="Script" uid="uid://dqfhaupq6pxjf" path="res://root/scenes/scene/game_scene/game_content/game_entities/player/scripts/player.gd" id="1_sonw0"]
+[ext_resource type="Script" uid="uid://dp7las3k0aedv" path="res://root/scenes/scene/game_scene/game_content/game_entities/player/scripts/camera.gd" id="2_35iur"]
+[ext_resource type="PackedScene" uid="uid://gdtd3ifo2lka" path="res://root/scenes/scene/game_scene/game_content/game_entities/player/player_3d.tscn" id="3_357pk"]
 [ext_resource type="AudioStream" uid="uid://dpsm18x5ojmb4" path="res://root/assets/audio/sfx/weapons/AR15 Single Shot 3.wav" id="4_7wfn2"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_h4fw4"]

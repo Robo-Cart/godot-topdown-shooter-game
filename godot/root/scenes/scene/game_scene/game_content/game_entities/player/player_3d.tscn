@@ -1,14 +1,14 @@
 [gd_scene format=3 uid="uid://gdtd3ifo2lka"]
 
 [ext_resource type="PackedScene" uid="uid://bu47gfwq32b2x" path="res://root/assets/3d/player/player_man.glb" id="1_c7unj"]
-[ext_resource type="PackedScene" uid="uid://d2ytbkuje1jo" path="res://root/scenes/scene/game_scene/player/weapons/shotgun_old.tscn" id="2_a2lg8"]
-[ext_resource type="Script" uid="uid://bg57dsyw4efw1" path="res://root/scenes/scene/game_scene/player/scripts/weapon.gd" id="2_x0lsp"]
-[ext_resource type="PackedScene" uid="uid://dpc56iumpit12" path="res://root/scenes/scene/game_scene/player/weapons/machinegun.tscn" id="3_28ox6"]
-[ext_resource type="PackedScene" uid="uid://o7v5l3gs25nl" path="res://root/scenes/scene/game_scene/player/weapons/mp40.tscn" id="4_1y3t0"]
-[ext_resource type="PackedScene" uid="uid://cbvt74etaufvw" path="res://root/scenes/scene/game_scene/player/weapons/shotgun_double_barrell.tscn" id="5_x0lsp"]
-[ext_resource type="PackedScene" uid="uid://ps7prchd6euw" path="res://root/scenes/scene/game_scene/player/weapons/m4.tscn" id="7_0l2m7"]
-[ext_resource type="PackedScene" uid="uid://c0xm36g37hkel" path="res://root/scenes/scene/game_scene/player/weapons/rifle_old.tscn" id="8_7nqrf"]
-[ext_resource type="PackedScene" uid="uid://e48x7246jmcn" path="res://root/scenes/scene/game_scene/player/weapons/smg_compact.tscn" id="9_ipl68"]
+[ext_resource type="PackedScene" uid="uid://d2ytbkuje1jo" path="res://root/scenes/scene/game_scene/game_content/game_entities/player/weapons/shotgun_old.tscn" id="2_a2lg8"]
+[ext_resource type="Script" uid="uid://bg57dsyw4efw1" path="res://root/scenes/scene/game_scene/game_content/game_entities/player/scripts/weapon.gd" id="2_x0lsp"]
+[ext_resource type="PackedScene" uid="uid://dpc56iumpit12" path="res://root/scenes/scene/game_scene/game_content/game_entities/player/weapons/machinegun.tscn" id="3_28ox6"]
+[ext_resource type="PackedScene" uid="uid://o7v5l3gs25nl" path="res://root/scenes/scene/game_scene/game_content/game_entities/player/weapons/mp40.tscn" id="4_1y3t0"]
+[ext_resource type="PackedScene" uid="uid://cbvt74etaufvw" path="res://root/scenes/scene/game_scene/game_content/game_entities/player/weapons/shotgun_double_barrell.tscn" id="5_x0lsp"]
+[ext_resource type="PackedScene" uid="uid://ps7prchd6euw" path="res://root/scenes/scene/game_scene/game_content/game_entities/player/weapons/m4.tscn" id="7_0l2m7"]
+[ext_resource type="PackedScene" uid="uid://c0xm36g37hkel" path="res://root/scenes/scene/game_scene/game_content/game_entities/player/weapons/rifle_old.tscn" id="8_7nqrf"]
+[ext_resource type="PackedScene" uid="uid://e48x7246jmcn" path="res://root/scenes/scene/game_scene/game_content/game_entities/player/weapons/smg_compact.tscn" id="9_ipl68"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0l2m7"]
 albedo_color = Color(0.8192201, 0.619718, 0.4666338, 1)

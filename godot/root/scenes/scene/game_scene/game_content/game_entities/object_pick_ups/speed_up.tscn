@@ -1,0 +1,34 @@
+[gd_scene format=3 uid="uid://dmy8ofvovrvfp"]
+
+[ext_resource type="Script" uid="uid://c0jjx5kekk7d" path="res://root/scenes/scene/game_scene/game_content/game_entities/object_pick_ups/speed_up.gd" id="1_cp3js"]
+[ext_resource type="Texture2D" uid="uid://1xhjsxfetjj5" path="res://root/assets/image/game/sprites/fruit.png" id="2_hpewd"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_pyh01"]
+radius = 8.0
+
+[node name="SpeedUp" type="Area2D" unique_id=451390207]
+collision_layer = 16
+script = ExtResource("1_cp3js")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1082715258]
+texture = ExtResource("2_hpewd")
+hframes = 4
+vframes = 4
+frame = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=144831194]
+shape = SubResource("CircleShape2D_pyh01")
+
+[node name="Timer" type="Timer" parent="." unique_id=760387334]
+
+[node name="RichTextLabel" type="RichTextLabel" parent="." unique_id=1761874218]
+modulate = Color(0, 0, 0, 1)
+offset_left = -11.000004
+offset_top = 9.0
+offset_right = 68.0
+offset_bottom = 35.0
+scale = Vector2(0.28154218, 0.28154218)
+text = "Speed Up"
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
