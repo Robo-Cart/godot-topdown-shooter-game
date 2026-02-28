@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://bo52utxeld0r0" path="res://root/scenes/scene/game_scene/pause_menu/pause_menu.tscn" id="4_bipq8"]
 [ext_resource type="PackedScene" uid="uid://cvaa73qxuiw6n" path="res://root/scenes/component/builder/ui_builder/ui_builder.tscn" id="5_4r42l"]
 [ext_resource type="PackedScene" uid="uid://bea1npdsg7ii1" path="res://root/scenes/scene/menu_scene/options_menu/options_menu.tscn" id="5_4rg8g"]
-[ext_resource type="PackedScene" uid="uid://cw05vfw5mgk1v" path="res://root/scenes/scene/game_scene/player/player_man.tscn" id="6_keakv"]
+[ext_resource type="PackedScene" uid="uid://cw05vfw5mgk1v" path="res://root/scenes/scene/game_scene/player/player.tscn" id="6_keakv"]
 
 [node name="GameScene" type="Node" unique_id=1678510910]
 process_mode = 3
@@ -29,7 +29,7 @@ z_as_relative = false
 [node name="UiBuilder" parent="." unique_id=1154226004 instance=ExtResource("5_4r42l")]
 unique_name_in_owner = true
 
-[node name="Player_Man" parent="." unique_id=1625385929 instance=ExtResource("6_keakv")]
+[node name="Player" parent="." unique_id=1625385929 instance=ExtResource("6_keakv")]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=60552203]
 transform = Transform3D(1, 0, 0, 0, 0.17536677, 0.98450315, 0, -0.98450315, 0.17536677, 0, 4.533, 0)
