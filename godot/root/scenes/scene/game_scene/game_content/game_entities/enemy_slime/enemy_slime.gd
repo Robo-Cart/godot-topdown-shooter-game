@@ -21,20 +21,20 @@ signal damaged(attack: AttackEntity)
 @onready var sprite: Sprite2D = $Sprite2D
 
 @export_group("Vision Ranges")
-@export var detection_radius := 175.0
-@export var attack_range := 20.0
+@export var detection_radius: float = 175.0
+@export var attack_range: float = 20.0
 
-var alive := true
-var stunned := false
+var alive: bool = true
+var stunned: bool = false
 
-var health = 5
+var health: int = 5
 
 
 func on_damaged(attack: AttackEntity) -> void:
 	damaged.emit(attack)
 
 
-func _ready():
+func _ready() -> void:
 	add_to_group("enemy")
 	animation_tree.active = true
 

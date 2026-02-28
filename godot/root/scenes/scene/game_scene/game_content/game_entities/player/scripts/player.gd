@@ -21,8 +21,8 @@ var animation_tree: AnimationTree = $SubViewportContainer/SubViewport/Player_Man
 @export var speed: float = 200
 @export var physicscontrol: bool = false
 @export var bullet_speed = 1000
-@export var MAX_SPEED = 200.0
-@export var ACCELERATION = 800.0
+@export var MAX_SPEED: float = 200.0
+@export var ACCELERATION: float = 800.0
 
 const FRICTION = 900.0
 
@@ -35,7 +35,9 @@ var anim_pos: Vector2
 var look_vector: Vector2
 var player_offset_angle = 89.5
 
-var bullet_scene = preload("res://root/assets/3d/weapons/bullets/bullet01.tscn")
+var bullet_scene = preload(
+	"res://root/scenes/scene/game_scene/game_content/game_entities/object_bullet/bullet01.tscn"
+)
 var time_between_shot: float = 0.25
 var can_shoot: bool = true
 var shot_force: float = 50
