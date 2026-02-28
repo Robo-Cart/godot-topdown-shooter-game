@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://c0xm36g37hkel"]
 
-[ext_resource type="PackedScene" uid="uid://b4uc8i8jwsk57" path="res://Assets/3D/Weapons/SM_Rifle_Old.fbx" id="1_wsc5g"]
+[ext_resource type="PackedScene" uid="uid://b55pftbkfbe5y" path="res://root/assets/3d/weapons/SM_Rifle_Old.fbx" id="1_wsc5g"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_frgqs"]
 albedo_color = Color(0.38958725, 0.19167677, 0.075425066, 1)

@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cbvt74etaufvw"]
 
-[ext_resource type="PackedScene" uid="uid://cg2ju4kvxriga" path="res://Assets/3D/Weapons/SM_Shotgun_DoubleBarrel.fbx" id="1_5ri8n"]
+[ext_resource type="PackedScene" uid="uid://c36ytcu8by032" path="res://root/assets/3d/weapons/SM_Shotgun_DoubleBarrel.fbx" id="1_5ri8n"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_i4mol"]
 albedo_color = Color(0.32420284, 0.32420272, 0.32420272, 1)

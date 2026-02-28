@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dpc56iumpit12"]
 
-[ext_resource type="PackedScene" uid="uid://pee0k167ky6o" path="res://Assets/3D/Weapons/SM_Machinegun.fbx" id="1_ka066"]
+[ext_resource type="PackedScene" uid="uid://boob5amt2rbqu" path="res://root/assets/3d/weapons/SM_Machinegun.fbx" id="1_ka066"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2o043"]
 albedo_color = Color(0.54207873, 0.54207873, 0.54207873, 1)

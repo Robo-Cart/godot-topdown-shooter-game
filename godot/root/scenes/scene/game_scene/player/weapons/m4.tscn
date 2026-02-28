@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://ps7prchd6euw"]
 
-[ext_resource type="PackedScene" uid="uid://2j0b6vuv21t6" path="res://Assets/3D/Weapons/SM_M4.fbx" id="1_31nw1"]
+[ext_resource type="PackedScene" uid="uid://dt6tn3udt0fft" path="res://root/assets/3d/weapons/SM_M4.fbx" id="1_31nw1"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_31nw1"]
 albedo_color = Color(0.06177687, 0.06177687, 0.06177687, 1)

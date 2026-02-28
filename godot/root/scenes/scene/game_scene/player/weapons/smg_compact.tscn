@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://e48x7246jmcn"]
 
-[ext_resource type="PackedScene" uid="uid://cw1ydx8kqt826" path="res://Assets/3D/Weapons/SM_SMG_Compact.fbx" id="1_00u4e"]
+[ext_resource type="PackedScene" uid="uid://cocpujmvg34jk" path="res://root/assets/3d/weapons/SM_SMG_Compact.fbx" id="1_00u4e"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_iyrny"]
 albedo_color = Color(0.106236584, 0.10623657, 0.10623657, 1)
