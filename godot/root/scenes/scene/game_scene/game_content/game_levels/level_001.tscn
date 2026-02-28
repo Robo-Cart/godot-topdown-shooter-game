@@ -1,7 +1,8 @@
 [gd_scene format=4 uid="uid://jx28vruddx8o"]
 
 [ext_resource type="Texture2D" uid="uid://iasdy6e4dgxo" path="res://root/assets/image/game/sprites/roguelikeCity_magenta.png" id="1_8rfgd"]
-[ext_resource type="PackedScene" uid="uid://btawln3qidduy" path="res://root/scenes/scene/game_scene/game_content/game_entities/enemy_slime/enemy.tscn" id="2_ua44u"]
+[ext_resource type="PackedScene" uid="uid://btawln3qidduy" path="res://root/scenes/scene/game_scene/game_content/game_entities/enemy_slime/enemy_slime.tscn" id="2_ua44u"]
+[ext_resource type="PackedScene" uid="uid://bwdujvrtv1omi" path="res://root/scenes/scene/game_scene/game_content/game_entities/enemy_turrets/enemy_turret_01/turret_01.tscn" id="3_erney"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ua44u"]
 texture = ExtResource("1_8rfgd")
@@ -1050,3 +1051,7 @@ tile_map_data = PackedByteArray("AAAAAAAAAAAAABMAAAAAAAEAAAAAABMAAAAAAAIAAAAAABM
 tile_set = SubResource("TileSet_wry07")
 
 [node name="Enemy" parent="." unique_id=569572327 instance=ExtResource("2_ua44u")]
+position = Vector2(179, 236)
+
+[node name="Turret" parent="." unique_id=496178693 instance=ExtResource("3_erney")]
+position = Vector2(327, 96)

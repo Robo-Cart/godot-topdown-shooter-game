@@ -1,16 +1,16 @@
 [gd_scene format=3 uid="uid://btawln3qidduy"]
 
-[ext_resource type="Script" uid="uid://jw3ouqa20vx0" path="res://root/scenes/scene/game_scene/game_content/game_entities/enemy_slime/enemy.gd" id="1_0830c"]
-[ext_resource type="Texture2D" uid="uid://bb7ahnhyaunbh" path="res://root/assets/image/game/sprites/enemy/slime_green.png" id="1_hghv2"]
-[ext_resource type="Script" uid="uid://dr4m1yn56ayjt" path="res://root/scenes/scene/game_scene/game_content/game_entities/enemy_slime/enemy_state_machine.gd" id="2_287tu"]
-[ext_resource type="Script" uid="uid://7kl3rn6p0unw" path="res://root/scenes/scene/game_scene/game_content/game_entities/enemy_slime/states/enemy_idle.gd" id="3_0830c"]
-[ext_resource type="Script" uid="uid://coguwfny6tx4v" path="res://root/scenes/scene/game_scene/game_content/game_entities/enemy_slime/states/enemy_chase.gd" id="4_ghaa6"]
-[ext_resource type="Script" uid="uid://b1ytn3sggsq6y" path="res://root/scenes/scene/game_scene/game_content/game_entities/enemy_slime/states/enemy_wander.gd" id="6_1dp5w"]
-[ext_resource type="Script" uid="uid://djifcnqxdwmnd" path="res://root/scenes/scene/game_scene/game_content/game_entities/enemy_slime/states/enemy_stun.gd" id="7_auwsv"]
-[ext_resource type="Script" uid="uid://7soxufsseiif" path="res://root/scenes/scene/game_scene/game_content/game_entities/enemy_slime/states/enemy_attack.gd" id="8_auwsv"]
-[ext_resource type="Script" uid="uid://x0x44hjo7pxk" path="res://root/scenes/scene/game_scene/game_content/game_entities/enemy_slime/states/enemy_spawn.gd" id="9_8uf12"]
-[ext_resource type="Shader" uid="uid://g2cg0knko378" path="res://root/assets/image/game/sprites/enemy/hit_flash.gdshader" id="10_po0sg"]
-[ext_resource type="AudioStream" uid="uid://b8uaikn1bm81" path="res://root/assets/audio/sfx/impacts/Bloody Axe Impact 6.wav" id="11_haro7"]
+[ext_resource type="Script" uid="uid://jw3ouqa20vx0" path="res://root/scenes/scene/game_scene/game_content/game_entities/enemy_slime/enemy_slime.gd" id="1_ghu57"]
+[ext_resource type="Texture2D" uid="uid://bb7ahnhyaunbh" path="res://root/assets/image/game/sprites/enemy/slime_green.png" id="2_5v166"]
+[ext_resource type="Script" uid="uid://dr4m1yn56ayjt" path="res://root/scenes/scene/game_scene/game_content/game_entities/enemy_slime/enemy_state_machine.gd" id="3_nc0cu"]
+[ext_resource type="Script" uid="uid://7kl3rn6p0unw" path="res://root/scenes/scene/game_scene/game_content/game_entities/enemy_slime/states/enemy_idle.gd" id="4_yiutw"]
+[ext_resource type="Script" uid="uid://coguwfny6tx4v" path="res://root/scenes/scene/game_scene/game_content/game_entities/enemy_slime/states/enemy_chase.gd" id="5_u37kr"]
+[ext_resource type="Script" uid="uid://b1ytn3sggsq6y" path="res://root/scenes/scene/game_scene/game_content/game_entities/enemy_slime/states/enemy_wander.gd" id="6_e3vt7"]
+[ext_resource type="Script" uid="uid://djifcnqxdwmnd" path="res://root/scenes/scene/game_scene/game_content/game_entities/enemy_slime/states/enemy_stun.gd" id="7_cgc2o"]
+[ext_resource type="Script" uid="uid://7soxufsseiif" path="res://root/scenes/scene/game_scene/game_content/game_entities/enemy_slime/states/enemy_attack.gd" id="8_70mq2"]
+[ext_resource type="Script" uid="uid://x0x44hjo7pxk" path="res://root/scenes/scene/game_scene/game_content/game_entities/enemy_slime/states/enemy_spawn.gd" id="9_telou"]
+[ext_resource type="Shader" uid="uid://g2cg0knko378" path="res://root/assets/image/game/sprites/enemy/hit_flash.gdshader" id="10_djkjk"]
+[ext_resource type="AudioStream" uid="uid://b8uaikn1bm81" path="res://root/assets/audio/sfx/impacts/Bloody Axe Impact 6.wav" id="11_bvbrb"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_auwsv"]
 radius = 2.0
@@ -39,7 +39,7 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [ExtResource("1_hghv2")]
+"values": [ExtResource("2_5v166")]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -80,7 +80,7 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [ExtResource("1_hghv2")]
+"values": [ExtResource("2_5v166")]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -121,7 +121,7 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [ExtResource("1_hghv2")]
+"values": [ExtResource("2_5v166")]
 }
 
 [sub_resource type="Animation" id="Animation_auwsv"]
@@ -150,7 +150,7 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [ExtResource("1_hghv2")]
+"values": [ExtResource("2_5v166")]
 }
 
 [sub_resource type="Animation" id="Animation_ghaa6"]
@@ -178,7 +178,7 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [ExtResource("1_hghv2")]
+"values": [ExtResource("2_5v166")]
 }
 tracks/2/type = "method"
 tracks/2/imported = false
@@ -220,7 +220,7 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [ExtResource("1_hghv2")]
+"values": [ExtResource("2_5v166")]
 }
 
 [sub_resource type="Animation" id="Animation_0830c"]
@@ -249,7 +249,7 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [ExtResource("1_hghv2")]
+"values": [ExtResource("2_5v166")]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_auwsv"]
@@ -449,7 +449,7 @@ tracks/1/keys = {
 }
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_pulj5"]
-shader = ExtResource("10_po0sg")
+shader = ExtResource("10_djkjk")
 shader_parameter/hit_flash_color = Color(1, 1, 1, 0)
 shader_parameter/hit_flash_on = false
 
@@ -492,12 +492,12 @@ _data = {
 radius = 9.848858
 
 [node name="Enemy" type="CharacterBody2D" unique_id=569572327 node_paths=PackedStringArray("animation_tree")]
-script = ExtResource("1_0830c")
+script = ExtResource("1_ghu57")
 animation_tree = NodePath("AnimationTree")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=183972459]
 position = Vector2(0, -12)
-texture = ExtResource("1_hghv2")
+texture = ExtResource("2_5v166")
 hframes = 4
 vframes = 3
 frame = 4
@@ -520,26 +520,26 @@ parameters/Stun/blend_position = Vector2(0, 0)
 parameters/Walk/blend_position = Vector2(0, 0)
 
 [node name="EnemyStateMachine" type="Node" parent="." unique_id=1011469173 node_paths=PackedStringArray("initial_state")]
-script = ExtResource("2_287tu")
+script = ExtResource("3_nc0cu")
 initial_state = NodePath("Spawn")
 
 [node name="Idle" type="Node" parent="EnemyStateMachine" unique_id=1040478947]
-script = ExtResource("3_0830c")
+script = ExtResource("4_yiutw")
 
 [node name="Chase" type="Node" parent="EnemyStateMachine" unique_id=1552088189]
-script = ExtResource("4_ghaa6")
+script = ExtResource("5_u37kr")
 
 [node name="Wander" type="Node" parent="EnemyStateMachine" unique_id=1134644485]
-script = ExtResource("6_1dp5w")
+script = ExtResource("6_e3vt7")
 
 [node name="Stun" type="Node" parent="EnemyStateMachine" unique_id=820182793]
-script = ExtResource("7_auwsv")
+script = ExtResource("7_cgc2o")
 
 [node name="Attack" type="Node" parent="EnemyStateMachine" unique_id=1252497846]
-script = ExtResource("8_auwsv")
+script = ExtResource("8_70mq2")
 
 [node name="Spawn" type="Node" parent="EnemyStateMachine" unique_id=1091859603]
-script = ExtResource("9_8uf12")
+script = ExtResource("9_telou")
 
 [node name="HitFlashAnim" type="AnimationPlayer" parent="." unique_id=1368999362]
 libraries/ = SubResource("AnimationLibrary_haro7")
@@ -552,7 +552,7 @@ collision_layer = 4
 shape = SubResource("CircleShape2D_po0sg")
 
 [node name="DeathAudio" type="AudioStreamPlayer2D" parent="." unique_id=1822365952]
-stream = ExtResource("11_haro7")
+stream = ExtResource("11_bvbrb")
 volume_db = 8.0
 
 [node name="DieTime" type="Timer" parent="." unique_id=559341781]

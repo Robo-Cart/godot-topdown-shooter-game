@@ -1,10 +1,10 @@
 [gd_scene format=3 uid="uid://bwdujvrtv1omi"]
 
-[ext_resource type="Script" uid="uid://ca3po0qu1x2r2" path="res://Scripts/turret.gd" id="1_6spbj"]
-[ext_resource type="Shader" uid="uid://g2cg0knko378" path="res://Assets/Sprites/Enemy/hit_flash.gdshader" id="2_6spbj"]
-[ext_resource type="Texture2D" uid="uid://bq24xqv1ko5ay" path="res://Assets/Sprites/TurretSprite2.png" id="2_hskch"]
-[ext_resource type="PackedScene" uid="uid://ce20ploalaift" path="res://Player/HealthBar.tscn" id="4_pulj5"]
-[ext_resource type="AudioStream" uid="uid://cvpgodueudekp" path="res://Assets/Sounds/impacts/Explosion Raw 1.wav" id="5_ahfaj"]
+[ext_resource type="Script" uid="uid://bvnod7tbf3sec" path="res://root/scenes/scene/game_scene/game_content/game_entities/enemy_turrets/turret.gd" id="1_6spbj"]
+[ext_resource type="Shader" uid="uid://g2cg0knko378" path="res://root/assets/image/game/sprites/enemy/hit_flash.gdshader" id="2_6spbj"]
+[ext_resource type="Texture2D" uid="uid://bq24xqv1ko5ay" path="res://root/assets/image/game/sprites/TurretSprite2.png" id="2_hskch"]
+[ext_resource type="PackedScene" uid="uid://ce20ploalaift" path="res://root/scenes/scene/game_scene/game_content/game_entities/player/health_bar_scene.tscn" id="4_pulj5"]
+[ext_resource type="AudioStream" uid="uid://cvpgodueudekp" path="res://root/assets/audio/sfx/impacts/Explosion Raw 1.wav" id="5_ahfaj"]
 
 [sub_resource type="Animation" id="Animation_61csa"]
 resource_name = "Down"

@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://d1ibj27unjyc7"]
+
+[ext_resource type="Texture2D" uid="uid://cjckllp0twt51" path="res://root/assets/image/game/sprites/worldobjects/spawner.png" id="1_2bop2"]
+[ext_resource type="Script" uid="uid://de3ol5ips3wnt" path="res://root/scenes/scene/game_scene/game_content/game_entities/object_spawner/spawner.gd" id="1_mdv8j"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0dymf"]
+size = Vector2(24, 24)
+
+[node name="Spawner" type="StaticBody2D" unique_id=1690014197]
+script = ExtResource("1_mdv8j")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1662657540]
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("1_2bop2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1996833291]
+shape = SubResource("RectangleShape2D_0dymf")
+
+[node name="SpawnAreaMarker" type="Node2D" parent="." unique_id=1737624787]
+position = Vector2(28, 0)
