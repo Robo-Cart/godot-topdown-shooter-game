@@ -7,8 +7,8 @@ extends Sprite2D
 var speed: float = 1000
 var hit : bool = false
 
-var enemy
-var enemy_flash
+var enemy: Enemy
+var enemy_flash: AnimationPlayer
 
 
 func _ready() -> void:

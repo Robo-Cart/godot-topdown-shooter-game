@@ -12,7 +12,7 @@ signal transitioned(state: EnemyState, new_state_name: String)
 var player: Player
 
 
-func _ready():
+func _ready() -> void:
 	player = get_tree().get_first_node_in_group("player")
 	enemy.damaged.connect(on_damaged)
 
@@ -20,23 +20,23 @@ func _ready():
 # This is called directly when transitioning to this state
 # Useful for setting up the state to be used
 # In Idle, we use this function to decide how long we will idle for
-func enter():
+func enter() -> void:
 	pass
 
 
 # When the state is active, this is essentially the _process() function
-func process_state(delta: float):
+func process_state(_delta: float) -> void:
 	pass
 
 
 # When the state is active, this is essentially the _physics_process() function
-func physics_process_state(delta: float):
+func physics_process_state(_delta: float) -> void:
 	pass
 
 
 # Useful for cleaning up the state
 # For example, clearing any timers, disconnecting any signals, etc.
-func exit():
+func exit() -> void:
 	pass
 
 
@@ -64,5 +64,5 @@ func get_distance_to_player() -> float:
 # 2. Override the on_damaged() function to do nothing
 # 3. Override the _ready() function
 # This is the order I would recommend personally
-func on_damaged(attack: AttackEntity):
+func on_damaged(_attack: AttackEntity) -> void:
 	transitioned.emit(self, "stun")

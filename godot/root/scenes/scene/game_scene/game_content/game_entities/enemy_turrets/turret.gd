@@ -5,14 +5,14 @@ extends CharacterBody2D
 
 var direction: Vector2
 var playback: AnimationNodeStateMachinePlayback
-var health
+var health: int
 var dead: bool = false
 
 @onready var player: Player
-@onready var healthbar = $HealthBar
+@onready var healthbar: ProgressBar = $HealthBar
 
 
-func _ready():
+func _ready() -> void:
 	player = get_tree().get_first_node_in_group("player")
 	add_to_group("enemy")
 	playback = animation_tree["parameters/playback"]
@@ -22,7 +22,7 @@ func _ready():
 	healthbar.init_health(health)
 
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	direction = (player.position - position).normalized()
 	#velocity = direction * speed
 
@@ -30,11 +30,11 @@ func _physics_process(delta: float) -> void:
 	update_animation_parameters()
 
 
-func update_animation_parameters():
+func update_animation_parameters() -> void:
 	animation_tree["parameters/Idle/blend_position"] = direction
 
 
-func _set_health(value):
+func _set_health(_value) -> void:
 	if !dead:
 		if health > 0:
 			healthbar.health = health
@@ -47,7 +47,7 @@ func _set_health(value):
 			$DieTime.start()
 
 
-func _take_damage(value):
+func _take_damage(value: int) -> void:
 	health += value
 	_set_health(health)
 

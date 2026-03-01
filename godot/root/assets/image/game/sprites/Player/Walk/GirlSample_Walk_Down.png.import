@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cw67b763mssn8"
-path="res://.godot/imported/GirlSample_Walk_Down.png-ed9cdd1e286a7268ad6e20fb8536bb26.ctex"
+path="res://.godot/imported/GirlSample_Walk_Down.png-8abebb83c7e40f1231d8e7856568048d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://root/assets/image/game/sprites/player/Walk/GirlSample_Walk_Down.png"
-dest_files=["res://.godot/imported/GirlSample_Walk_Down.png-ed9cdd1e286a7268ad6e20fb8536bb26.ctex"]
+source_file="res://root/assets/image/game/sprites/Player/Walk/GirlSample_Walk_Down.png"
+dest_files=["res://.godot/imported/GirlSample_Walk_Down.png-8abebb83c7e40f1231d8e7856568048d.ctex"]
 
 [params]
 

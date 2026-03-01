@@ -20,7 +20,7 @@ var animation_tree: AnimationTree = $SubViewportContainer/SubViewport/Player_Man
 
 @export var speed: float = 200
 @export var physicscontrol: bool = false
-@export var bullet_speed = 1000
+@export var bullet_speed: int = 1000
 @export var MAX_SPEED: float = 200.0
 @export var ACCELERATION: float = 800.0
 
@@ -33,9 +33,9 @@ var input_aim: Vector2
 var playback: AnimationNodeStateMachinePlayback
 var anim_pos: Vector2
 var look_vector: Vector2
-var player_offset_angle = 89.5
+var player_offset_angle: float = 89.5
 
-var bullet_scene = preload(
+var bullet_scene: PackedScene = preload(
 	"res://root/scenes/scene/game_scene/game_content/game_entities/object_bullet/bullet01.tscn"
 )
 var time_between_shot: float = 0.25
@@ -89,8 +89,8 @@ func _physics_process(delta: float) -> void:
 	update_animation_parameters()
 
 
-func _shoot():
-	var new_bullet = bullet_scene.instantiate()
+func _shoot() -> void:
+	var new_bullet: Node = bullet_scene.instantiate()
 	new_bullet.global_position = ShootPos.global_position
 	new_bullet.global_rotation = ShootPos.global_rotation
 	new_bullet.speed = bullet_speed
@@ -101,14 +101,14 @@ func _on_shot_timer_timeout() -> void:
 	can_shoot = true
 
 
-func select_animation():
+func select_animation() -> void:
 	if velocity.length() < 130:
 		playback.travel("Walk")
 	else:
 		playback.travel("Run")
 
 
-func update_animation_parameters():
+func update_animation_parameters() -> void:
 	if input_aim != Vector2.ZERO and input_move == Vector2.ZERO:
 		input_move = Vector2(0, 0)
 	if input_move != Vector2.ZERO and input_aim == Vector2.ZERO:

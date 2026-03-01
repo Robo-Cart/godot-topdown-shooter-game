@@ -44,7 +44,7 @@ func _ready() -> void:
 		push_error("AnimationTree playback is NULL. Check state machine setup.")
 
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	# Ensure facing direction of movement and do not revert to default facing when stopped
 	if velocity.x != 0:
 		sprite.flip_h = velocity.x < 0
@@ -56,14 +56,14 @@ func _draw() -> void:
 	draw_arc(Vector2.ZERO, attack_range, 0, 360, 50, Color.CRIMSON, 0.5, true)
 
 
-func play_animation(name: String):
+func play_animation(_name: String) -> void:
 	if playback:
-		playback.travel(name)
+		playback.travel(_name)
 	else:
 		push_error("Tried to play animation but playback is null.")
 
 
-func _set_health(value):
+func _set_health(_value: int) -> void:
 	if alive:
 		if health < 0:
 			alive = false
@@ -74,7 +74,7 @@ func _set_health(value):
 			$DieTime.start()
 
 
-func _take_damage(value):
+func _take_damage(value: int) -> void:
 	health += value
 	_set_health(health)
 

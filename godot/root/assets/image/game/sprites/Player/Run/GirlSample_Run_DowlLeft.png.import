@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dwoc3aacrmaxw"
-path="res://.godot/imported/GirlSample_Run_DowlLeft.png-6c608e59119b5dbfc57a80a602aeb33d.ctex"
+path="res://.godot/imported/GirlSample_Run_DowlLeft.png-eb261118c8483af54172b98a00fef544.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://root/assets/image/game/sprites/player/Run/GirlSample_Run_DowlLeft.png"
-dest_files=["res://.godot/imported/GirlSample_Run_DowlLeft.png-6c608e59119b5dbfc57a80a602aeb33d.ctex"]
+source_file="res://root/assets/image/game/sprites/Player/Run/GirlSample_Run_DowlLeft.png"
+dest_files=["res://.godot/imported/GirlSample_Run_DowlLeft.png-eb261118c8483af54172b98a00fef544.ctex"]
 
 [params]
 

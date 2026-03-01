@@ -4,11 +4,11 @@ extends EnemyState
 @export var chase_speed := 75.0
 
 
-func physics_process_state(delta: float):
+func physics_process_state(_delta: float) -> void:
 	
-	var direction := player.global_position - enemy.global_position
+	var direction: Vector2 = player.global_position - enemy.global_position
 	
-	var distance = direction.length()
+	var distance: float = direction.length()
 	
 	if distance > enemy.detection_radius:
 		transitioned.emit(self, "idle")

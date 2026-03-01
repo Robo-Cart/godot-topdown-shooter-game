@@ -1,18 +1,17 @@
 extends EnemyState
 
-
 @export var min_wander_time := 2.5
 @export var max_wander_time := 10.0
 @export var wander_speed := 50.0
 
-var wander_direction : Vector2
+var wander_direction: Vector2
 
-var wander_timer : Timer
+var wander_timer: Timer
 
 
-# Upon moving to this state, initialize the 
+# Upon moving to this state, initialize the
 # timer with a random duration.
-func enter():
+func enter() -> void:
 	wander_direction = Vector2.UP.rotated(deg_to_rad(randf_range(0, 360)))
 	wander_timer = Timer.new()
 	wander_timer.wait_time = randf_range(min_wander_time, max_wander_time)
@@ -22,14 +21,14 @@ func enter():
 	enemy.play_animation("Walk")
 
 
-func physics_process_state(delta: float):
-	enemy.velocity = wander_direction*wander_speed
+func physics_process_state(_delta: float) -> void:
+	enemy.velocity = wander_direction * wander_speed
 	enemy.move_and_slide()
-	
+
 	try_chase()
 
 
-func on_timer_finished():
+func on_timer_finished() -> void:
 	transitioned.emit(self, "idle")
 
 
@@ -37,7 +36,7 @@ func on_timer_finished():
 # disconnect signals, and free timer
 # Technically, just queue_free() would be required, but
 # I like showcasing all of the options
-func exit():
+func exit() -> void:
 	wander_timer.stop()
 	wander_timer.timeout.disconnect(on_timer_finished)
 	wander_timer.queue_free()

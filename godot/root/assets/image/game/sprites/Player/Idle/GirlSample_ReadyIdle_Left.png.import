@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dxgly3wntiwak"
-path="res://.godot/imported/GirlSample_ReadyIdle_Left.png-496e1c6339a6ef50ab1a819e00bdf8ab.ctex"
+path="res://.godot/imported/GirlSample_ReadyIdle_Left.png-0ce09d923c1f6c2e55b43ae512f26221.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://root/assets/image/game/sprites/player/Idle/GirlSample_ReadyIdle_Left.png"
-dest_files=["res://.godot/imported/GirlSample_ReadyIdle_Left.png-496e1c6339a6ef50ab1a819e00bdf8ab.ctex"]
+source_file="res://root/assets/image/game/sprites/Player/Idle/GirlSample_ReadyIdle_Left.png"
+dest_files=["res://.godot/imported/GirlSample_ReadyIdle_Left.png-0ce09d923c1f6c2e55b43ae512f26221.ctex"]
 
 [params]
 
