@@ -11,12 +11,12 @@ var game_mode: int = get_default_value()
 
 func init_cfg_options() -> void:
 	init_cfg_option(_get_option_name(0), 0)
-	init_cfg_option(_get_option_name(1), 1)
-	init_cfg_option(_get_option_name(2), 2)
+	#init_cfg_option(_get_option_name(1), 1)
+	#init_cfg_option(_get_option_name(2), 2)
 
 
 func get_default_value() -> int:
-	return 1
+	return 0
 
 
 func get_config_value() -> int:
