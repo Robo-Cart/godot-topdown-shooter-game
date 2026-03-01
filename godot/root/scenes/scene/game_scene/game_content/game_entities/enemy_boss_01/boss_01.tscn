@@ -5,8 +5,8 @@
 [ext_resource type="Shader" uid="uid://g2cg0knko378" path="res://root/assets/image/game/sprites/enemy/hit_flash.gdshader" id="2_1ccfh"]
 [ext_resource type="Texture2D" uid="uid://dpkaex5y52akm" path="res://root/assets/image/game/sprites/enemy/boss_01/boss_outer.png" id="2_02cdo"]
 [ext_resource type="Texture2D" uid="uid://02us1kwremi" path="res://root/assets/image/game/sprites/enemy/boss_01/boss_turret.png" id="3_1ccfh"]
-[ext_resource type="Script" uid="uid://b54mro6ty20ai" path="res://root/scenes/scene/game_scene/game_content/game_entities/enemy_boss_01/Boss_01_area_sheild.gd" id="4_5a3vp"]
-[ext_resource type="Script" uid="uid://2apvemcbejt8" path="res://root/scenes/scene/game_scene/game_content/game_entities/enemy_boss_01/Boss_01_Turret.gd" id="6_rgq6k"]
+[ext_resource type="Script" uid="uid://dauqaps7fkupe" path="res://root/scenes/scene/game_scene/game_content/game_entities/enemy_boss_01/Boss_01_area_sheild.gd" id="4_5a3vp"]
+[ext_resource type="Script" uid="uid://b10oggs3s5s34" path="res://root/scenes/scene/game_scene/game_content/game_entities/enemy_boss_01/Boss_01_Turret.gd" id="6_rgq6k"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_rgq6k"]
 radius = 48.010414
@@ -106,7 +106,7 @@ z_index = 1
 position = Vector2(1.9073486e-06, 1.1368684e-13)
 emitting = false
 amount = 40
-lifetime = 0.24000000000000002
+lifetime = 0.24
 one_shot = true
 explosiveness = 0.3
 randomness = 0.66

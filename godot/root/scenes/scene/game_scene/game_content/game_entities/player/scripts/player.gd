@@ -14,7 +14,7 @@ var animation_tree: AnimationTree = $SubViewportContainer/SubViewport/Player_Man
 )
 @onready var ShootPos: Marker2D = $CentrePoint/ShootPos
 @onready var GunShot: AudioStreamPlayer2D = $GunShot
-@onready var Impact: AudioStreamPlayer2D = $Impact
+#@onready var Impact: AudioStreamPlayer2D = $Impact
 @onready var MuzzleParticles: CPUParticles2D = $CentrePoint/ShootPos/MuzzleParticles
 @onready var Camera: Camera2D = $Camera2D
 

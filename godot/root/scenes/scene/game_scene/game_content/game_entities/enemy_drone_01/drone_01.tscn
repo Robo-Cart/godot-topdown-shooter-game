@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://chuxmxy42fppi"]
 
-[ext_resource type="Script" uid="uid://b765tu2l34wx4" path="res://Scripts/drone.gd" id="1_p6pso"]
-[ext_resource type="Texture2D" uid="uid://cfo25lrqr4b74" path="res://Assets/Sprites/DroneSprite.png" id="2_lfikv"]
+[ext_resource type="Script" uid="uid://br2o1oi0ya4mw" path="res://root/scenes/scene/game_scene/game_content/game_entities/enemy_drone_01/drone.gd" id="1_p6pso"]
+[ext_resource type="Texture2D" uid="uid://cfo25lrqr4b74" path="res://root/assets/image/game/sprites/DroneSprite.png" id="2_lfikv"]
 
 [sub_resource type="Animation" id="Animation_61csa"]
 resource_name = "Down"

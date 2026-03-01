@@ -34,7 +34,7 @@ func update_animation_parameters() -> void:
 	animation_tree["parameters/Idle/blend_position"] = direction
 
 
-func _set_health(_value) -> void:
+func _set_health(_value: int) -> void:
 	if !dead:
 		if health > 0:
 			healthbar.health = health

@@ -1,7 +1,7 @@
 extends Node3D
 
-var weapons = []
-var selected_weapon = 0
+var weapons: Array = []
+var selected_weapon: int = 0
 
 
 func _ready() -> void:
@@ -11,7 +11,7 @@ func _ready() -> void:
 	weapons[selected_weapon].visible = true
 
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("next_weapon"):
 		weapons[selected_weapon].visible = false
 		if selected_weapon >= weapons.size() - 1:
