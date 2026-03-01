@@ -40,6 +40,7 @@ func _ready() -> void:
 
 func _player_entered(_player: Node2D) -> void:
 	# call level manager
+	print("player entered")
 	pass
 
 

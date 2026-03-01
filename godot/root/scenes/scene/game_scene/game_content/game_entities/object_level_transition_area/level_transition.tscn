@@ -16,3 +16,9 @@ level = "<null>"
 position = Vector2(-16, 0)
 shape = SubResource("RectangleShape2D_8h5ms")
 debug_color = Color(0.74242985, 0.0013599825, 0.86933094, 0.41960785)
+
+[node name="TemporaryColorRect" type="ColorRect" parent="." unique_id=1747242145]
+offset_left = -36.0
+offset_top = -19.0
+offset_right = 4.0
+offset_bottom = 21.0
