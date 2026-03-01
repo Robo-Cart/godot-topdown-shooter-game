@@ -50,6 +50,7 @@ func _set_health(_value: int) -> void:
 func _take_damage(value: int) -> void:
 	health += value
 	_set_health(health)
+	$HitFlashAnim.play("hit")
 
 
 func _on_die_time_timeout() -> void:

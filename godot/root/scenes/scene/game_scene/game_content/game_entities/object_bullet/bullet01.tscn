@@ -19,7 +19,7 @@ position = Vector2(15.194266, -1.3283249e-06)
 rotation = 4.712389
 scale = Vector2(2.435, 2.435)
 target_position = Vector2(1.5001617e-06, 11.4399)
-collision_mask = 7
+collision_mask = 2
 hit_from_inside = true
 collide_with_areas = true
 

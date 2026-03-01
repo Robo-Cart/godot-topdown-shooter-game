@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://btawln3qidduy"]
 
 [ext_resource type="Script" uid="uid://jw3ouqa20vx0" path="res://root/scenes/scene/game_scene/game_content/game_entities/enemy_slime/enemy_slime.gd" id="1_ghu57"]
-[ext_resource type="Texture2D" uid="uid://bb7ahnhyaunbh" path="res://root/assets/image/game/sprites/enemy/slime_green.png" id="2_5v166"]
+[ext_resource type="Texture2D" uid="uid://bb7ahnhyaunbh" path="res://root/assets/image/game/sprites/Enemy/slime_green.png" id="2_5v166"]
 [ext_resource type="Script" uid="uid://dr4m1yn56ayjt" path="res://root/scenes/scene/game_scene/game_content/game_entities/enemy_slime/enemy_state_machine.gd" id="3_nc0cu"]
 [ext_resource type="Script" uid="uid://7kl3rn6p0unw" path="res://root/scenes/scene/game_scene/game_content/game_entities/enemy_slime/states/enemy_idle.gd" id="4_yiutw"]
 [ext_resource type="Script" uid="uid://coguwfny6tx4v" path="res://root/scenes/scene/game_scene/game_content/game_entities/enemy_slime/states/enemy_chase.gd" id="5_u37kr"]
@@ -9,7 +9,7 @@
 [ext_resource type="Script" uid="uid://djifcnqxdwmnd" path="res://root/scenes/scene/game_scene/game_content/game_entities/enemy_slime/states/enemy_stun.gd" id="7_cgc2o"]
 [ext_resource type="Script" uid="uid://7soxufsseiif" path="res://root/scenes/scene/game_scene/game_content/game_entities/enemy_slime/states/enemy_attack.gd" id="8_70mq2"]
 [ext_resource type="Script" uid="uid://x0x44hjo7pxk" path="res://root/scenes/scene/game_scene/game_content/game_entities/enemy_slime/states/enemy_spawn.gd" id="9_telou"]
-[ext_resource type="Shader" uid="uid://g2cg0knko378" path="res://root/assets/image/game/sprites/enemy/hit_flash.gdshader" id="10_djkjk"]
+[ext_resource type="Shader" uid="uid://g2cg0knko378" path="res://root/assets/image/game/sprites/Enemy/hit_flash.gdshader" id="10_djkjk"]
 [ext_resource type="AudioStream" uid="uid://b8uaikn1bm81" path="res://root/assets/audio/sfx/impacts/Bloody Axe Impact 6.wav" id="11_bvbrb"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_auwsv"]
@@ -491,9 +491,10 @@ _data = {
 [sub_resource type="CircleShape2D" id="CircleShape2D_po0sg"]
 radius = 9.848858
 
-[node name="Enemy" type="CharacterBody2D" unique_id=569572327 node_paths=PackedStringArray("animation_tree")]
+[node name="Enemy" type="CharacterBody2D" unique_id=569572327 node_paths=PackedStringArray("animation_tree", "hit_flash")]
 script = ExtResource("1_ghu57")
 animation_tree = NodePath("AnimationTree")
+hit_flash = NodePath("HitFlashAnim")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=183972459]
 position = Vector2(0, -12)
@@ -546,7 +547,8 @@ libraries/ = SubResource("AnimationLibrary_haro7")
 
 [node name="Area2D" type="Area2D" parent="." unique_id=630261286]
 position = Vector2(0, -5)
-collision_layer = 4
+collision_layer = 2
+collision_mask = 2
 
 [node name="HurtBox" type="CollisionShape2D" parent="Area2D" unique_id=848484460]
 shape = SubResource("CircleShape2D_po0sg")

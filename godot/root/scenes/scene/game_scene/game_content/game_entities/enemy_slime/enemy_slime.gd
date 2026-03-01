@@ -19,6 +19,7 @@ signal damaged(attack: AttackEntity)
 @export var animation_tree: AnimationTree
 @onready var playback: AnimationNodeStateMachinePlayback
 @onready var sprite: Sprite2D = $Sprite2D
+@export var hit_flash: AnimationPlayer
 
 @export_group("Vision Ranges")
 @export var detection_radius: float = 175.0
@@ -67,7 +68,6 @@ func _set_health(_value: int) -> void:
 	if alive:
 		if health < 0:
 			alive = false
-			#$DieParticle.emitting = true
 			set_deferred("monitoring", false)
 			get_node("Sprite2D").hide()
 			$DeathAudio.play()
@@ -77,6 +77,7 @@ func _set_health(_value: int) -> void:
 func _take_damage(value: int) -> void:
 	health += value
 	_set_health(health)
+	hit_flash.play("hit")
 
 
 func _on_die_time_timeout() -> void:

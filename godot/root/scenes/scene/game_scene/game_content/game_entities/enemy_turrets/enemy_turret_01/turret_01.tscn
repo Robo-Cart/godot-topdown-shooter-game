@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://bwdujvrtv1omi"]
 
 [ext_resource type="Script" uid="uid://bvnod7tbf3sec" path="res://root/scenes/scene/game_scene/game_content/game_entities/enemy_turrets/turret.gd" id="1_6spbj"]
-[ext_resource type="Shader" uid="uid://g2cg0knko378" path="res://root/assets/image/game/sprites/enemy/hit_flash.gdshader" id="2_6spbj"]
+[ext_resource type="Shader" uid="uid://g2cg0knko378" path="res://root/assets/image/game/sprites/Enemy/hit_flash.gdshader" id="2_6spbj"]
 [ext_resource type="Texture2D" uid="uid://bq24xqv1ko5ay" path="res://root/assets/image/game/sprites/TurretSprite2.png" id="2_hskch"]
 [ext_resource type="PackedScene" uid="uid://ce20ploalaift" path="res://root/scenes/scene/game_scene/game_content/game_entities/player/health_bar_scene.tscn" id="4_pulj5"]
 [ext_resource type="AudioStream" uid="uid://cvpgodueudekp" path="res://root/assets/audio/sfx/impacts/Explosion Raw 1.wav" id="5_ahfaj"]
@@ -609,6 +609,9 @@ _data = {
 offsets = PackedFloat32Array(0, 0.17012449, 0.75103736, 1)
 colors = PackedColorArray(1, 1, 1, 1, 1, 0.23333335, 0, 1, 0.27752772, 0.27752775, 0.27752766, 1, 0.24115604, 0.24115604, 0.24115604, 0.22745098)
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_bxicx"]
+radius = 9.848858
+
 [node name="Turret" type="CharacterBody2D" unique_id=496178693 node_paths=PackedStringArray("animation_tree")]
 script = ExtResource("1_6spbj")
 animation_tree = NodePath("AnimationTree")
@@ -666,5 +669,13 @@ color_ramp = SubResource("Gradient_pulj5")
 [node name="Explode" type="AudioStreamPlayer2D" parent="." unique_id=970996301]
 position = Vector2(1.9073486e-06, 1.1368684e-13)
 stream = ExtResource("5_ahfaj")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1452043034]
+position = Vector2(0, -5)
+collision_layer = 2
+collision_mask = 2
+
+[node name="HurtBox" type="CollisionShape2D" parent="Area2D" unique_id=2067173272]
+shape = SubResource("CircleShape2D_bxicx")
 
 [connection signal="timeout" from="DieTime" to="." method="_on_die_time_timeout"]
