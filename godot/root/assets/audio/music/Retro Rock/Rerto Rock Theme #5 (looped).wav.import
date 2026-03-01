@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://lcar05f6chff"
+path="res://.godot/imported/Rerto Rock Theme #5 (looped).wav-8f62a7b09bc9b2b6f6613fc372326246.sample"
+
+[deps]
+
+source_file="res://root/assets/audio/music/Retro Rock/Rerto Rock Theme #5 (looped).wav"
+dest_files=["res://.godot/imported/Rerto Rock Theme #5 (looped).wav-8f62a7b09bc9b2b6f6613fc372326246.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2
