@@ -29,6 +29,10 @@ z_as_relative = false
 [node name="UiBuilder" parent="." unique_id=1154226004 instance=ExtResource("5_4r42l")]
 unique_name_in_owner = true
 
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1305643184]
+position = Vector2(577, 325)
+scale = Vector2(0.465, 0.465)
+
 [node name="Player" parent="." unique_id=1625385929 instance=ExtResource("6_keakv")]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=60552203]

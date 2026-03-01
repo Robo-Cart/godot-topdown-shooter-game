@@ -22,6 +22,7 @@ script = ExtResource("1_sonw0")
 physicscontrol = true
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=718839102]
+visible = false
 position = Vector2(-8.333252, 25.000061)
 scale = Vector2(4.166667, 4.166667)
 zoom = Vector2(2, 2)
