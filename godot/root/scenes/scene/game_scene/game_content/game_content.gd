@@ -3,6 +3,7 @@
 extends Control
 
 @onready var level_content_node: Node = $LevelContent
+@onready var player: Player = get_tree().get_first_node_in_group("player")
 
 
 func _ready() -> void:

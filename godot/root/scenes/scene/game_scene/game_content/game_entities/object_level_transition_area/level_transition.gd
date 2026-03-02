@@ -5,6 +5,8 @@ signal transition_to_level(
 	next_level_path: String, target_transition_area: String, location_offset: Vector2
 )
 
+@onready var player: Player = get_tree().get_first_node_in_group("player")
+
 enum SIDE { LEFT, RIGHT, TOP, BOTTOM }
 
 @export_file("*.tscn") var level: String
@@ -39,9 +41,27 @@ func _ready() -> void:
 	body_entered.connect(_player_entered)
 
 
+func get_offset() -> Vector2:
+	var offset: Vector2 = Vector2.ZERO
+	var player_position: Vector2 = player.global_position
+
+	if side == SIDE.LEFT or side == SIDE.RIGHT:
+		offset.y = player_position.y - global_position.y
+		offset.x = pixel_size / 2
+		if side == SIDE.LEFT:
+			offset.x *= -1
+	else:
+		offset.x = player_position.x - global_position.x
+		offset.x = pixel_size / 2
+		if side == SIDE.TOP:
+			offset.y *= -1
+
+	return offset
+
+
 func _player_entered(_player: Node2D) -> void:
 	LogWrapper.debug(self, "Player entered transition area.")
-	transition_to_level.emit(level, target_transition_area, Vector2.ZERO)
+	transition_to_level.emit(level, target_transition_area, get_offset())
 
 
 func _update_area() -> void:
