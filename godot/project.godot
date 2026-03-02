@@ -63,7 +63,6 @@ Log="*uid://fkh2vcehfwc7"
 DebugMenu="*uid://cggqb75a8w8r"
 SceneManager="*uid://2iy8wfgenjka"
 Scenes="*uid://cqhqqsh5oectt"
-LevelManager="*uid://b4fh7bt10o4ja"
 
 [debug]
 

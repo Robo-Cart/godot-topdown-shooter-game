@@ -7,6 +7,7 @@ extends Control
 
 func _ready() -> void:
 	LogWrapper.debug(self, "Scene ready.")
+	# Load first level manually
 	load_level_from_path(
 		"res://root/scenes/scene/game_scene/game_content/game_levels/level_001.tscn",
 		"LevelTransition",
