@@ -1,4 +1,3 @@
-class_name LevelManager
 extends Node
 
 signal level_load_started
@@ -14,7 +13,7 @@ var position_offset: Vector2
 #tilemap_bounds_changed.emit( bounds )
 
 
-func local_new_level(
+func load_new_level(
 	level_path: String, _target_transition: String, _position_offset: Vector2
 ) -> void:
 	get_tree().paused = true

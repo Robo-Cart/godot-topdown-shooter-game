@@ -1,6 +1,10 @@
 @tool
 class_name LevelTransition extends Area2D
 
+signal transition_to_level(
+	next_level_path: String, target_transition_area: String, location_offset: Vector2
+)
+
 enum SIDE { LEFT, RIGHT, TOP, BOTTOM }
 
 @export_file("*.tscn") var level: String
@@ -27,21 +31,17 @@ enum SIDE { LEFT, RIGHT, TOP, BOTTOM }
 
 
 func _ready() -> void:
+	add_to_group("level_transition_area")
 	_update_area()
 	if Engine.is_editor_hint():
 		return
 
-	# monitoring = false
-
 	body_entered.connect(_player_entered)
-
-	pass
 
 
 func _player_entered(_player: Node2D) -> void:
-	# call level manager
-	print("player entered")
-	pass
+	LogWrapper.debug(self, "Player entered transition area.")
+	transition_to_level.emit(level, target_transition_area, Vector2.ZERO)
 
 
 func _update_area() -> void:

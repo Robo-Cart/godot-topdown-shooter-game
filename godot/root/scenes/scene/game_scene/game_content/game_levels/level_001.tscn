@@ -1070,4 +1070,5 @@ side = 2
 [node name="LevelTransition2" parent="." unique_id=206843979 instance=ExtResource("5_uejss")]
 position = Vector2(192, 256)
 level = "uid://b1hebadnosmmc"
+target_transition_area = "LevelTransition2"
 side = 3
