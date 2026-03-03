@@ -49,12 +49,12 @@ func get_offset() -> Vector2:
 		offset.y = player_position.y - global_position.y
 		offset.x = pixel_size / 2
 		if side == SIDE.LEFT:
-			offset.x *= -1
+			offset.x *= 2
 	else:
 		offset.x = player_position.x - global_position.x
-		offset.x = pixel_size / 2
-		if side == SIDE.TOP:
-			offset.y *= -1
+		offset.y = pixel_size / 2
+		if side == SIDE.BOTTOM:
+			offset.y *= -2
 
 	return offset
 

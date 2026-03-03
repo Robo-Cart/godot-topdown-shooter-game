@@ -1051,12 +1051,23 @@ tile_map_data = PackedByteArray("AAAAAAAAAAAAABMAAAAAAAEAAAAAABMAAAAAAAIAAAAAABM
 tile_set = SubResource("TileSet_wry07")
 
 [node name="LevelTransition" parent="." unique_id=1072022827 instance=ExtResource("2_38wbn")]
-position = Vector2(352, 32)
+position = Vector2(544, 5)
 level = "uid://b1hebadnosmmc"
 side = 2
 
 [node name="LevelTransition2" parent="." unique_id=1622347551 instance=ExtResource("2_38wbn")]
-position = Vector2(352, 192)
+position = Vector2(1147, 352)
 level = "uid://jx28vruddx8o"
 target_transition_area = "LevelTransition2"
+side = 1
+
+[node name="LevelTransition3" parent="." unique_id=747450673 instance=ExtResource("2_38wbn")]
+position = Vector2(544, 635)
+level = "uid://jx28vruddx8o"
+target_transition_area = "LevelTransition3"
 side = 3
+
+[node name="LevelTransition4" parent="." unique_id=1800296576 instance=ExtResource("2_38wbn")]
+position = Vector2(5, 352)
+level = "uid://jx28vruddx8o"
+target_transition_area = "LevelTransition4"

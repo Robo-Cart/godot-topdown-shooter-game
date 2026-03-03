@@ -34,6 +34,7 @@ position = Vector2(577, 325)
 scale = Vector2(0.465, 0.465)
 
 [node name="Player" parent="." unique_id=1625385929 instance=ExtResource("6_keakv")]
+process_mode = 1
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=60552203]
 transform = Transform3D(1, 0, 0, 0, 0.17536677, 0.98450315, 0, -0.98450315, 0.17536677, 0, 4.533, 0)
