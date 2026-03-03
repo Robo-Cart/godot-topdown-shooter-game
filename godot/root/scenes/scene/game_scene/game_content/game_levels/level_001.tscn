@@ -1070,16 +1070,13 @@ side = 2
 [node name="LevelTransition2" parent="." unique_id=206843979 instance=ExtResource("5_uejss")]
 position = Vector2(1147, 320)
 level = "uid://b1hebadnosmmc"
-target_transition_area = "LevelTransition2"
 side = 1
 
 [node name="LevelTransition3" parent="." unique_id=1104624179 instance=ExtResource("5_uejss")]
 position = Vector2(544, 635)
-level = "uid://2f3qn8v0yjsb"
-target_transition_area = "LevelTransition3"
+level = "uid://ca3iddhfxnsao"
 side = 3
 
 [node name="LevelTransition4" parent="." unique_id=398435198 instance=ExtResource("5_uejss")]
 position = Vector2(5, 320)
-level = "uid://2f3qn8v0yjsb"
-target_transition_area = "LevelTransition4"
+level = "uid://dfcholca856nv"
