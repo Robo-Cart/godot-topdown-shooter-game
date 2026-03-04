@@ -37,7 +37,6 @@ func _ready() -> void:
 	_update_area()
 	if Engine.is_editor_hint():
 		return
-
 	body_entered.connect(_player_entered)
 
 
@@ -45,21 +44,26 @@ func get_offset() -> Vector2:
 	var offset: Vector2 = Vector2.ZERO
 	var player_position: Vector2 = player.global_position
 
+	# Create a safe spawn distance that clears the area + player radius
+	var safe_distance: float = pixel_size * 2.0
+
 	if side == SIDE.LEFT or side == SIDE.RIGHT:
 		offset.y = player_position.y - global_position.y
-		offset.x = pixel_size / 2
+		offset.x = safe_distance
 		if side == SIDE.LEFT:
 			offset.x *= -1
 	else:
 		offset.x = player_position.x - global_position.x
-		offset.y = pixel_size / 2
+		offset.y = safe_distance
 		if side == SIDE.TOP:
-			offset.y *= -2
+			offset.y *= -1
 
 	return offset
 
 
 func _player_entered(_player: Node2D) -> void:
+	if _player != player:
+		return
 	LogWrapper.debug(self, "Player entered transition area.")
 	transition_to_level.emit(level, target_transition_area, get_offset())
 
