@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://bwdujvrtv1omi" path="res://root/scenes/scene/game_scene/game_content/game_entities/enemy_turrets/enemy_turret_01/turret_01.tscn" id="3_erney"]
 [ext_resource type="PackedScene" uid="uid://c1w73wbkn1emn" path="res://root/scenes/scene/game_scene/game_content/game_entities/enemy_boss_01/boss_01.tscn" id="4_erney"]
 [ext_resource type="PackedScene" uid="uid://dljv1vlu75c78" path="res://root/scenes/scene/game_scene/game_content/game_entities/object_level_transition_area/level_transition.tscn" id="5_uejss"]
+[ext_resource type="PackedScene" uid="uid://d1ibj27unjyc7" path="res://root/scenes/scene/game_scene/game_content/game_entities/object_single_slime_spawner/single_slime_spawner.tscn" id="6_sebht"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ua44u"]
 texture = ExtResource("1_8rfgd")
@@ -1080,3 +1081,11 @@ side = 3
 [node name="LevelTransition4" parent="." unique_id=398435198 instance=ExtResource("5_uejss")]
 position = Vector2(5, 320)
 level = "uid://dfcholca856nv"
+
+[node name="Spawner" parent="." unique_id=1690014197 instance=ExtResource("6_sebht")]
+position = Vector2(398, 463)
+
+[node name="SpawnAreaMarker" parent="Spawner" index="2" unique_id=1737624787]
+position = Vector2(0, -26)
+
+[editable path="Spawner"]
