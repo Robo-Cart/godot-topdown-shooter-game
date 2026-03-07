@@ -1054,4 +1054,4 @@ tile_set = SubResource("TileSet_wry07")
 position = Vector2(576, 5)
 level = "uid://jx28vruddx8o"
 target_transition_area = "LevelTransition3"
-side = 2
+side = 0

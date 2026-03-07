@@ -7,7 +7,7 @@ signal transition_to_level(
 
 @onready var player: Player = get_tree().get_first_node_in_group("player")
 
-enum SIDE { LEFT, RIGHT, TOP, BOTTOM }
+enum SIDE { NORTH, EAST, SOUTH, WEST }
 
 @export_file("*.tscn") var level: String
 @export var target_transition_area: String = "LevelTransition"
@@ -20,7 +20,7 @@ enum SIDE { LEFT, RIGHT, TOP, BOTTOM }
 		_update_area()
 
 @export var pixel_size: int = 32
-@export var side: SIDE = SIDE.LEFT:
+@export var side: SIDE = SIDE.WEST:
 	set(_v):
 		side = _v
 		_update_area()
@@ -47,15 +47,15 @@ func get_offset() -> Vector2:
 	# Create a safe spawn distance that clears the area + player radius
 	var safe_distance: float = pixel_size * 2.0
 
-	if side == SIDE.LEFT or side == SIDE.RIGHT:
+	if side == SIDE.WEST or side == SIDE.EAST:
 		offset.y = player_position.y - global_position.y
 		offset.x = safe_distance
-		if side == SIDE.LEFT:
+		if side == SIDE.WEST:
 			offset.x *= -1
 	else:
 		offset.x = player_position.x - global_position.x
 		offset.y = safe_distance
-		if side == SIDE.TOP:
+		if side == SIDE.NORTH:
 			offset.y *= -1
 
 	return offset
@@ -72,16 +72,16 @@ func _update_area() -> void:
 	var new_rect: Vector2 = Vector2(pixel_size, pixel_size)
 	var new_position: Vector2 = Vector2.ZERO
 
-	if side == SIDE.TOP:
+	if side == SIDE.NORTH:
 		new_rect.x *= size
 		new_position.y -= pixel_size / 2
-	elif side == SIDE.BOTTOM:
+	elif side == SIDE.SOUTH:
 		new_rect.x *= size
 		new_position.y += pixel_size / 2
-	elif side == SIDE.LEFT:
+	elif side == SIDE.WEST:
 		new_rect.y *= size
 		new_position.x -= pixel_size / 2
-	elif side == SIDE.RIGHT:
+	elif side == SIDE.EAST:
 		new_rect.y *= size
 		new_position.x += pixel_size / 2
 
