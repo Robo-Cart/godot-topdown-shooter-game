@@ -65,7 +65,7 @@ func _build_spawn_queue() -> void:
 				"time": exact_spawn_time,
 				"category": "powerup",
 				"type": powerup.type,
-				"direction": -1,  # Powerups don't use this enum, so we pass a dummy value
+				"location": -1,  # Powerups don't use this enum, so we pass a dummy value
 				"wave_stamp": powerup.time_stamp
 			}
 		)
@@ -92,7 +92,7 @@ func _check_spawns() -> void:
 
 		# Route the spawn event to the correct function based on its category
 		if spawn_data.category == "enemy":
-			_spawn_enemy(spawn_data.type, spawn_data.direction, spawn_data.wave_stamp)
+			_spawn_enemy(spawn_data.type, spawn_data.location, spawn_data.wave_stamp)
 		elif spawn_data.category == "powerup":
 			_spawn_powerup(spawn_data.type, spawn_data.wave_stamp)
 
