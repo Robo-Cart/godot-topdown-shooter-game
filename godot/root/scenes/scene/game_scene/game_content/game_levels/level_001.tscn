@@ -1,5 +1,6 @@
 [gd_scene format=4 uid="uid://jx28vruddx8o"]
 
+[ext_resource type="Script" uid="uid://7kk3o001ovb5" path="res://root/scenes/scene/game_scene/game_content/game_levels/level.gd" id="1_0hebw"]
 [ext_resource type="Texture2D" uid="uid://iasdy6e4dgxo" path="res://root/assets/image/game/sprites/roguelikeCity_magenta.png" id="1_8rfgd"]
 [ext_resource type="PackedScene" uid="uid://btawln3qidduy" path="res://root/scenes/scene/game_scene/game_content/game_entities/enemy_slime/enemy_slime.tscn" id="2_ua44u"]
 [ext_resource type="PackedScene" uid="uid://bwdujvrtv1omi" path="res://root/scenes/scene/game_scene/game_content/game_entities/enemy_turrets/enemy_turret_01/turret_01.tscn" id="3_erney"]
@@ -1048,6 +1049,7 @@ separation = Vector2i(1, 1)
 sources/0 = SubResource("TileSetAtlasSource_ua44u")
 
 [node name="Level" type="Node2D" unique_id=287349216]
+script = ExtResource("1_0hebw")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=924607179]
 scale = Vector2(2, 2)

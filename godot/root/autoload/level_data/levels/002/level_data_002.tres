@@ -1,39 +1,39 @@
 [gd_resource type="Resource" script_class="LevelData" format=3 uid="uid://b14ummy131opn"]
 
-[ext_resource type="Script" uid="uid://cytoc3vvi02bv" path="res://root/autoload/level_data/enemy_wave_config.gd" id="1_d17ne"]
-[ext_resource type="Script" uid="uid://wx0so0300s53" path="res://root/autoload/level_data/powerup_wave_config.gd" id="2_udwe2"]
-[ext_resource type="Script" uid="uid://5kaliud6km2p" path="res://root/autoload/level_data/level_data.gd" id="3_0eqoh"]
+[ext_resource type="Script" uid="uid://cytoc3vvi02bv" path="res://root/autoload/level_data/enemy_wave_config.gd" id="1_aj0ub"]
+[ext_resource type="Script" uid="uid://wx0so0300s53" path="res://root/autoload/level_data/powerup_wave_config.gd" id="2_mlaoo"]
+[ext_resource type="Script" uid="uid://5kaliud6km2p" path="res://root/autoload/level_data/level_data.gd" id="3_t06g0"]
 
 [sub_resource type="Resource" id="Resource_d17ne"]
-script = ExtResource("1_d17ne")
+script = ExtResource("1_aj0ub")
 time_stamp = "0:05"
 type = "Slime"
-spawn_points = Array[int]([2])
+spawn_points = Array[int]([2, 0])
 metadata/_custom_type_script = "uid://cytoc3vvi02bv"
 
 [sub_resource type="Resource" id="Resource_udwe2"]
-script = ExtResource("1_d17ne")
+script = ExtResource("1_aj0ub")
 time_stamp = "0:30"
 type = "Slime"
 spawn_points = Array[int]([2])
 metadata/_custom_type_script = "uid://cytoc3vvi02bv"
 
 [sub_resource type="Resource" id="Resource_0eqoh"]
-script = ExtResource("1_d17ne")
+script = ExtResource("1_aj0ub")
 time_stamp = "1:00"
 type = "Slime"
 spawn_points = Array[int]([2])
 metadata/_custom_type_script = "uid://cytoc3vvi02bv"
 
 [sub_resource type="Resource" id="Resource_0cija"]
-script = ExtResource("2_udwe2")
+script = ExtResource("2_mlaoo")
 time_stamp = "0:10"
 type = "SpeedUp"
 metadata/_custom_type_script = "uid://wx0so0300s53"
 
 [resource]
-script = ExtResource("3_0eqoh")
+script = ExtResource("3_t06g0")
 level_name = "First Level"
-enemy_wave_config = Array[ExtResource("1_d17ne")]([SubResource("Resource_d17ne"), SubResource("Resource_udwe2"), SubResource("Resource_0eqoh")])
-powerup_wave_config = Array[ExtResource("2_udwe2")]([SubResource("Resource_0cija")])
+enemy_wave_config = Array[ExtResource("1_aj0ub")]([SubResource("Resource_d17ne"), SubResource("Resource_udwe2"), SubResource("Resource_0eqoh")])
+powerup_wave_config = Array[ExtResource("2_mlaoo")]([SubResource("Resource_0cija")])
 metadata/_custom_type_script = "uid://5kaliud6km2p"

@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://7kk3o001ovb5" path="res://root/scenes/scene/game_scene/game_content/game_levels/level.gd" id="1_konu4"]
 [ext_resource type="Texture2D" uid="uid://iasdy6e4dgxo" path="res://root/assets/image/game/sprites/roguelikeCity_magenta.png" id="1_nerwf"]
 [ext_resource type="PackedScene" uid="uid://dljv1vlu75c78" path="res://root/scenes/scene/game_scene/game_content/game_entities/object_level_transition_area/level_transition.tscn" id="2_38wbn"]
-[ext_resource type="Resource" uid="uid://b14ummy131opn" path="res://root/autoload/level_data/levels/001/level_data_001.tres" id="2_dhvo7"]
+[ext_resource type="Resource" uid="uid://b14ummy131opn" path="res://root/autoload/level_data/levels/002/level_data_002.tres" id="2_dhvo7"]
 [ext_resource type="PackedScene" uid="uid://bkbrd2ibjvjvk" path="res://root/scenes/scene/game_scene/game_content/game_entities/object_enemy_wave_spawner/enemy_wave_spawner.tscn" id="3_44iox"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ua44u"]
@@ -1061,4 +1061,16 @@ level = "uid://jx28vruddx8o"
 side = 2
 
 [node name="EnemyWaveSpawner" parent="." unique_id=99171236 instance=ExtResource("3_44iox")]
-position = Vector2(537, -1)
+position = Vector2(544, -26)
+side = 1
+
+[node name="EnemyWaveSpawner2" parent="." unique_id=836936471 instance=ExtResource("3_44iox")]
+position = Vector2(1178, 334)
+side = 2
+
+[node name="EnemyWaveSpawner3" parent="." unique_id=1288930692 instance=ExtResource("3_44iox")]
+position = Vector2(545, 666)
+side = 3
+
+[node name="EnemyWaveSpawner4" parent="." unique_id=1060793127 instance=ExtResource("3_44iox")]
+position = Vector2(-26, 330)
