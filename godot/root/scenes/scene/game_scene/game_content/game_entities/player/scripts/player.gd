@@ -42,6 +42,8 @@ var time_between_shot: float = 0.25
 var can_shoot: bool = true
 var shot_force: float = 50
 
+var mouse_captured: bool = false
+
 
 func _ready() -> void:
 	add_to_group("player")
@@ -118,3 +120,13 @@ func update_animation_parameters() -> void:
 
 	animation_tree["parameters/Run/blend_position"] = input_move
 	animation_tree["parameters/Walk/blend_position"] = input_move
+
+
+func capture_mouse() -> void:
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	mouse_captured = true
+
+
+func release_mouse() -> void:
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	mouse_captured = false

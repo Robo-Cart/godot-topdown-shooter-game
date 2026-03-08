@@ -8,6 +8,8 @@
 script = ExtResource("1_aj0ub")
 time_stamp = "0:05"
 type = "Slime"
+number_of_enemies = 10
+seconds_to_spawn_over = 2.0
 spawn_points = Array[int]([2, 0])
 metadata/_custom_type_script = "uid://cytoc3vvi02bv"
 
@@ -15,6 +17,8 @@ metadata/_custom_type_script = "uid://cytoc3vvi02bv"
 script = ExtResource("1_aj0ub")
 time_stamp = "0:30"
 type = "Slime"
+number_of_enemies = 10
+seconds_to_spawn_over = 1.5
 spawn_points = Array[int]([2])
 metadata/_custom_type_script = "uid://cytoc3vvi02bv"
 
@@ -22,6 +26,8 @@ metadata/_custom_type_script = "uid://cytoc3vvi02bv"
 script = ExtResource("1_aj0ub")
 time_stamp = "1:00"
 type = "Slime"
+number_of_enemies = 20
+seconds_to_spawn_over = 2.0
 spawn_points = Array[int]([2])
 metadata/_custom_type_script = "uid://cytoc3vvi02bv"
 

@@ -1,11 +1,126 @@
-extends Node
+extends Node2D
 
-@export var level_data: Resource
+@export var level_data: LevelData
+
+var level_timer: float = 0.0
+var current_spawn_index: int = 0
+var spawn_queue: Array[Dictionary] = []
 
 
 func _ready() -> void:
+	if not level_data:
+		LogWrapper.debug(self, "CRITICAL ERROR: No LevelData assigned to Level!")
+		set_process(false)
+		return
+
 	debug_print_level_data(level_data)
-	pass
+
+	_build_spawn_queue()
+
+
+func _build_spawn_queue() -> void:
+	# --- 1. Process Enemy Waves ---
+	for wave in level_data.enemy_wave_config:
+		var num_enemies: int = wave.number_of_enemies
+		var duration: float = wave.seconds_to_spawn_over
+		var num_spawn_points: int = wave.spawn_points.size()
+
+		if num_spawn_points == 0:
+			LogWrapper.debug(
+				self, "Warning: Enemy wave at %s has no spawn points. Skipping." % wave.time_stamp
+			)
+			continue
+
+		var time_interval: float = 0.0
+		if num_enemies > 1 and duration > 0.0:
+			time_interval = duration / float(num_enemies - 1)
+
+		for i in range(num_enemies):
+			var exact_spawn_time: float = wave.time + (i * time_interval)
+			var point: EnemyWaveConfig.Direction = wave.spawn_points[i % num_spawn_points]
+
+			spawn_queue.append(
+				{
+					"time": exact_spawn_time,
+					"category": "enemy",
+					"type": wave.type,
+					"direction": point,
+					"wave_stamp": wave.time_stamp
+				}
+			)
+
+	# --- 2. Process Powerup Waves ---
+	for powerup in level_data.powerup_wave_config:
+		var exact_spawn_time: float = powerup.time
+
+		# Apply the random factor (deviate by +/- seconds)
+		if powerup.random_factor > 0:
+			var deviation: float = randf_range(
+				-float(powerup.random_factor), float(powerup.random_factor)
+			)
+			exact_spawn_time = max(0.0, exact_spawn_time + deviation)  # Prevent spawning in negative time
+
+		spawn_queue.append(
+			{
+				"time": exact_spawn_time,
+				"category": "powerup",
+				"type": powerup.type,
+				"direction": -1,  # Powerups don't use this enum, so we pass a dummy value
+				"wave_stamp": powerup.time_stamp
+			}
+		)
+
+	# --- 3. Sort the Unified Timeline ---
+	spawn_queue.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return a.time < b.time)
+
+	LogWrapper.debug(
+		self, "Built unified spawn queue with %d total events scheduled." % spawn_queue.size()
+	)
+
+
+func _process(delta: float) -> void:
+	level_timer += delta
+	_check_spawns()
+
+
+func _check_spawns() -> void:
+	while (
+		current_spawn_index < spawn_queue.size()
+		and level_timer >= spawn_queue[current_spawn_index].time
+	):
+		var spawn_data: Dictionary = spawn_queue[current_spawn_index]
+
+		# Route the spawn event to the correct function based on its category
+		if spawn_data.category == "enemy":
+			_spawn_enemy(spawn_data.type, spawn_data.direction, spawn_data.wave_stamp)
+		elif spawn_data.category == "powerup":
+			_spawn_powerup(spawn_data.type, spawn_data.wave_stamp)
+
+		current_spawn_index += 1
+
+		if current_spawn_index >= spawn_queue.size():
+			LogWrapper.debug(self, "All scheduled events (enemies and powerups) have been spawned.")
+
+
+func _spawn_enemy(
+	enemy_type: String, direction: EnemyWaveConfig.Direction, wave_stamp: String
+) -> void:
+	var dir_name: String = EnemyWaveConfig.Direction.keys()[direction]
+	LogWrapper.debug(
+		self, "[Wave %s] -> Spawning 1x ENEMY (%s) at %s" % [wave_stamp, enemy_type, dir_name]
+	)
+
+	# =========================================================
+	# TODO: Instantiate Enemy
+	# =========================================================
+
+
+func _spawn_powerup(powerup_type: String, wave_stamp: String) -> void:
+	LogWrapper.debug(self, "[Wave %s] -> Spawning 1x POWERUP (%s)" % [wave_stamp, powerup_type])
+
+	# =========================================================
+	# TODO: Instantiate Powerup
+	# =========================================================
 
 
 func debug_print_level_data(level: LevelData) -> void:
@@ -36,8 +151,15 @@ func debug_print_level_data(level: LevelData) -> void:
 		LogWrapper.debug(
 			self,
 			(
-				"  [%s] (%ss) | Type: %s | Density: %d | Spawns: [%s]"
-				% [wave.time_stamp, wave.time, wave.type, wave.density, points_str.strip_edges()]
+				"  [%s] (%ss) | Type: %s | Number: %d | SpawnsOver: [%d] | Spawns: [%s]"
+				% [
+					wave.time_stamp,
+					wave.time,
+					wave.type,
+					wave.number_of_enemies,
+					wave.seconds_to_spawn_over,
+					points_str.strip_edges()
+				]
 			)
 		)
 

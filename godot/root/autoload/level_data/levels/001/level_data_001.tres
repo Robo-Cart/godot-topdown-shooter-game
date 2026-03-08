@@ -1,0 +1,44 @@
+[gd_resource type="Resource" script_class="LevelData" format=3 uid="uid://bpa63g7xjurmg"]
+
+[ext_resource type="Script" uid="uid://cytoc3vvi02bv" path="res://root/autoload/level_data/enemy_wave_config.gd" id="1_h2dgw"]
+[ext_resource type="Script" uid="uid://wx0so0300s53" path="res://root/autoload/level_data/powerup_wave_config.gd" id="2_2e75j"]
+[ext_resource type="Script" uid="uid://5kaliud6km2p" path="res://root/autoload/level_data/level_data.gd" id="3_rrj7j"]
+
+[sub_resource type="Resource" id="Resource_d17ne"]
+script = ExtResource("1_h2dgw")
+time_stamp = "0:05"
+type = "Slime"
+number_of_enemies = 5
+seconds_to_spawn_over = 2.0
+spawn_points = Array[int]([2, 0])
+metadata/_custom_type_script = "uid://cytoc3vvi02bv"
+
+[sub_resource type="Resource" id="Resource_udwe2"]
+script = ExtResource("1_h2dgw")
+time_stamp = "0:30"
+type = "Slime"
+number_of_enemies = 4
+seconds_to_spawn_over = 3.0
+spawn_points = Array[int]([2])
+metadata/_custom_type_script = "uid://cytoc3vvi02bv"
+
+[sub_resource type="Resource" id="Resource_0eqoh"]
+script = ExtResource("1_h2dgw")
+time_stamp = "1:00"
+type = "Slime"
+number_of_enemies = 6
+spawn_points = Array[int]([2])
+metadata/_custom_type_script = "uid://cytoc3vvi02bv"
+
+[sub_resource type="Resource" id="Resource_0cija"]
+script = ExtResource("2_2e75j")
+time_stamp = "0:10"
+type = "SpeedUp"
+metadata/_custom_type_script = "uid://wx0so0300s53"
+
+[resource]
+script = ExtResource("3_rrj7j")
+level_name = "First Level"
+enemy_wave_config = Array[ExtResource("1_h2dgw")]([SubResource("Resource_d17ne"), SubResource("Resource_udwe2"), SubResource("Resource_0eqoh")])
+powerup_wave_config = Array[ExtResource("2_2e75j")]([SubResource("Resource_0cija")])
+metadata/_custom_type_script = "uid://5kaliud6km2p"

@@ -10,7 +10,8 @@ enum Direction { NORTH, EAST, SOUTH, WEST, RANDOM_SIDE, RANDOM_INNER }
 
 var time: float = 0.0
 @export var type: String
-@export var density: int = 1
+@export var number_of_enemies: int = 1
+@export var seconds_to_spawn_over: float = 1.0
 @export var spawn_points: Array[Direction]
 
 
