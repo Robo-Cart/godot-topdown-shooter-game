@@ -1,7 +1,9 @@
 [gd_scene format=4 uid="uid://2f3qn8v0yjsb"]
 
+[ext_resource type="Script" uid="uid://7kk3o001ovb5" path="res://root/scenes/scene/game_scene/game_content/game_levels/level.gd" id="1_konu4"]
 [ext_resource type="Texture2D" uid="uid://iasdy6e4dgxo" path="res://root/assets/image/game/sprites/roguelikeCity_magenta.png" id="1_nerwf"]
 [ext_resource type="PackedScene" uid="uid://dljv1vlu75c78" path="res://root/scenes/scene/game_scene/game_content/game_entities/object_level_transition_area/level_transition.tscn" id="2_38wbn"]
+[ext_resource type="Resource" uid="uid://b14ummy131opn" path="res://root/autoload/level_data/levels/001/level_data_001.tres" id="2_dhvo7"]
 [ext_resource type="PackedScene" uid="uid://bkbrd2ibjvjvk" path="res://root/scenes/scene/game_scene/game_content/game_entities/object_enemy_wave_spawner/enemy_wave_spawner.tscn" id="3_44iox"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ua44u"]
@@ -1045,6 +1047,8 @@ separation = Vector2i(1, 1)
 sources/0 = SubResource("TileSetAtlasSource_ua44u")
 
 [node name="Level" type="Node2D" unique_id=287349216]
+script = ExtResource("1_konu4")
+level_data = ExtResource("2_dhvo7")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=924607179]
 scale = Vector2(2, 2)
