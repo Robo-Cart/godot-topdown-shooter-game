@@ -1,9 +1,10 @@
 extends Node2D
 
-enum Side { NORTH, EAST, SOUTH, WEST }
+enum Location { NORTH, EAST, SOUTH, WEST, INNER }
 
-@export var side: Side
+@export var location: Location
 
 
 func _ready() -> void:
-	pass
+	if self.location == Location.INNER:
+		self.add_to_group("enemy_wave_spawner_inner")

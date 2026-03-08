@@ -37,14 +37,14 @@ func _build_spawn_queue() -> void:
 
 		for i in range(num_enemies):
 			var exact_spawn_time: float = wave.time + (i * time_interval)
-			var point: EnemyWaveConfig.Direction = wave.spawn_points[i % num_spawn_points]
+			var point: EnemyWaveConfig.Location = wave.spawn_points[i % num_spawn_points]
 
 			spawn_queue.append(
 				{
 					"time": exact_spawn_time,
 					"category": "enemy",
 					"type": wave.type,
-					"direction": point,
+					"location": point,
 					"wave_stamp": wave.time_stamp
 				}
 			)
@@ -103,11 +103,11 @@ func _check_spawns() -> void:
 
 
 func _spawn_enemy(
-	enemy_type: String, direction: EnemyWaveConfig.Direction, wave_stamp: String
+	enemy_type: String, location: EnemyWaveConfig.Location, wave_stamp: String
 ) -> void:
-	var dir_name: String = EnemyWaveConfig.Direction.keys()[direction]
+	var loc_name: String = EnemyWaveConfig.Location.keys()[location]
 	LogWrapper.debug(
-		self, "[Wave %s] -> Spawning 1x ENEMY (%s) at %s" % [wave_stamp, enemy_type, dir_name]
+		self, "[Wave %s] -> Spawning 1x ENEMY (%s) at %s" % [wave_stamp, enemy_type, loc_name]
 	)
 
 	# =========================================================
@@ -146,7 +146,7 @@ func debug_print_level_data(level: LevelData) -> void:
 		# Convert the Enum array to readable string using the new Enum keys
 		var points_str: String = ""
 		for p in wave.spawn_points:
-			points_str += EnemyWaveConfig.Direction.keys()[p] + " "
+			points_str += EnemyWaveConfig.Location.keys()[p] + " "
 
 		LogWrapper.debug(
 			self,

@@ -1,7 +1,7 @@
 extends Resource
 class_name EnemyWaveConfig
 
-enum Direction { NORTH, EAST, SOUTH, WEST, RANDOM_SIDE, RANDOM_INNER }
+enum Location { NORTH, EAST, SOUTH, WEST, RANDOM_SIDE, RANDOM_INNER }
 
 @export var time_stamp: String = "0:00":
 	set(value):
@@ -12,7 +12,7 @@ var time: float = 0.0
 @export var type: String
 @export var number_of_enemies: int = 1
 @export var seconds_to_spawn_over: float = 1.0
-@export var spawn_points: Array[Direction]
+@export var spawn_points: Array[Location]
 
 
 func _convert_to_seconds(string_time: String) -> float:
