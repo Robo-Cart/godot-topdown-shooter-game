@@ -9,7 +9,7 @@ enum Location { NORTH, EAST, SOUTH, WEST, RANDOM_SIDE, RANDOM_INNER }
 		time = _convert_to_seconds(value)
 
 var time: float = 0.0
-@export var type: String
+@export_file(".tscn") var enemy_scene_path: String
 @export var number_of_enemies: int = 1
 @export var seconds_to_spawn_over: float = 1.0
 @export var spawn_points: Array[Location]

@@ -2,6 +2,8 @@ extends Node2D
 
 @export var level_data: LevelData
 
+@onready var player: Player = get_tree().get_first_node_in_group("player")
+
 var level_timer: float = 0.0
 var current_spawn_index: int = 0
 var spawn_queue: Array[Dictionary] = []
@@ -43,7 +45,7 @@ func _build_spawn_queue() -> void:
 				{
 					"time": exact_spawn_time,
 					"category": "enemy",
-					"type": wave.type,
+					"enemy_scene_path": wave.enemy_scene_path,
 					"location": point,
 					"wave_stamp": wave.time_stamp
 				}
@@ -92,7 +94,7 @@ func _check_spawns() -> void:
 
 		# Route the spawn event to the correct function based on its category
 		if spawn_data.category == "enemy":
-			_spawn_enemy(spawn_data.type, spawn_data.location, spawn_data.wave_stamp)
+			_spawn_enemy(spawn_data.enemy_scene_path, spawn_data.location, spawn_data.wave_stamp)
 		elif spawn_data.category == "powerup":
 			_spawn_powerup(spawn_data.type, spawn_data.wave_stamp)
 
@@ -103,16 +105,28 @@ func _check_spawns() -> void:
 
 
 func _spawn_enemy(
-	enemy_type: String, location: EnemyWaveConfig.Location, wave_stamp: String
+	scene_path: String, location: EnemyWaveConfig.Location, wave_stamp: String
 ) -> void:
 	var loc_name: String = EnemyWaveConfig.Location.keys()[location]
+
+	# Extract just the scene name from the path (e.g., "res://enemies/Slime.tscn" -> "Slime")
+	var scene_name: String = scene_path.get_file().get_basename()
+
 	LogWrapper.debug(
-		self, "[Wave %s] -> Spawning 1x ENEMY (%s) at %s" % [wave_stamp, enemy_type, loc_name]
+		self, "[Wave %s] -> Spawning 1x ENEMY (%s) at %s" % [wave_stamp, scene_name, loc_name]
 	)
 
-	# =========================================================
-	# TODO: Instantiate Enemy
-	# =========================================================
+	# Load and instantiate the scene
+	var enemy_scene: PackedScene = load(scene_path)
+	if enemy_scene:
+		var enemy_instance: Node = enemy_scene.instantiate()
+		add_child(enemy_instance)  # Adds it to the Level node
+
+		# =========================================================
+		# TODO: Set enemy_instance.global_position based on 'location'
+		# =========================================================
+	else:
+		LogWrapper.debug(self, "ERROR: Failed to load enemy scene at path: %s" % scene_path)
 
 
 func _spawn_powerup(powerup_type: String, wave_stamp: String) -> void:
@@ -155,7 +169,7 @@ func debug_print_level_data(level: LevelData) -> void:
 				% [
 					wave.time_stamp,
 					wave.time,
-					wave.type,
+					wave.enemy_scene_path,
 					wave.number_of_enemies,
 					wave.seconds_to_spawn_over,
 					points_str.strip_edges()

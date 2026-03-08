@@ -1061,16 +1061,29 @@ level = "uid://jx28vruddx8o"
 side = 2
 
 [node name="EnemyWaveSpawner" parent="." unique_id=99171236 instance=ExtResource("3_44iox")]
-position = Vector2(544, -26)
-side = 1
+position = Vector2(546, 2)
 
 [node name="EnemyWaveSpawner2" parent="." unique_id=836936471 instance=ExtResource("3_44iox")]
-position = Vector2(1178, 334)
-side = 2
+position = Vector2(1151, 321)
 
 [node name="EnemyWaveSpawner3" parent="." unique_id=1288930692 instance=ExtResource("3_44iox")]
-position = Vector2(545, 666)
-side = 3
+position = Vector2(545, 639)
 
 [node name="EnemyWaveSpawner4" parent="." unique_id=1060793127 instance=ExtResource("3_44iox")]
-position = Vector2(-26, 330)
+position = Vector2(1, 321)
+
+[node name="EnemyWaveSpawner5" parent="." unique_id=1464128436 instance=ExtResource("3_44iox")]
+position = Vector2(433, 223)
+location = 4
+
+[node name="EnemyWaveSpawner6" parent="." unique_id=224686793 instance=ExtResource("3_44iox")]
+position = Vector2(353, 431)
+location = 4
+
+[node name="EnemyWaveSpawner7" parent="." unique_id=855379765 instance=ExtResource("3_44iox")]
+position = Vector2(719, 250)
+location = 4
+
+[node name="EnemyWaveSpawner8" parent="." unique_id=1045792306 instance=ExtResource("3_44iox")]
+position = Vector2(686, 460)
+location = 4
