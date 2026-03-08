@@ -16,6 +16,8 @@ extends CharacterBody2D
 
 signal damaged(attack: AttackEntity)
 
+@export var display_name: String = "Slime"
+
 @export var animation_tree: AnimationTree
 @onready var playback: AnimationNodeStateMachinePlayback
 @onready var sprite: Sprite2D = $Sprite2D
@@ -53,8 +55,9 @@ func _physics_process(_delta: float) -> void:
 
 # visual distance for states
 func _draw() -> void:
-	draw_arc(Vector2.ZERO, detection_radius, 0, 360, 50, Color.DARK_SALMON, 0.5, true)
-	draw_arc(Vector2.ZERO, attack_range, 0, 360, 50, Color.CRIMSON, 0.5, true)
+	#draw_arc(Vector2.ZERO, detection_radius, 0, 360, 50, Color.DARK_SALMON, 0.5, true)
+	#draw_arc(Vector2.ZERO, attack_range, 0, 360, 50, Color.CRIMSON, 0.5, true)
+	pass
 
 
 func play_animation(_name: String) -> void:
