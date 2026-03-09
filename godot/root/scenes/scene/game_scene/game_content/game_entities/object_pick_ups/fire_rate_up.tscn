@@ -7,7 +7,9 @@
 radius = 8.0
 
 [node name="FireRateUp" type="Area2D" unique_id=451390207]
-collision_mask = 16
+collision_layer = 32768
+collision_mask = 0
+monitoring = false
 script = ExtResource("1_f1rj3")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1082715258]
@@ -19,8 +21,6 @@ frame = 2
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=144831194]
 shape = SubResource("CircleShape2D_pyh01")
 
-[node name="Timer" type="Timer" parent="." unique_id=760387334]
-
 [node name="RichTextLabel" type="RichTextLabel" parent="." unique_id=1761874218]
 modulate = Color(0, 0, 0, 1)
 offset_left = -14.000001
@@ -29,6 +29,3 @@ offset_right = 89.00411
 offset_bottom = 35.0
 scale = Vector2(0.28154218, 0.28154218)
 text = "Fire Rate  Up"
-
-[connection signal="body_entered" from="." to="." method="_on_body_entered"]
-[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

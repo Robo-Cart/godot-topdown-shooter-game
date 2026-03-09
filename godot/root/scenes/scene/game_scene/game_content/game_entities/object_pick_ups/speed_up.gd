@@ -1,30 +1,15 @@
-extends Area2D
+extends Powerup
 
-@export var NewSpeed = 400.0
-@export var NewAcceleration = 1600
-@export var PickUpTime : float = 10
-var OldSpeed
-var OldAcceleration
-var Player
+@export var speed_increase: float = 50.0
+@export var acceleration_increase: float = 200.0
+
 
 func _ready() -> void:
-	$Timer.wait_time = PickUpTime
-
-func _on_body_entered(body):	
-	if body.is_in_group("player"):
-		Player = body
-		$Timer.start()	
-		OldSpeed = body.MAX_SPEED
-		OldAcceleration = body.ACCELERATION
-		body.MAX_SPEED = NewSpeed
-		body.ACCELERATION = NewAcceleration
-		hide()
-		set_deferred("monitoring", false)
-	
-	#hide from scene
+	display_name = "Speed Up"
+	buff_id = "speed_up"
 
 
-func _on_timer_timeout() -> void:
-	Player.MAX_SPEED = OldSpeed
-	Player.ACCELERATION = OldAcceleration
-	queue_free()
+func apply_effect(target: Node) -> void:
+	if target is Player:
+		target.MAX_SPEED += speed_increase
+		target.ACCELERATION += acceleration_increase

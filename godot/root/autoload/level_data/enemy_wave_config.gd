@@ -1,8 +1,6 @@
-@tool  # <-- REQUIRED: Allows this script to run inside the Godot Editor
+@tool
 extends Resource
 class_name EnemyWaveConfig
-
-enum Location { NORTH, EAST, SOUTH, WEST, RANDOM_SIDE, RANDOM_INNER }
 
 @export var time_stamp: String = "0:00":
 	set(value):
@@ -12,8 +10,6 @@ enum Location { NORTH, EAST, SOUTH, WEST, RANDOM_SIDE, RANDOM_INNER }
 var time: float = 0.0
 
 @export var enemy_name: String = "Default Enemy"
-
-# Added a setter here so it triggers when you assign a file in the Inspector
 @export_file("*.tscn") var enemy_scene_path: String:
 	set(value):
 		enemy_scene_path = value
@@ -21,7 +17,9 @@ var time: float = 0.0
 
 @export var number_of_enemies: int = 1
 @export var seconds_to_spawn_over: float = 0.0
-@export var spawn_points: Array[Location]
+
+# Uses the globally shared enum
+@export var spawn_points: Array[SpawnConfig.Location]
 
 
 func _convert_to_seconds(string_time: String) -> float:
@@ -42,8 +40,6 @@ func _update_enemy_name() -> void:
 		var temp_instance: Node = scene.instantiate()
 		if "display_name" in temp_instance:
 			enemy_name = temp_instance.get("display_name")
-
 		else:
 			enemy_name = enemy_scene_path.get_file().get_basename().capitalize()
-
 		temp_instance.free()

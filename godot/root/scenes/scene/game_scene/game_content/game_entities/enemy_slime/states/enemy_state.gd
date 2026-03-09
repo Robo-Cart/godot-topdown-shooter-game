@@ -8,7 +8,7 @@ extends Node
 
 signal transitioned(state: EnemyState, new_state_name: String)
 
-@onready var enemy: Enemy = get_owner()
+@onready var enemy: EnemySlime = get_owner()
 var player: Player
 
 

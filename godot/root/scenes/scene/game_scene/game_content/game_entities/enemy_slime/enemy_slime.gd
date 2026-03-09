@@ -1,22 +1,9 @@
-class_name Enemy
+class_name EnemySlime
 extends CharacterBody2D
-
-#########################################################
-# I tend to keep the top level node's functionality
-# small. Here, this node is responsible for common state
-# variables, passing the damaged signal around, and
-# picking a random texture on spawn.
-#
-# For the most part, other functionality that controls
-# the enemy is handled by specific states.
-#
-# ex. Movement is handled by states setting velocity
-# and calling move_and_slide()
-########################################################
 
 signal damaged(attack: AttackEntity)
 
-@export var display_name: String = "Slime"
+@export var display_name: String = "Enemy"
 
 @export var animation_tree: AnimationTree
 @onready var playback: AnimationNodeStateMachinePlayback

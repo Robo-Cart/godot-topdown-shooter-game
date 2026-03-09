@@ -37,7 +37,7 @@ metadata/_custom_type_script = "uid://cytoc3vvi02bv"
 [sub_resource type="Resource" id="Resource_0cija"]
 script = ExtResource("2_mlaoo")
 time_stamp = "0:10"
-type = "SpeedUp"
+powerup_scene_path = "uid://dmy8ofvovrvfp"
 metadata/_custom_type_script = "uid://wx0so0300s53"
 
 [resource]

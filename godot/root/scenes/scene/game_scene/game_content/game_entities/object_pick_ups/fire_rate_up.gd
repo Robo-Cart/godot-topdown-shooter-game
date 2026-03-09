@@ -1,25 +1,17 @@
-extends Area2D
+extends Powerup
 
-@export var Newtime_between_shot = 0.1
-@export var PickUpTime : float = 10
-var Oldtime_between_shot
-var Player
+@export var fire_rate_decrease: float = 0.05
+@export var min_fire_rate: float = 0.05  # The absolute maximum speed allowed
+
 
 func _ready() -> void:
-	$Timer.wait_time = PickUpTime
-
-func _on_body_entered(body):	
-	if body.is_in_group("player"):
-		Player = body
-		$Timer.start()
-		Oldtime_between_shot = body.get_node("ShootTimer").wait_time
-		body.get_node("ShootTimer").wait_time = Newtime_between_shot
-		hide()
-		set_deferred("monitoring", false)
-	
-	#hide from scene
+	display_name = "Fire Rate Up"
+	buff_id = "fire_rate_up"
 
 
-func _on_timer_timeout() -> void:
-	Player.get_node("ShootTimer").wait_time = Oldtime_between_shot
-	queue_free()
+func apply_effect(target: Node) -> void:
+	if target is Player:
+		var shoot_timer: Timer = target.get_node_or_null("ShootTimer")
+		if shoot_timer:
+			# Subtract the time, but clamp it so it never goes below our minimum
+			shoot_timer.wait_time = max(min_fire_rate, shoot_timer.wait_time - fire_rate_decrease)

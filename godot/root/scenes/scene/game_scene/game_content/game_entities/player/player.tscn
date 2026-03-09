@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://dp7las3k0aedv" path="res://root/scenes/scene/game_scene/game_content/game_entities/player/scripts/camera.gd" id="2_35iur"]
 [ext_resource type="PackedScene" uid="uid://gdtd3ifo2lka" path="res://root/scenes/scene/game_scene/game_content/game_entities/player/player_3d.tscn" id="3_357pk"]
 [ext_resource type="AudioStream" uid="uid://dpsm18x5ojmb4" path="res://root/assets/audio/sfx/weapons/AR15 Single Shot 3.wav" id="4_7wfn2"]
+[ext_resource type="Script" uid="uid://kdjcudlhj317" path="res://root/autoload/classes/collector_component.gd" id="5_4ffdf"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_h4fw4"]
 radius = 36.55575
@@ -11,6 +12,9 @@ radius = 36.55575
 [sub_resource type="Gradient" id="Gradient_1l0tm"]
 offsets = PackedFloat32Array(0, 0.46961325, 1)
 colors = PackedColorArray(0.92, 0.24978006, 0.064399995, 1, 0.468777, 0.46877706, 0.468777, 1, 0.24115604, 0.24115604, 0.24115604, 0.22745098)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_4ffdf"]
+radius = 66.805275
 
 [node name="Player" type="CharacterBody2D" unique_id=1625385929]
 light_mask = 2
@@ -90,5 +94,17 @@ color_ramp = SubResource("Gradient_1l0tm")
 stream = ExtResource("4_7wfn2")
 volume_db = -16.0
 pitch_scale = 0.63
+
+[node name="CollectorComponent" type="Area2D" parent="." unique_id=1543455494 node_paths=PackedStringArray("target_entity")]
+collision_layer = 0
+collision_mask = 32768
+monitorable = false
+script = ExtResource("5_4ffdf")
+target_entity = NodePath("..")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollectorComponent" unique_id=932450587]
+position = Vector2(6.4516125, 23.655916)
+shape = SubResource("CircleShape2D_4ffdf")
+debug_color = Color(0.7039947, 0.49024528, 0, 0.41960785)
 
 [connection signal="timeout" from="ShootTimer" to="." method="_on_shot_timer_timeout"]

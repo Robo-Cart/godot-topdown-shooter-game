@@ -24,6 +24,8 @@ var animation_tree: AnimationTree = $SubViewportContainer/SubViewport/Player_Man
 @export var MAX_SPEED: float = 200.0
 @export var ACCELERATION: float = 800.0
 
+var permanent_buffs: Dictionary = {}
+
 const FRICTION = 900.0
 
 const IS_PLAYER = true
@@ -89,6 +91,16 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 	select_animation()
 	update_animation_parameters()
+
+
+func add_buff(buff_name: String) -> void:
+	# If we already have this buff, add 1 to the stack. Otherwise, start at 1.
+	if permanent_buffs.has(buff_name):
+		permanent_buffs[buff_name] += 1
+	else:
+		permanent_buffs[buff_name] = 1
+
+	LogWrapper.debug(self, "Player Buffs Updated: " + str(permanent_buffs))
 
 
 func _shoot() -> void:
