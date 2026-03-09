@@ -7,6 +7,7 @@
 [sub_resource type="Resource" id="Resource_d17ne"]
 script = ExtResource("1_7rv1m")
 time_stamp = "0:05"
+enemy_name = "Enemy"
 enemy_scene_path = "uid://btawln3qidduy"
 number_of_enemies = 5
 seconds_to_spawn_over = 2.0
@@ -16,6 +17,7 @@ metadata/_custom_type_script = "uid://cytoc3vvi02bv"
 [sub_resource type="Resource" id="Resource_udwe2"]
 script = ExtResource("1_7rv1m")
 time_stamp = "0:30"
+enemy_name = "Enemy"
 enemy_scene_path = "uid://btawln3qidduy"
 number_of_enemies = 4
 seconds_to_spawn_over = 3.0
@@ -25,6 +27,7 @@ metadata/_custom_type_script = "uid://cytoc3vvi02bv"
 [sub_resource type="Resource" id="Resource_0eqoh"]
 script = ExtResource("1_7rv1m")
 time_stamp = "1:00"
+enemy_name = "Enemy"
 enemy_scene_path = "uid://btawln3qidduy"
 number_of_enemies = 6
 spawn_points = Array[int]([2])
@@ -33,7 +36,6 @@ metadata/_custom_type_script = "uid://cytoc3vvi02bv"
 [sub_resource type="Resource" id="Resource_0cija"]
 script = ExtResource("2_eg7wb")
 time_stamp = "0:10"
-type = "SpeedUp"
 metadata/_custom_type_script = "uid://wx0so0300s53"
 
 [resource]

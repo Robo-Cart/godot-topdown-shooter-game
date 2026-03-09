@@ -7,7 +7,7 @@
 [sub_resource type="Resource" id="Resource_d17ne"]
 script = ExtResource("1_aj0ub")
 time_stamp = "0:05"
-enemy_name = "Slime"
+enemy_name = "Enemy"
 enemy_scene_path = "uid://btawln3qidduy"
 number_of_enemies = 10
 seconds_to_spawn_over = 2.0
@@ -17,7 +17,7 @@ metadata/_custom_type_script = "uid://cytoc3vvi02bv"
 [sub_resource type="Resource" id="Resource_udwe2"]
 script = ExtResource("1_aj0ub")
 time_stamp = "0:30"
-enemy_name = "Slime"
+enemy_name = "Enemy"
 enemy_scene_path = "uid://btawln3qidduy"
 number_of_enemies = 10
 seconds_to_spawn_over = 1.5
@@ -27,7 +27,7 @@ metadata/_custom_type_script = "uid://cytoc3vvi02bv"
 [sub_resource type="Resource" id="Resource_0eqoh"]
 script = ExtResource("1_aj0ub")
 time_stamp = "1:00"
-enemy_name = "Slime"
+enemy_name = "Enemy"
 enemy_scene_path = "uid://btawln3qidduy"
 number_of_enemies = 20
 seconds_to_spawn_over = 2.0
