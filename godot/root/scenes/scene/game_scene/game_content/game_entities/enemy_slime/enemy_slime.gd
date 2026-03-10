@@ -1,34 +1,22 @@
 class_name EnemySlime
 extends CharacterBody2D
 
-signal damaged(attack: AttackEntity)
-
 @export var display_name: String = "Enemy"
 
 @export var animation_tree: AnimationTree
-@onready var playback: AnimationNodeStateMachinePlayback
+@onready var playback: AnimationNodeStateMachinePlayback = animation_tree.get("parameters/playback")
 @onready var sprite: Sprite2D = $Sprite2D
-@export var hit_flash: AnimationPlayer
 
 @export_group("Vision Ranges")
 @export var detection_radius: float = 175.0
 @export var attack_range: float = 20.0
 
-var alive: bool = true
 var stunned: bool = false
-
-var health: int = 5
-
-
-func on_damaged(attack: AttackEntity) -> void:
-	damaged.emit(attack)
 
 
 func _ready() -> void:
 	add_to_group("enemy")
 	animation_tree.active = true
-
-	playback = animation_tree.get("parameters/playback")
 
 	if playback == null:
 		push_error("AnimationTree playback is NULL. Check state machine setup.")
@@ -38,6 +26,10 @@ func _physics_process(_delta: float) -> void:
 	# Ensure facing direction of movement and do not revert to default facing when stopped
 	if velocity.x != 0:
 		sprite.flip_h = velocity.x < 0
+
+	# Assuming movement logic happens in your state machine,
+	# but ensure move_and_slide() is called either here or in the states!
+	move_and_slide()
 
 
 # visual distance for states
@@ -52,23 +44,3 @@ func play_animation(_name: String) -> void:
 		playback.travel(_name)
 	else:
 		push_error("Tried to play animation but playback is null.")
-
-
-func _set_health(_value: int) -> void:
-	if alive:
-		if health < 0:
-			alive = false
-			set_deferred("monitoring", false)
-			get_node("Sprite2D").hide()
-			$DeathAudio.play()
-			$DieTime.start()
-
-
-func _take_damage(value: int) -> void:
-	health += value
-	_set_health(health)
-	hit_flash.play("hit")
-
-
-func _on_die_time_timeout() -> void:
-	queue_free()  # Replace with function body.

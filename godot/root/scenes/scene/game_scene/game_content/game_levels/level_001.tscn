@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://iasdy6e4dgxo" path="res://root/assets/image/game/sprites/roguelikeCity_magenta.png" id="1_8rfgd"]
 [ext_resource type="Resource" uid="uid://bpa63g7xjurmg" path="res://root/autoload/level_data/levels/001/level_data_001.tres" id="2_43w7w"]
 [ext_resource type="PackedScene" uid="uid://btawln3qidduy" path="res://root/scenes/scene/game_scene/game_content/game_entities/enemy_slime/enemy_slime.tscn" id="2_ua44u"]
-[ext_resource type="PackedScene" uid="uid://bwdujvrtv1omi" path="res://root/scenes/scene/game_scene/game_content/game_entities/enemy_turrets/enemy_turret_01/turret_01.tscn" id="3_erney"]
+[ext_resource type="PackedScene" uid="uid://bwdujvrtv1omi" path="res://root/scenes/scene/game_scene/game_content/game_entities/enemy_turret/enemy_turret.tscn" id="3_erney"]
 [ext_resource type="PackedScene" uid="uid://c1w73wbkn1emn" path="res://root/scenes/scene/game_scene/game_content/game_entities/enemy_boss_01/boss_01.tscn" id="4_erney"]
 [ext_resource type="PackedScene" uid="uid://dljv1vlu75c78" path="res://root/scenes/scene/game_scene/game_content/game_entities/object_level_transition_area/level_transition.tscn" id="5_uejss"]
 

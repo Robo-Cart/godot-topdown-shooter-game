@@ -1,10 +1,14 @@
 [gd_scene format=3 uid="uid://bwdujvrtv1omi"]
 
-[ext_resource type="Script" uid="uid://bvnod7tbf3sec" path="res://root/scenes/scene/game_scene/game_content/game_entities/enemy_turrets/turret.gd" id="1_6spbj"]
+[ext_resource type="Script" uid="uid://bvnod7tbf3sec" path="res://root/scenes/scene/game_scene/game_content/game_entities/enemy_turret/enemy_turret.gd" id="1_6spbj"]
 [ext_resource type="Shader" uid="uid://g2cg0knko378" path="res://root/assets/image/game/sprites/Enemy/hit_flash.gdshader" id="2_6spbj"]
 [ext_resource type="Texture2D" uid="uid://bq24xqv1ko5ay" path="res://root/assets/image/game/sprites/TurretSprite2.png" id="2_hskch"]
 [ext_resource type="PackedScene" uid="uid://ce20ploalaift" path="res://root/scenes/scene/game_scene/game_content/game_entities/player/health_bar_scene.tscn" id="4_pulj5"]
 [ext_resource type="AudioStream" uid="uid://cvpgodueudekp" path="res://root/assets/audio/sfx/impacts/Explosion Raw 1.wav" id="5_ahfaj"]
+[ext_resource type="Script" uid="uid://ujpvmh8e02nj" path="res://root/scenes/component/combat/hurtbox_component/hurtbox_component.gd" id="6_2gb7b"]
+[ext_resource type="Script" uid="uid://7wd617sb8xtn" path="res://root/scenes/component/combat/health_component/health_component.gd" id="7_i7crw"]
+[ext_resource type="Script" uid="uid://7vrqbtiavfn" path="res://root/scenes/component/combat/hit_flash_component/hit_flash_component.gd" id="8_6uh07"]
+[ext_resource type="Script" uid="uid://bihaxf65bv1yl" path="res://root/scenes/component/combat/death_component/death_component.gd" id="9_j06tg"]
 
 [sub_resource type="Animation" id="Animation_61csa"]
 resource_name = "Down"
@@ -642,9 +646,6 @@ offset_top = -24.0
 offset_right = 11.0
 offset_bottom = -21.0
 
-[node name="DieTime" type="Timer" parent="." unique_id=658876946]
-wait_time = 0.25
-
 [node name="DieParticle" type="CPUParticles2D" parent="." unique_id=1701220864]
 position = Vector2(1.9073486e-06, 1.1368684e-13)
 emitting = false
@@ -670,12 +671,30 @@ color_ramp = SubResource("Gradient_pulj5")
 position = Vector2(1.9073486e-06, 1.1368684e-13)
 stream = ExtResource("5_ahfaj")
 
-[node name="Area2D" type="Area2D" parent="." unique_id=1452043034]
+[node name="HurtboxComponent" type="Area2D" parent="." unique_id=1452043034 node_paths=PackedStringArray("health_component")]
 position = Vector2(0, -5)
 collision_layer = 2
 collision_mask = 2
+script = ExtResource("6_2gb7b")
+health_component = NodePath("../HealthComponent")
 
-[node name="HurtBox" type="CollisionShape2D" parent="Area2D" unique_id=2067173272]
+[node name="HurtBox" type="CollisionShape2D" parent="HurtboxComponent" unique_id=2067173272]
 shape = SubResource("CircleShape2D_bxicx")
 
-[connection signal="timeout" from="DieTime" to="." method="_on_die_time_timeout"]
+[node name="HealthComponent" type="Node" parent="." unique_id=1060520870]
+script = ExtResource("7_i7crw")
+max_health = 10
+
+[node name="HitFlashComponent" type="Node" parent="." unique_id=972220393 node_paths=PackedStringArray("health_component", "hit_flash_anim")]
+script = ExtResource("8_6uh07")
+health_component = NodePath("../HealthComponent")
+hit_flash_anim = NodePath("../HitFlashAnim")
+
+[node name="DeathComponent" type="Node" parent="." unique_id=1253219107 node_paths=PackedStringArray("health_component", "entity", "sprite", "death_audio", "death_particles")]
+script = ExtResource("9_j06tg")
+health_component = NodePath("../HealthComponent")
+entity = NodePath("..")
+sprite = NodePath("../Sprite2D")
+death_audio = NodePath("../Explode")
+death_particles = NodePath("../DieParticle")
+metadata/_custom_type_script = "uid://bihaxf65bv1yl"

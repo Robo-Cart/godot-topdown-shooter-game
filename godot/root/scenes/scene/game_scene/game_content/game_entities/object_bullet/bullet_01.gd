@@ -14,22 +14,28 @@ func _ready() -> void:
 	$DistanceTimeout.wait_time = 1
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:
 	if !hit:
-		if (
-			RayCast.get_collider() != null
-			and RayCast.is_colliding()
-			and !RayCast.get_collider().is_in_group("player")
-		):
+		var collider = RayCast.get_collider()
+
+		if collider != null and RayCast.is_colliding() and !collider.is_in_group("player"):
 			Impact.play()
 			HitParticle.emitting = true
 			hit = true
 			texture = null
 			$DistanceTimeout.start()
 
-			if RayCast.get_collider().get_parent().is_in_group("enemy"):
-				RayCast.get_collider().get_parent()._take_damage(-1)
+		if collider is HurtboxComponent:
+			var attack = AttackEntity.new()
+			attack.damage = 1
+
+			attack.knockback_force = 300.0
+			attack.knockback_direction = Vector2(1, 0).rotated(rotation).normalized()
+
+			attack.element = "physical"
+			attack.attacker = self
+
+			collider.damage(attack)
 
 		global_position += Vector2(1, 0).rotated(rotation) * speed * delta
 

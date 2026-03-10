@@ -14,7 +14,13 @@ var player: Player
 
 func _ready() -> void:
 	player = get_tree().get_first_node_in_group("player")
-	enemy.damaged.connect(on_damaged)
+
+	var health_comp: HealthComponent = enemy.get_node_or_null("HealthComponent")
+
+	if health_comp:
+		health_comp.damaged.connect(on_damaged)
+	else:
+		push_error("EnemyState could not find a HealthComponent on ", enemy.name)
 
 
 # This is called directly when transitioning to this state
