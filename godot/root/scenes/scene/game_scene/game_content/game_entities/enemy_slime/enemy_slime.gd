@@ -27,10 +27,6 @@ func _physics_process(_delta: float) -> void:
 	if velocity.x != 0:
 		sprite.flip_h = velocity.x < 0
 
-	# Assuming movement logic happens in your state machine,
-	# but ensure move_and_slide() is called either here or in the states!
-	move_and_slide()
-
 
 # visual distance for states
 func _draw() -> void:

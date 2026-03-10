@@ -1,20 +1,15 @@
 extends Node
+class_name StateMachine
 
-#############################################
-# State machine as set up in my video on FSMs
-# https://www.youtube.com/watch?v=ow_Lum-Agbs
-# Code is clearer here though, better names
-#############################################
+@export var initial_state: State
 
-@export var initial_state: EnemyState
-
-var current_state: EnemyState
+var current_state: State
 var states: Dictionary = {}
 
 
 func _ready() -> void:
 	for child in get_children():
-		if child is EnemyState:
+		if child is State:
 			states[child.name.to_lower()] = child
 			child.transitioned.connect(on_child_transition)
 
@@ -33,18 +28,16 @@ func _physics_process(delta: float) -> void:
 		current_state.physics_process_state(delta)
 
 
-func on_child_transition(state: EnemyState, new_state_name: String) -> void:
+func on_child_transition(state: State, new_state_name: String) -> void:
 	if state != current_state:
 		return
 
-	var new_state: EnemyState = states.get(new_state_name.to_lower())
+	var new_state: State = states.get(new_state_name.to_lower())
 	if !new_state:
 		return
 
-	# Clean up the previous state
 	if current_state:
 		current_state.exit()
 
-	# Intialize the new state
 	new_state.enter()
 	current_state = new_state
