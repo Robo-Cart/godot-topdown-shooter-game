@@ -85,7 +85,7 @@ func select_animation() -> void:
 
 
 func update_animation_parameters() -> void:
-	var blend_vec = input_move
+	var blend_vec: Vector2 = input_move
 	if input_move != Vector2.ZERO:
 		blend_vec = input_move.rotated(player_man.rotation.y)
 

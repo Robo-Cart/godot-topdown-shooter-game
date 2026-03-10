@@ -493,7 +493,7 @@ _data = {
 }
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_po0sg"]
-radius = 9.848858
+radius = 14.0
 
 [node name="EnemySlime" type="CharacterBody2D" unique_id=569572327 node_paths=PackedStringArray("animation_tree")]
 script = ExtResource("1_ghu57")

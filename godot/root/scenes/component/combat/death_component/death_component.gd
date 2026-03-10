@@ -14,8 +14,23 @@ func _ready() -> void:
 
 
 func _on_died() -> void:
-	entity.set_deferred("collision_layer", 0)
-	entity.set_deferred("collision_mask", 0)
+	if entity is CollisionObject2D:
+		entity.set_deferred("collision_layer", 0)
+		entity.set_deferred("collision_mask", 0)
+		_disable_shapes(entity)
+
+	var hurtbox: Area2D = null
+	if entity.has_node("HurtboxComponent"):
+		hurtbox = entity.get_node("HurtboxComponent")
+	elif get_parent().has_node("HurtboxComponent"):
+		hurtbox = get_parent().get_node("HurtboxComponent")
+
+	if hurtbox:
+		hurtbox.set_deferred("collision_layer", 0)
+		hurtbox.set_deferred("collision_mask", 0)
+		hurtbox.set_deferred("monitoring", false)
+		hurtbox.set_deferred("monitorable", false)
+		_disable_shapes(hurtbox)
 
 	if sprite:
 		sprite.hide()
@@ -28,3 +43,9 @@ func _on_died() -> void:
 		await death_audio.finished
 
 	entity.queue_free()
+
+
+func _disable_shapes(node: Node) -> void:
+	for child in node.get_children():
+		if child is CollisionShape2D or child is CollisionPolygon2D:
+			child.set_deferred("disabled", true)
