@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://chuxmxy42fppi"]
 
-[ext_resource type="Script" uid="uid://br2o1oi0ya4mw" path="res://root/scenes/scene/game_scene/game_content/game_entities/enemy_drone_01/drone.gd" id="1_p6pso"]
+[ext_resource type="Script" uid="uid://br2o1oi0ya4mw" path="res://root/scenes/scene/game_scene/game_content/game_entities/enemy_drone/drone.gd" id="1_p6pso"]
 [ext_resource type="Texture2D" uid="uid://cfo25lrqr4b74" path="res://root/assets/image/game/sprites/DroneSprite.png" id="2_lfikv"]
 [ext_resource type="Shader" uid="uid://g2cg0knko378" path="res://root/assets/image/game/sprites/Enemy/hit_flash.gdshader" id="3_p6suq"]
 [ext_resource type="Script" uid="uid://7wd617sb8xtn" path="res://root/scenes/component/combat/health_component/health_component.gd" id="3_xg8h8"]
@@ -8,7 +8,7 @@
 [ext_resource type="Script" uid="uid://7vrqbtiavfn" path="res://root/scenes/component/combat/hit_flash_component/hit_flash_component.gd" id="5_pby7d"]
 [ext_resource type="Script" uid="uid://bihaxf65bv1yl" path="res://root/scenes/component/combat/death_component/death_component.gd" id="7_xjq1b"]
 [ext_resource type="Script" uid="uid://dr4m1yn56ayjt" path="res://root/scenes/component/state_machine/state_machine.gd" id="8_5fglb"]
-[ext_resource type="Script" uid="uid://t7bjo4wbca2q" path="res://root/scenes/scene/game_scene/game_content/game_entities/enemy_drone_01/states/drone_chase.gd" id="9_dj7an"]
+[ext_resource type="Script" uid="uid://t7bjo4wbca2q" path="res://root/scenes/scene/game_scene/game_content/game_entities/enemy_drone/states/drone_chase.gd" id="9_dj7an"]
 
 [sub_resource type="Animation" id="Animation_61csa"]
 resource_name = "Down"

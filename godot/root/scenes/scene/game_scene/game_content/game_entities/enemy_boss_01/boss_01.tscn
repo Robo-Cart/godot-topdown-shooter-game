@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://dpkaex5y52akm" path="res://root/assets/image/game/sprites/Enemy/boss_01/boss_outer.png" id="2_02cdo"]
 [ext_resource type="Texture2D" uid="uid://02us1kwremi" path="res://root/assets/image/game/sprites/Enemy/boss_01/boss_turret.png" id="3_1ccfh"]
 [ext_resource type="Script" uid="uid://dr4m1yn56ayjt" path="res://root/scenes/component/state_machine/state_machine.gd" id="4_kcmhs"]
-[ext_resource type="Script" uid="uid://bba7t8fqndejo" path="res://root/scenes/scene/game_scene/game_content/game_entities/enemy_boss_01/states/boss_aim_state.gd" id="5_2iv7x"]
+[ext_resource type="Script" uid="uid://bba7t8fqndejo" path="res://root/scenes/scene/game_scene/game_content/game_entities/enemy_boss_01/states/boss_01_aim_state.gd" id="5_2iv7x"]
 [ext_resource type="Script" uid="uid://ujpvmh8e02nj" path="res://root/scenes/component/combat/hurtbox_component/hurtbox_component.gd" id="6_jsotf"]
 [ext_resource type="Script" uid="uid://7wd617sb8xtn" path="res://root/scenes/component/combat/health_component/health_component.gd" id="7_5el3m"]
 [ext_resource type="Script" uid="uid://7vrqbtiavfn" path="res://root/scenes/component/combat/hit_flash_component/hit_flash_component.gd" id="8_kcmhs"]
