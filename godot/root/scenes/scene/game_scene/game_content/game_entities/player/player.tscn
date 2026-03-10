@@ -5,6 +5,8 @@
 [ext_resource type="PackedScene" uid="uid://gdtd3ifo2lka" path="res://root/scenes/scene/game_scene/game_content/game_entities/player/player_3d.tscn" id="3_357pk"]
 [ext_resource type="AudioStream" uid="uid://dpsm18x5ojmb4" path="res://root/assets/audio/sfx/weapons/AR15 Single Shot 3.wav" id="4_7wfn2"]
 [ext_resource type="Script" uid="uid://kdjcudlhj317" path="res://root/scenes/component/collector_component.gd" id="5_4ffdf"]
+[ext_resource type="Script" uid="uid://dswdavsm6upyp" path="res://root/scenes/component/combat/weapon_component/weapon_component.gd.gd" id="6_wujk4"]
+[ext_resource type="PackedScene" uid="uid://jn2mle2pspd5" path="res://root/scenes/scene/game_scene/game_content/game_entities/object_bullet/bullet01.tscn" id="7_54gre"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_h4fw4"]
 radius = 36.55575
@@ -61,9 +63,6 @@ size = 3.0
 
 [node name="Player_Man_3D" parent="SubViewportContainer/SubViewport" unique_id=1570705270 instance=ExtResource("3_357pk")]
 
-[node name="ShootTimer" type="Timer" parent="." unique_id=442527250]
-one_shot = true
-
 [node name="CentrePoint" type="Node2D" parent="." unique_id=1507880759]
 position = Vector2(6.451613, 6.4516134)
 
@@ -107,4 +106,9 @@ position = Vector2(6.4516125, 23.655916)
 shape = SubResource("CircleShape2D_4ffdf")
 debug_color = Color(0.7039947, 0.49024528, 0, 0.41960785)
 
-[connection signal="timeout" from="ShootTimer" to="." method="_on_shot_timer_timeout"]
+[node name="WeaponComponent" type="Node2D" parent="." unique_id=1813039350 node_paths=PackedStringArray("shoot_pos", "gun_shot_audio", "muzzle_particles")]
+script = ExtResource("6_wujk4")
+bullet_scene = ExtResource("7_54gre")
+shoot_pos = NodePath("../CentrePoint/ShootPos")
+gun_shot_audio = NodePath("../GunShot")
+muzzle_particles = NodePath("../CentrePoint/ShootPos/MuzzleParticles")
