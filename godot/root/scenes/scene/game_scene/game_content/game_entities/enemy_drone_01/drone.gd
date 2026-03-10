@@ -1,25 +1,15 @@
 class_name Drone
 extends CharacterBody2D
 
-@export var animation_tree : AnimationTree
+@export var animation_tree: AnimationTree
+var playback: AnimationNodeStateMachinePlayback
 
-var direction :Vector2
-var playback : AnimationNodeStateMachinePlayback
 
-@onready var player: Node2D = get_node("../../Player_Man") # Update path to player
-
-func _ready():
+func _ready() -> void:
+	add_to_group("enemy")
 	playback = animation_tree["parameters/playback"]
 	playback.travel("Idle")
-	
 
-func _process(delta: float) -> void:
-	direction = (player.position - position).normalized()
-	#velocity = direction * speed
 
-	move_and_slide()
-	update_animation_parameters()
-	
-	
-func update_animation_parameters():
+func update_animation_parameters(direction: Vector2) -> void:
 	animation_tree["parameters/Idle/blend_position"] = direction

@@ -2,6 +2,13 @@
 
 [ext_resource type="Script" uid="uid://br2o1oi0ya4mw" path="res://root/scenes/scene/game_scene/game_content/game_entities/enemy_drone_01/drone.gd" id="1_p6pso"]
 [ext_resource type="Texture2D" uid="uid://cfo25lrqr4b74" path="res://root/assets/image/game/sprites/DroneSprite.png" id="2_lfikv"]
+[ext_resource type="Shader" uid="uid://g2cg0knko378" path="res://root/assets/image/game/sprites/Enemy/hit_flash.gdshader" id="3_p6suq"]
+[ext_resource type="Script" uid="uid://7wd617sb8xtn" path="res://root/scenes/component/combat/health_component/health_component.gd" id="3_xg8h8"]
+[ext_resource type="Script" uid="uid://ujpvmh8e02nj" path="res://root/scenes/component/combat/hurtbox_component/hurtbox_component.gd" id="4_dlgsx"]
+[ext_resource type="Script" uid="uid://7vrqbtiavfn" path="res://root/scenes/component/combat/hit_flash_component/hit_flash_component.gd" id="5_pby7d"]
+[ext_resource type="Script" uid="uid://bihaxf65bv1yl" path="res://root/scenes/component/combat/death_component/death_component.gd" id="7_xjq1b"]
+[ext_resource type="Script" uid="uid://dr4m1yn56ayjt" path="res://root/scenes/component/state_machine/state_machine.gd" id="8_5fglb"]
+[ext_resource type="Script" uid="uid://t7bjo4wbca2q" path="res://root/scenes/scene/game_scene/game_content/game_entities/enemy_drone_01/states/drone_chase.gd" id="9_dj7an"]
 
 [sub_resource type="Animation" id="Animation_61csa"]
 resource_name = "Down"
@@ -532,8 +539,82 @@ blend_mode = 1
 states/Idle/node = SubResource("AnimationNodeBlendSpace2D_v3ox0")
 states/Idle/position = Vector2(334.66666, 100.44444)
 
+[sub_resource type="Animation" id="Animation_6spbj"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:material:shader_parameter/hit_flash_on")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:material")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [null]
+}
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_pulj5"]
+shader = ExtResource("3_p6suq")
+shader_parameter/hit_flash_color = Color(1, 1, 1, 0)
+shader_parameter/hit_flash_on = false
+
+[sub_resource type="Animation" id="Animation_ahfaj"]
+resource_name = "hit"
+length = 0.15155052
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:material:shader_parameter/hit_flash_on")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.010293998, 0.02050747, 0.09722111),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:material")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.00972211, 0.09722111, 0.1435441),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [null, SubResource("ShaderMaterial_pulj5"), SubResource("ShaderMaterial_pulj5"), null]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_stdna"]
+_data = {
+&"RESET": SubResource("Animation_6spbj"),
+&"hit": SubResource("Animation_ahfaj")
+}
+
+[sub_resource type="Gradient" id="Gradient_wvms2"]
+offsets = PackedFloat32Array(0, 0.17012449, 0.75103736, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 0.23333335, 0, 1, 0.27752772, 0.27752775, 0.27752766, 1, 0.24115604, 0.24115604, 0.24115604, 0.22745098)
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_sbqpt"]
 radius = 5.0990195
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_bkq45"]
+radius = 8.0
 
 [node name="Drone" type="CharacterBody2D" unique_id=496178693 node_paths=PackedStringArray("animation_tree")]
 collision_layer = 4
@@ -554,5 +635,60 @@ tree_root = SubResource("AnimationNodeStateMachine_7k8d1")
 anim_player = NodePath("../AnimationPlayer")
 parameters/Idle/blend_position = Vector2(-0.38712603, 0.8541267)
 
+[node name="HitFlashAnim" type="AnimationPlayer" parent="." unique_id=1648319077]
+libraries/ = SubResource("AnimationLibrary_stdna")
+
+[node name="DieParticle" type="CPUParticles2D" parent="." unique_id=1399759071]
+position = Vector2(1.9073486e-06, 1.1368684e-13)
+emitting = false
+amount = 24
+lifetime = 0.18000000000000002
+one_shot = true
+explosiveness = 0.74
+randomness = 0.48
+lifetime_randomness = 0.65
+emission_shape = 1
+emission_sphere_radius = 7.69
+direction = Vector2(0, 0)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 137.43
+initial_velocity_max = 264.1
+scale_amount_min = 11.67
+scale_amount_max = 31.67
+color = Color(1, 1, 1, 0.9254902)
+color_ramp = SubResource("Gradient_wvms2")
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1817255549]
 shape = SubResource("CircleShape2D_sbqpt")
+
+[node name="HealthComponent" type="Node" parent="." unique_id=1737194989]
+script = ExtResource("3_xg8h8")
+max_health = 5
+
+[node name="HurtBoxComponent" type="Area2D" parent="." unique_id=1142788979 node_paths=PackedStringArray("health_component")]
+script = ExtResource("4_dlgsx")
+health_component = NodePath("../HealthComponent")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBoxComponent" unique_id=1650197276]
+shape = SubResource("CircleShape2D_bkq45")
+debug_color = Color(0.9901082, 0, 0.28801143, 0.41960785)
+
+[node name="HitFlashComponent" type="Node" parent="." unique_id=1393329407 node_paths=PackedStringArray("health_component", "hit_flash_anim")]
+script = ExtResource("5_pby7d")
+health_component = NodePath("../HealthComponent")
+hit_flash_anim = NodePath("../HitFlashAnim")
+
+[node name="DeathComponent" type="Node" parent="." unique_id=1972735072 node_paths=PackedStringArray("health_component", "entity", "sprite", "death_particles")]
+script = ExtResource("7_xjq1b")
+health_component = NodePath("../HealthComponent")
+entity = NodePath("..")
+sprite = NodePath("../Sprite2D")
+death_particles = NodePath("../DieParticle")
+
+[node name="DroneStateMachine" type="Node" parent="." unique_id=1444814234 node_paths=PackedStringArray("initial_state")]
+script = ExtResource("8_5fglb")
+initial_state = NodePath("ChaseState")
+
+[node name="ChaseState" type="Node" parent="DroneStateMachine" unique_id=1811870406]
+script = ExtResource("9_dj7an")
