@@ -35,11 +35,8 @@ func _update_powerup_name() -> void:
 		return
 
 	var scene: PackedScene = load(powerup_scene_path)
-	if scene:
-		var temp_instance: Node = scene.instantiate()
-		if "display_name" in temp_instance:
-			display_name = temp_instance.get("display_name")
-		else:
-			display_name = powerup_scene_path.get_file().get_basename().capitalize()
 
-		temp_instance.free()
+	if scene:
+		var real_file_path: String = scene.resource_path
+
+		display_name = real_file_path.get_file().get_basename().capitalize()

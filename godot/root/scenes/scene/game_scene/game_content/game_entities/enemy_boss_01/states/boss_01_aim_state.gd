@@ -4,7 +4,7 @@ extends BossState
 var rotation_speed: float = 5.0
 
 
-func physics_process_state(delta: float) -> void:
+func physics_process_state(_delta: float) -> void:
 	if not is_instance_valid(player):
 		return
 

@@ -9,9 +9,9 @@ script = ExtResource("1_aj0ub")
 time_stamp = "0:05"
 enemy_name = "Zombie"
 enemy_scene_path = "uid://cqa7uu0de3gu2"
-number_of_enemies = 10
+number_of_enemies = 30
 seconds_to_spawn_over = 2.0
-spawn_points = Array[int]([2, 0])
+spawn_points = Array[int]([2, 0, 1, 3])
 metadata/_custom_type_script = "uid://cytoc3vvi02bv"
 
 [sub_resource type="Resource" id="Resource_udwe2"]
@@ -19,7 +19,7 @@ script = ExtResource("1_aj0ub")
 time_stamp = "0:30"
 enemy_name = "Zombie"
 enemy_scene_path = "uid://cqa7uu0de3gu2"
-number_of_enemies = 10
+number_of_enemies = 20
 seconds_to_spawn_over = 1.5
 spawn_points = Array[int]([4])
 metadata/_custom_type_script = "uid://cytoc3vvi02bv"
@@ -38,11 +38,30 @@ metadata/_custom_type_script = "uid://cytoc3vvi02bv"
 script = ExtResource("2_mlaoo")
 time_stamp = "0:10"
 powerup_scene_path = "uid://dmy8ofvovrvfp"
+display_name = "Speed Up"
+random_factor = 5
+spawn_points = Array[int]([5])
+metadata/_custom_type_script = "uid://wx0so0300s53"
+
+[sub_resource type="Resource" id="Resource_aj0ub"]
+script = ExtResource("2_mlaoo")
+time_stamp = "0:40"
+powerup_scene_path = "uid://dmy8ofvovrvfp"
+random_factor = 10
+spawn_points = Array[int]([5])
+metadata/_custom_type_script = "uid://wx0so0300s53"
+
+[sub_resource type="Resource" id="Resource_mlaoo"]
+script = ExtResource("2_mlaoo")
+time_stamp = "1:10"
+powerup_scene_path = "uid://bdx8t6nicos3i"
+random_factor = 15
+spawn_points = Array[int]([5])
 metadata/_custom_type_script = "uid://wx0so0300s53"
 
 [resource]
 script = ExtResource("3_t06g0")
 level_name = "First Level"
 enemy_wave_config = Array[ExtResource("1_aj0ub")]([SubResource("Resource_d17ne"), SubResource("Resource_udwe2"), SubResource("Resource_0eqoh")])
-powerup_wave_config = Array[ExtResource("2_mlaoo")]([SubResource("Resource_0cija")])
+powerup_wave_config = Array[ExtResource("2_mlaoo")]([SubResource("Resource_0cija"), SubResource("Resource_aj0ub"), SubResource("Resource_mlaoo")])
 metadata/_custom_type_script = "uid://5kaliud6km2p"
