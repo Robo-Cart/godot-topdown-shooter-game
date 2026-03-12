@@ -64,8 +64,19 @@ func get_offset() -> Vector2:
 func _player_entered(_player: Node2D) -> void:
 	if _player != player:
 		return
+
+	collision_shape.set_deferred("disabled", true)
 	LogWrapper.debug(self, "Player entered transition area.")
+
+	var game_scene = get_tree().get_first_node_in_group("game_scene")
+
+	if game_scene and game_scene.has_method("fade_out"):
+		await game_scene.fade_out()
+
 	transition_to_level.emit(level, target_transition_area, get_offset())
+
+	if game_scene and game_scene.has_method("fade_in"):
+		game_scene.fade_in()
 
 
 func _update_area() -> void:

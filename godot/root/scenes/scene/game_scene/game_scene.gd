@@ -1,13 +1,5 @@
-# NOTE: Additional examples: (replace "GameContent" child scene)
-# - 2D Incremental Clicker (default): "scenes/scene/game_scene/game_content/game_content.tscn"
-# - 3D First Person Controller: "artifacts/example_3d_fp_controller/scenes/.../game_content.tscn"
 class_name GameScene
 extends Node
-## Replace "GameContent" child scene with your own. (Keep unique name.)
-## You can modify [_after_unpause], [_after_pause], [_after_leave] functions in this script.
-## [br][br]
-## Original File MIT License Copyright (c) 2024 TinyTakinTeller
-
 @export_group("Menu Scene")
 @export var scene: SceneManagerEnum.Scene = SceneManagerEnum.Scene.MENU_SCENE
 @export var scene_manager_options_id: String = "fade_play"
@@ -17,6 +9,8 @@ extends Node
 @onready var options_menu: OptionsMenu = %OptionsMenu
 
 @onready var ui_builder: UiBuilder = %UiBuilder
+
+var transition_rect: ColorRect
 
 
 # Esc key shortcut toggles pause menu or exits from options via back button
@@ -32,6 +26,8 @@ func _input(_event: InputEvent) -> void:
 
 
 func _ready() -> void:
+	add_to_group("game_scene")
+	_setup_transition_screen()
 	_load_game_content_scene()
 
 	ui_builder.build()
@@ -39,6 +35,31 @@ func _ready() -> void:
 	_connect_signals()
 
 	LogWrapper.debug(self, "Ready.")
+
+
+func _setup_transition_screen() -> void:
+	var canvas = CanvasLayer.new()
+	canvas.layer = 100
+
+	transition_rect = ColorRect.new()
+	transition_rect.color = Color(0, 0, 0, 0)
+	transition_rect.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	transition_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+
+	canvas.add_child(transition_rect)
+	add_child(canvas)
+
+
+func fade_out() -> void:
+	var tween = create_tween()
+	tween.tween_property(transition_rect, "color:a", 1.0, 0.4)
+	await tween.finished
+
+
+func fade_in() -> void:
+	var tween = create_tween()
+	tween.tween_property(transition_rect, "color:a", 0.0, 0.4)
+	await tween.finished
 
 
 func _after_pause() -> void:
