@@ -11,6 +11,8 @@ var current_spawn_index: int = 0
 var spawn_queue: Array[Dictionary] = []
 var is_spawner_paused: bool = false
 
+var cached_scenes: Dictionary = {}
+
 
 func _ready() -> void:
 	if not level_data:
@@ -46,6 +48,10 @@ func _build_spawn_queue() -> void:
 		if num_enemies > 1 and duration > 0.0:
 			time_interval = duration / float(num_enemies - 1)
 
+		if not cached_scenes.has(wave.enemy_scene_path):
+			ResourceLoader.load_threaded_request(wave.enemy_scene_path)
+			cached_scenes[wave.enemy_scene_path] = true  # Just mark that we requested it
+
 		for i in range(num_enemies):
 			var exact_spawn_time: float = wave.time + (i * time_interval)
 			var point: SpawnConfig.Location = wave.spawn_points[i % num_spawn_points]
@@ -75,6 +81,10 @@ func _build_spawn_queue() -> void:
 
 		if powerup.spawn_points.size() > 0:
 			chosen_location = powerup.spawn_points.pick_random()
+
+		if not cached_scenes.has(powerup.powerup_scene_path):
+			ResourceLoader.load_threaded_request(powerup.powerup_scene_path)
+			cached_scenes[powerup.powerup_scene_path] = true
 
 		spawn_queue.append(
 			{
@@ -178,10 +188,14 @@ func _spawn_enemy(
 		LogWrapper.debug(self, "CRITICAL: Cannot spawn '%s'. No scene path assigned!" % nice_name)
 		return
 
-	var loc_name: String = SpawnConfig.Location.keys()[location]
-	LogWrapper.debug(self, "[Wave %s] -> Spawning 1x %s at %s" % [wave_stamp, nice_name, loc_name])
+	var enemy_scene: PackedScene
 
-	var enemy_scene: PackedScene = load(scene_path)
+	if typeof(cached_scenes.get(scene_path)) == TYPE_BOOL:
+		enemy_scene = ResourceLoader.load_threaded_get(scene_path) as PackedScene
+		cached_scenes[scene_path] = enemy_scene
+	else:
+		enemy_scene = cached_scenes.get(scene_path) as PackedScene
+
 	if enemy_scene:
 		var enemy_instance: Node2D = enemy_scene.instantiate() as Node2D
 		var spawn_pos: Vector2 = _get_spawn_position(location)
@@ -200,18 +214,18 @@ func _spawn_powerup(
 		LogWrapper.debug(self, "CRITICAL: Cannot spawn '%s'. No scene path assigned!" % nice_name)
 		return
 
-	var loc_name: String = SpawnConfig.Location.keys()[location]
-	LogWrapper.debug(
-		self, "[Wave %s] -> Spawning 1x POWERUP (%s) at %s" % [wave_stamp, nice_name, loc_name]
-	)
+	var powerup_scene: PackedScene
 
-	var powerup_scene: PackedScene = load(scene_path)
+	if typeof(cached_scenes.get(scene_path)) == TYPE_BOOL:
+		powerup_scene = ResourceLoader.load_threaded_get(scene_path) as PackedScene
+		cached_scenes[scene_path] = powerup_scene
+	else:
+		powerup_scene = cached_scenes.get(scene_path) as PackedScene
+
 	if powerup_scene:
 		var powerup_instance: Node2D = powerup_scene.instantiate() as Node2D
-
 		var spawn_pos: Vector2 = _get_spawn_position(location)
 		powerup_instance.global_position = spawn_pos
-
 		add_child(powerup_instance)
 	else:
 		LogWrapper.debug(

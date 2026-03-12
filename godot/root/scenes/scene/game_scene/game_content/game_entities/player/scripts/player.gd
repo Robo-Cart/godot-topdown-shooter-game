@@ -10,6 +10,7 @@ var animation_tree: AnimationTree = $SubViewportContainer/SubViewport/Player_Man
 @onready var Camera: Camera2D = $Camera2D
 
 @onready var weapon_comp: WeaponComponent = $WeaponComponent
+@onready var health_comp = $HealthComponent
 
 @export var speed: float = 200
 @export var physicscontrol: bool = false
@@ -33,6 +34,16 @@ func _ready() -> void:
 
 	if weapon_comp:
 		weapon_comp.weapon_fired.connect(_on_weapon_fired)
+
+	if health_comp:
+		health_comp.health_changed.connect(
+			func(current_health: int, _max_health: int):
+				print("Ouch! Player health is now: ", current_health)
+
+				if current_health <= 0:
+					print("PLAYER IS DEAD!")
+				# You can call queue_free() here for now, or trigger a game over!
+		)
 
 
 func _physics_process(delta: float) -> void:

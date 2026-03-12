@@ -5,10 +5,10 @@
 [ext_resource type="Texture2D" uid="uid://bq24xqv1ko5ay" path="res://root/assets/image/game/sprites/TurretSprite2.png" id="2_hskch"]
 [ext_resource type="PackedScene" uid="uid://ce20ploalaift" path="res://root/scenes/scene/game_scene/game_content/game_entities/player/health_bar_scene.tscn" id="4_pulj5"]
 [ext_resource type="AudioStream" uid="uid://cvpgodueudekp" path="res://root/assets/audio/sfx/impacts/Explosion Raw 1.wav" id="5_ahfaj"]
-[ext_resource type="Script" uid="uid://ujpvmh8e02nj" path="res://root/scenes/component/combat/hurtbox_component/hurtbox_component.gd" id="6_2gb7b"]
-[ext_resource type="Script" uid="uid://7wd617sb8xtn" path="res://root/scenes/component/combat/health_component/health_component.gd" id="7_i7crw"]
-[ext_resource type="Script" uid="uid://7vrqbtiavfn" path="res://root/scenes/component/combat/hit_flash_component/hit_flash_component.gd" id="8_6uh07"]
-[ext_resource type="Script" uid="uid://bihaxf65bv1yl" path="res://root/scenes/component/combat/death_component/death_component.gd" id="9_j06tg"]
+[ext_resource type="Script" uid="uid://ujpvmh8e02nj" path="res://root/scenes/component/combat/hurtbox_component.gd" id="6_2gb7b"]
+[ext_resource type="Script" uid="uid://7wd617sb8xtn" path="res://root/scenes/component/combat/health_component.gd" id="7_i7crw"]
+[ext_resource type="Script" uid="uid://7vrqbtiavfn" path="res://root/scenes/component/combat/hit_flash_component.gd" id="8_6uh07"]
+[ext_resource type="Script" uid="uid://bihaxf65bv1yl" path="res://root/scenes/component/combat/death_component.gd" id="9_j06tg"]
 
 [sub_resource type="Animation" id="Animation_61csa"]
 resource_name = "Down"

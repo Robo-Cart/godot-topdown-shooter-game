@@ -1,0 +1,148 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://71rv85l3wccg"]
+
+[ext_resource type="Texture2D" uid="uid://c1l01b3re1lj8" path="res://root/assets/image/game/sprites/Enemy/swarm_zombie_02/Attack/Attack_000.png" id="1_d5f30"]
+[ext_resource type="Texture2D" uid="uid://bgtcmao71te03" path="res://root/assets/image/game/sprites/Enemy/swarm_zombie_02/Attack/Attack_001.png" id="2_fbnop"]
+[ext_resource type="Texture2D" uid="uid://cv55e1bat6s2o" path="res://root/assets/image/game/sprites/Enemy/swarm_zombie_02/Attack/Attack_002.png" id="3_hxhyu"]
+[ext_resource type="Texture2D" uid="uid://c5h7mxonxb3ls" path="res://root/assets/image/game/sprites/Enemy/swarm_zombie_02/Attack/Attack_003.png" id="4_41uds"]
+[ext_resource type="Texture2D" uid="uid://dqpgw1bl4qr4y" path="res://root/assets/image/game/sprites/Enemy/swarm_zombie_02/Attack/Attack_004.png" id="5_wjkxt"]
+[ext_resource type="Texture2D" uid="uid://cdtojt1kan3ry" path="res://root/assets/image/game/sprites/Enemy/swarm_zombie_02/Attack/Attack_005.png" id="6_tdsnc"]
+[ext_resource type="Texture2D" uid="uid://bpalexwyvauy4" path="res://root/assets/image/game/sprites/Enemy/swarm_zombie_02/Attack/Attack_006.png" id="7_k7fuo"]
+[ext_resource type="Texture2D" uid="uid://bs338jk6y82nq" path="res://root/assets/image/game/sprites/Enemy/swarm_zombie_02/Attack/Attack_007.png" id="8_qceei"]
+[ext_resource type="Texture2D" uid="uid://douwcl3khjv1u" path="res://root/assets/image/game/sprites/Enemy/swarm_zombie_02/Attack/Attack_008.png" id="9_3yq02"]
+[ext_resource type="Texture2D" uid="uid://cywwyk7rhn2tf" path="res://root/assets/image/game/sprites/Enemy/swarm_zombie_02/Death/Death_000.png" id="10_8vs1l"]
+[ext_resource type="Texture2D" uid="uid://cq06581r1cgjm" path="res://root/assets/image/game/sprites/Enemy/swarm_zombie_02/Death/Death_001.png" id="11_63dsy"]
+[ext_resource type="Texture2D" uid="uid://bqp7hb8ckmc8u" path="res://root/assets/image/game/sprites/Enemy/swarm_zombie_02/Death/Death_002.png" id="12_olmby"]
+[ext_resource type="Texture2D" uid="uid://bywflaab4g0fk" path="res://root/assets/image/game/sprites/Enemy/swarm_zombie_02/Death/Death_003.png" id="13_e3atb"]
+[ext_resource type="Texture2D" uid="uid://xn2j6cxck6gv" path="res://root/assets/image/game/sprites/Enemy/swarm_zombie_02/Death/Death_004.png" id="14_phclh"]
+[ext_resource type="Texture2D" uid="uid://b2oomyuedelns" path="res://root/assets/image/game/sprites/Enemy/swarm_zombie_02/Death/Death_005.png" id="15_j57g0"]
+[ext_resource type="Texture2D" uid="uid://cb1jbmx58jl8q" path="res://root/assets/image/game/sprites/Enemy/swarm_zombie_02/Walk/Walk_000.png" id="16_4nb8o"]
+[ext_resource type="Texture2D" uid="uid://dcd6bjlva73na" path="res://root/assets/image/game/sprites/Enemy/swarm_zombie_02/Walk/Walk_001.png" id="17_jvmir"]
+[ext_resource type="Texture2D" uid="uid://cnu1pjx6huvor" path="res://root/assets/image/game/sprites/Enemy/swarm_zombie_02/Walk/Walk_002.png" id="18_85jnp"]
+[ext_resource type="Texture2D" uid="uid://cdepskbhj1wfx" path="res://root/assets/image/game/sprites/Enemy/swarm_zombie_02/Walk/Walk_003.png" id="19_rbw3j"]
+[ext_resource type="Texture2D" uid="uid://bqd02nhsh0qfq" path="res://root/assets/image/game/sprites/Enemy/swarm_zombie_02/Walk/Walk_004.png" id="20_tgeg8"]
+[ext_resource type="Texture2D" uid="uid://xltlcpv7vkqa" path="res://root/assets/image/game/sprites/Enemy/swarm_zombie_02/Walk/Walk_005.png" id="21_6cro0"]
+[ext_resource type="Texture2D" uid="uid://cnldqoob67365" path="res://root/assets/image/game/sprites/Enemy/swarm_zombie_02/Walk/Walk_006.png" id="22_q8n8s"]
+[ext_resource type="Texture2D" uid="uid://c0xat11jvnm64" path="res://root/assets/image/game/sprites/Enemy/swarm_zombie_02/Walk/Walk_007.png" id="23_ma3m4"]
+[ext_resource type="Texture2D" uid="uid://byuvjeplvsmvn" path="res://root/assets/image/game/sprites/Enemy/swarm_zombie_02/Walk/Walk_008.png" id="24_5jya6"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_d5f30")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_fbnop")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_hxhyu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_41uds")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_wjkxt")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_tdsnc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_k7fuo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_qceei")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_3yq02")
+}],
+"loop": true,
+"name": &"attack",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("10_8vs1l")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_63dsy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_olmby")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_e3atb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_phclh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_j57g0")
+}],
+"loop": false,
+"name": &"death",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("16_4nb8o")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_jvmir")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_85jnp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("19_rbw3j")
+}, {
+"duration": 1.0,
+"texture": ExtResource("20_tgeg8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("21_6cro0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("22_q8n8s")
+}, {
+"duration": 1.0,
+"texture": ExtResource("23_ma3m4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("24_5jya6")
+}],
+"loop": true,
+"name": &"run",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("16_4nb8o")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_jvmir")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_85jnp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("19_rbw3j")
+}, {
+"duration": 1.0,
+"texture": ExtResource("20_tgeg8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("21_6cro0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("22_q8n8s")
+}, {
+"duration": 1.0,
+"texture": ExtResource("23_ma3m4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("24_5jya6")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]

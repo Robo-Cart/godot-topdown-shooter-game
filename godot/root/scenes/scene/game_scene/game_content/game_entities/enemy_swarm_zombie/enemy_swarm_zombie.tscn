@@ -1,0 +1,155 @@
+[gd_scene format=3 uid="uid://cqa7uu0de3gu2"]
+
+[ext_resource type="Script" uid="uid://er4qp3341yvk" path="res://root/scenes/scene/game_scene/game_content/game_entities/enemy_swarm_zombie/enemy_swarm_zombie.gd" id="1_b16n7"]
+[ext_resource type="Script" uid="uid://ujpvmh8e02nj" path="res://root/scenes/component/combat/hurtbox_component.gd" id="2_ewlbi"]
+[ext_resource type="SpriteFrames" uid="uid://c40wnhlnytvnp" path="res://root/assets/image/game/sprites/Enemy/swarm_zombie_01_frames.tres" id="2_wtgtx"]
+[ext_resource type="SpriteFrames" uid="uid://71rv85l3wccg" path="res://root/assets/image/game/sprites/Enemy/swarm_zombie_02_frames.tres" id="3_0rh43"]
+[ext_resource type="Script" uid="uid://7wd617sb8xtn" path="res://root/scenes/component/combat/health_component.gd" id="3_mghsy"]
+[ext_resource type="Script" uid="uid://7vrqbtiavfn" path="res://root/scenes/component/combat/hit_flash_component.gd" id="4_jy4vh"]
+[ext_resource type="SpriteFrames" uid="uid://dskycjv70o4mv" path="res://root/assets/image/game/sprites/Enemy/swarm_zombie_03_frames.tres" id="4_phixi"]
+[ext_resource type="SpriteFrames" uid="uid://bbsp7dt6vjysd" path="res://root/assets/image/game/sprites/Enemy/swarm_zombie_04_frames.tres" id="5_r8k36"]
+[ext_resource type="Script" uid="uid://c5aa8ah756kcb" path="res://root/scenes/scene/game_scene/game_content/game_entities/enemy_swarm_zombie/states/swarm_zombie_chase_state.gd" id="7_l03xl"]
+[ext_resource type="Shader" uid="uid://g2cg0knko378" path="res://root/assets/image/game/sprites/Enemy/hit_flash.gdshader" id="26_a1gjt"]
+[ext_resource type="Script" uid="uid://dr4m1yn56ayjt" path="res://root/scenes/component/state_machine/state_machine.gd" id="29_dweiy"]
+[ext_resource type="Script" uid="uid://eagtl3n2i520" path="res://root/scenes/scene/game_scene/game_content/game_entities/enemy_swarm_zombie/states/swarm_zombie_attack_state.gd" id="31_dweiy"]
+[ext_resource type="Script" uid="uid://cm3jr0o373t4e" path="res://root/scenes/scene/game_scene/game_content/game_entities/enemy_swarm_zombie/states/swarm_zombie_death_state.gd" id="32_a1gjt"]
+[ext_resource type="AudioStream" uid="uid://b5gh46ndrudg2" path="res://root/assets/audio/sfx/enemies/short_zombie_grunt.wav" id="34_cqv16"]
+[ext_resource type="AudioStream" uid="uid://cr7s1uv7h0d85" path="res://root/assets/audio/sfx/enemies/zombie_splat.wav" id="35_8xxds"]
+
+[sub_resource type="Animation" id="Animation_6spbj"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/hit_flash_on")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:material")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [null]
+}
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_pulj5"]
+shader = ExtResource("26_a1gjt")
+shader_parameter/hit_flash_color = Color(1, 1, 1, 0)
+shader_parameter/hit_flash_on = false
+
+[sub_resource type="Animation" id="Animation_ahfaj"]
+resource_name = "hit"
+length = 0.15155052
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/hit_flash_on")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.010293998, 0.02050747, 0.09722111),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:material")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.00972211, 0.09722111, 0.1435441),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [null, SubResource("ShaderMaterial_pulj5"), SubResource("ShaderMaterial_pulj5"), null]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_vl614"]
+_data = {
+&"RESET": SubResource("Animation_6spbj"),
+&"hit": SubResource("Animation_ahfaj")
+}
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_dweiy"]
+radius = 89.99999
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dweiy"]
+radius = 99.999985
+height = 319.99994
+
+[node name="EnemySwarmZombie" type="CharacterBody2D" unique_id=2093724462]
+scale = Vector2(0.1, 0.1)
+collision_layer = 8
+collision_mask = 8
+script = ExtResource("1_b16n7")
+zombie_variants = Array[SpriteFrames]([ExtResource("2_wtgtx"), ExtResource("3_0rh43"), ExtResource("4_phixi"), ExtResource("5_r8k36")])
+
+[node name="Pivot" type="Node2D" parent="." unique_id=1677670484]
+scale = Vector2(0.99999994, 0.99999994)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Pivot" unique_id=938822687]
+rotation = -1.5707964
+scale = Vector2(1.0000001, 1.0000001)
+sprite_frames = ExtResource("2_wtgtx")
+animation = &"walk"
+
+[node name="HitFlashAnim" type="AnimationPlayer" parent="." unique_id=1261603199]
+root_node = NodePath("../Pivot/AnimatedSprite2D")
+libraries/ = SubResource("AnimationLibrary_vl614")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1351060185]
+position = Vector2(0, -130.00012)
+shape = SubResource("CircleShape2D_dweiy")
+debug_color = Color(0.9162243, 7.7394245e-05, 0.7118291, 0.41960785)
+
+[node name="HurtboxComponent" type="Area2D" parent="." unique_id=401203993 node_paths=PackedStringArray("health_component")]
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("2_ewlbi")
+health_component = NodePath("../HealthComponent")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent" unique_id=1804630701]
+position = Vector2(9.999999, -130)
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_dweiy")
+
+[node name="HealthComponent" type="Node" parent="." unique_id=341638325]
+script = ExtResource("3_mghsy")
+max_health = 2
+
+[node name="HitFlashComponent" type="Node" parent="." unique_id=783931322 node_paths=PackedStringArray("health_component", "hit_flash_anim")]
+script = ExtResource("4_jy4vh")
+health_component = NodePath("../HealthComponent")
+hit_flash_anim = NodePath("../HitFlashAnim")
+
+[node name="StateMachine" type="Node" parent="." unique_id=705657711 node_paths=PackedStringArray("initial_state")]
+script = ExtResource("29_dweiy")
+initial_state = NodePath("Chase")
+
+[node name="Chase" type="Node" parent="StateMachine" unique_id=205014922]
+script = ExtResource("7_l03xl")
+
+[node name="Attack" type="Node" parent="StateMachine" unique_id=1365066955]
+script = ExtResource("31_dweiy")
+
+[node name="Death" type="Node" parent="StateMachine" unique_id=1065229795]
+script = ExtResource("32_a1gjt")
+
+[node name="HitAudio" type="AudioStreamPlayer2D" parent="." unique_id=311531409]
+stream = ExtResource("34_cqv16")
+
+[node name="DeathAudio" type="AudioStreamPlayer2D" parent="." unique_id=904114844]
+stream = ExtResource("35_8xxds")

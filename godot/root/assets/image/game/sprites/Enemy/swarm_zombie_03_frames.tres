@@ -1,0 +1,148 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://dskycjv70o4mv"]
+
+[ext_resource type="Texture2D" uid="uid://2nmoir0gk8y6" path="res://root/assets/image/game/sprites/Enemy/swarm_zombie_03/Attack/Attack_000.png" id="1_yy04c"]
+[ext_resource type="Texture2D" uid="uid://bfvvkjjrxwq1v" path="res://root/assets/image/game/sprites/Enemy/swarm_zombie_03/Attack/Attack_001.png" id="2_j8xsp"]
+[ext_resource type="Texture2D" uid="uid://vpdp30mlwk8t" path="res://root/assets/image/game/sprites/Enemy/swarm_zombie_03/Attack/Attack_002.png" id="3_5u2wt"]
+[ext_resource type="Texture2D" uid="uid://d0ktcq31dg64h" path="res://root/assets/image/game/sprites/Enemy/swarm_zombie_03/Attack/Attack_003.png" id="4_sj1mp"]
+[ext_resource type="Texture2D" uid="uid://fxpqbsq2owrb" path="res://root/assets/image/game/sprites/Enemy/swarm_zombie_03/Attack/Attack_004.png" id="5_41l1g"]
+[ext_resource type="Texture2D" uid="uid://d2wbgf81jdbgo" path="res://root/assets/image/game/sprites/Enemy/swarm_zombie_03/Attack/Attack_005.png" id="6_pcje0"]
+[ext_resource type="Texture2D" uid="uid://dhdf1q035ae15" path="res://root/assets/image/game/sprites/Enemy/swarm_zombie_03/Attack/Attack_006.png" id="7_8b3ym"]
+[ext_resource type="Texture2D" uid="uid://bqolrqbrdgxv5" path="res://root/assets/image/game/sprites/Enemy/swarm_zombie_03/Attack/Attack_007.png" id="8_j85mf"]
+[ext_resource type="Texture2D" uid="uid://c1si505g6dsfh" path="res://root/assets/image/game/sprites/Enemy/swarm_zombie_03/Attack/Attack_008.png" id="9_sxjai"]
+[ext_resource type="Texture2D" uid="uid://cbfsgabcv8xy5" path="res://root/assets/image/game/sprites/Enemy/swarm_zombie_03/Death/Death_000.png" id="10_pmblq"]
+[ext_resource type="Texture2D" uid="uid://dw1e7ahfk2wxm" path="res://root/assets/image/game/sprites/Enemy/swarm_zombie_03/Death/Death_001.png" id="11_5kkun"]
+[ext_resource type="Texture2D" uid="uid://j1vw1tbyihvu" path="res://root/assets/image/game/sprites/Enemy/swarm_zombie_03/Death/Death_002.png" id="12_a2dww"]
+[ext_resource type="Texture2D" uid="uid://cmg8mtdmvy51p" path="res://root/assets/image/game/sprites/Enemy/swarm_zombie_03/Death/Death_003.png" id="13_n1cbg"]
+[ext_resource type="Texture2D" uid="uid://cyg8powrylkte" path="res://root/assets/image/game/sprites/Enemy/swarm_zombie_03/Death/Death_004.png" id="14_xs432"]
+[ext_resource type="Texture2D" uid="uid://bmssycfnh7fqo" path="res://root/assets/image/game/sprites/Enemy/swarm_zombie_03/Death/Death_005.png" id="15_nkvty"]
+[ext_resource type="Texture2D" uid="uid://15jv8mdevmrk" path="res://root/assets/image/game/sprites/Enemy/swarm_zombie_03/Walk/Walk_000.png" id="16_enpaf"]
+[ext_resource type="Texture2D" uid="uid://dt8x1ipgnq8bm" path="res://root/assets/image/game/sprites/Enemy/swarm_zombie_03/Walk/Walk_001.png" id="17_1yoq4"]
+[ext_resource type="Texture2D" uid="uid://ttx8qet1x87n" path="res://root/assets/image/game/sprites/Enemy/swarm_zombie_03/Walk/Walk_002.png" id="18_qlb87"]
+[ext_resource type="Texture2D" uid="uid://u5m31cb0hohj" path="res://root/assets/image/game/sprites/Enemy/swarm_zombie_03/Walk/Walk_003.png" id="19_5a33b"]
+[ext_resource type="Texture2D" uid="uid://5tsur3jbraa3" path="res://root/assets/image/game/sprites/Enemy/swarm_zombie_03/Walk/Walk_004.png" id="20_ch302"]
+[ext_resource type="Texture2D" uid="uid://xhrp5m045fth" path="res://root/assets/image/game/sprites/Enemy/swarm_zombie_03/Walk/Walk_005.png" id="21_qeejk"]
+[ext_resource type="Texture2D" uid="uid://djd8xvnsudx5t" path="res://root/assets/image/game/sprites/Enemy/swarm_zombie_03/Walk/Walk_006.png" id="22_vmlwb"]
+[ext_resource type="Texture2D" uid="uid://dk2obn03k4dh3" path="res://root/assets/image/game/sprites/Enemy/swarm_zombie_03/Walk/Walk_007.png" id="23_78h0d"]
+[ext_resource type="Texture2D" uid="uid://yldm1wari1sr" path="res://root/assets/image/game/sprites/Enemy/swarm_zombie_03/Walk/Walk_008.png" id="24_jwfsm"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_yy04c")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_j8xsp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_5u2wt")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_sj1mp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_41l1g")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_pcje0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_8b3ym")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_j85mf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_sxjai")
+}],
+"loop": true,
+"name": &"attack",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("10_pmblq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_5kkun")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_a2dww")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_n1cbg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_xs432")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_nkvty")
+}],
+"loop": false,
+"name": &"death",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("16_enpaf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_1yoq4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_qlb87")
+}, {
+"duration": 1.0,
+"texture": ExtResource("19_5a33b")
+}, {
+"duration": 1.0,
+"texture": ExtResource("20_ch302")
+}, {
+"duration": 1.0,
+"texture": ExtResource("21_qeejk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("22_vmlwb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("23_78h0d")
+}, {
+"duration": 1.0,
+"texture": ExtResource("24_jwfsm")
+}],
+"loop": true,
+"name": &"run",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("16_enpaf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_1yoq4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_qlb87")
+}, {
+"duration": 1.0,
+"texture": ExtResource("19_5a33b")
+}, {
+"duration": 1.0,
+"texture": ExtResource("20_ch302")
+}, {
+"duration": 1.0,
+"texture": ExtResource("21_qeejk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("22_vmlwb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("23_78h0d")
+}, {
+"duration": 1.0,
+"texture": ExtResource("24_jwfsm")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
