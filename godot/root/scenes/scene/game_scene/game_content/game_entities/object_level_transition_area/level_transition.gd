@@ -37,6 +37,23 @@ func _ready() -> void:
 	_update_area()
 	if Engine.is_editor_hint():
 		return
+
+	collision_shape.set_deferred("disabled", true)
+
+	_arm_transition_safely()
+
+
+func _arm_transition_safely() -> void:
+	var game_scene = get_tree().get_first_node_in_group("game_scene")
+
+	if game_scene:
+		while game_scene.get("is_transitioning") == true:
+			await get_tree().process_frame
+
+	await get_tree().physics_frame
+	await get_tree().physics_frame
+
+	collision_shape.set_deferred("disabled", false)
 	body_entered.connect(_player_entered)
 
 

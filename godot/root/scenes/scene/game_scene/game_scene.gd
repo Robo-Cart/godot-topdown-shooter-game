@@ -10,11 +10,16 @@ extends Node
 
 @onready var ui_builder: UiBuilder = %UiBuilder
 
+var is_transitioning: bool = false
+
 var transition_rect: ColorRect
 
 
 # Esc key shortcut toggles pause menu or exits from options via back button
 func _input(_event: InputEvent) -> void:
+	if is_transitioning:
+		return
+
 	if Input.is_action_just_pressed("game_pause"):
 		if get_tree().paused:
 			if pause_menu.visible:
@@ -51,6 +56,9 @@ func _setup_transition_screen() -> void:
 
 
 func fade_out() -> void:
+	is_transitioning = true
+	get_tree().paused = true
+
 	var tween = create_tween()
 	tween.tween_property(transition_rect, "color:a", 1.0, 0.4)
 	await tween.finished
@@ -60,6 +68,9 @@ func fade_in() -> void:
 	var tween = create_tween()
 	tween.tween_property(transition_rect, "color:a", 0.0, 0.4)
 	await tween.finished
+
+	get_tree().paused = false
+	is_transitioning = false
 
 
 func _after_pause() -> void:
