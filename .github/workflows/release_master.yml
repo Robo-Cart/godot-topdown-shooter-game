@@ -7,7 +7,7 @@ on:
       - master
 
 env:
-  GODOT_VERSION: 4.4
+  GODOT_VERSION: 4.6
   EXPORT_NAME: takin-godot-template
   PROJECT_PATH: godot
 
@@ -16,7 +16,7 @@ jobs:
     name: export (web) # & deploy to github pages
     runs-on: ubuntu-latest
     container:
-      image: barichello/godot-ci:4.4
+      image: barichello/godot-ci:4.6
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -51,7 +51,7 @@ jobs:
     name: export (windows)
     runs-on: ubuntu-latest
     container:
-      image: barichello/godot-ci:4.4
+      image: barichello/godot-ci:4.6
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -80,7 +80,7 @@ jobs:
   #  name: export (linux)
   #  runs-on: ubuntu-latest
   #  container:
-  #    image: barichello/godot-ci:4.4
+  #    image: barichello/godot-ci:4.6
   #  steps:
   #    - name: Checkout
   #      uses: actions/checkout@v4
@@ -106,7 +106,7 @@ jobs:
   #  name: export (mac)
   #  runs-on: ubuntu-latest
   #  container:
-  #    image: barichello/godot-ci:4.4
+  #    image: barichello/godot-ci:4.6
   #  steps:
   #    - name: Checkout
   #      uses: actions/checkout@v4
