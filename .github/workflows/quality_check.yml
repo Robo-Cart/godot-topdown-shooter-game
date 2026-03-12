@@ -2,7 +2,9 @@
 name: quality-check
 
 on:
-  [push, pull_request]
+  push:
+  pull_request:
+  workflow_dispatch:
 
 jobs:
   # Job to automatically lint gdscript code
