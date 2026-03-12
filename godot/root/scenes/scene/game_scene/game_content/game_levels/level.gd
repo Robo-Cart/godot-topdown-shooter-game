@@ -182,7 +182,7 @@ func _get_spawn_position(location: SpawnConfig.Location) -> Vector2:
 
 
 func _spawn_enemy(
-	scene_path: String, nice_name: String, location: SpawnConfig.Location, wave_stamp: String
+	scene_path: String, nice_name: String, location: SpawnConfig.Location, _wave_stamp: String
 ) -> void:
 	if scene_path == "" or scene_path == null:
 		LogWrapper.debug(self, "CRITICAL: Cannot spawn '%s'. No scene path assigned!" % nice_name)
@@ -208,7 +208,7 @@ func _spawn_enemy(
 
 
 func _spawn_powerup(
-	scene_path: String, nice_name: String, location: SpawnConfig.Location, wave_stamp: String
+	scene_path: String, nice_name: String, location: SpawnConfig.Location, _wave_stamp: String
 ) -> void:
 	if scene_path == "" or scene_path == null:
 		LogWrapper.debug(self, "CRITICAL: Cannot spawn '%s'. No scene path assigned!" % nice_name)

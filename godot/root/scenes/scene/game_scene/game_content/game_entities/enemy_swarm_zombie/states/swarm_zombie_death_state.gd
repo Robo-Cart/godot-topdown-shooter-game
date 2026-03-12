@@ -7,7 +7,7 @@ func enter() -> void:
 	swarm.velocity = Vector2.ZERO
 	swarm.play_animation("death")
 
-	var death_audio = swarm.get_node_or_null("DeathAudio")
+	var death_audio: AudioStreamPlayer2D = swarm.get_node_or_null("DeathAudio")
 	if death_audio:
 		death_audio.pitch_scale = randf_range(0.8, 1.2)
 		death_audio.play()
@@ -15,7 +15,7 @@ func enter() -> void:
 	swarm.set_deferred("collision_layer", 0)
 	swarm.set_deferred("collision_mask", 0)
 
-	var hurtbox = swarm.get_node_or_null("HurtboxComponent")
+	var hurtbox: HurtboxComponent = swarm.get_node_or_null("HurtboxComponent")
 	if hurtbox:
 		hurtbox.set_deferred("collision_layer", 0)
 		hurtbox.set_deferred("collision_mask", 0)
@@ -23,12 +23,12 @@ func enter() -> void:
 			if child is CollisionShape2D:
 				child.set_deferred("disabled", true)
 
-	var tween = swarm.create_tween()
+	var tween: Tween = swarm.create_tween()
 
 	tween.tween_property(swarm, "modulate:a", 0.0, fade_duration)
 
 
-func physics_process_state(delta: float) -> void:
+func physics_process_state(_delta: float) -> void:
 	swarm.velocity = Vector2.ZERO
 	swarm.move_and_slide()
 

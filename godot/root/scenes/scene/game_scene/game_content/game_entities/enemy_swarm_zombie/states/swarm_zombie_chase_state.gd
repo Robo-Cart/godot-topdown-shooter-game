@@ -11,7 +11,7 @@ func enter() -> void:
 	swarm.play_animation("run")
 
 
-func physics_process_state(delta: float) -> void:
+func physics_process_state(_delta: float) -> void:
 	if not is_instance_valid(player):
 		swarm.velocity = Vector2.ZERO
 		swarm.move_and_slide()

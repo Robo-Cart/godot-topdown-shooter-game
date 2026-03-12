@@ -17,7 +17,7 @@ func enter() -> void:
 	swarm.play_animation("attack")
 
 	if is_instance_valid(player):
-		var direction = (player.global_position - swarm.global_position).normalized()
+		var direction: Vector2 = (player.global_position - swarm.global_position).normalized()
 		swarm.update_facing_direction(direction)
 
 
@@ -42,10 +42,10 @@ func _deliver_bite() -> void:
 	var distance: float = player.global_position.distance_to(swarm.global_position)
 
 	if distance <= 75.0:
-		var player_hurtbox = player.get_node_or_null("HurtboxComponent")
+		var player_hurtbox: HurtboxComponent = player.get_node_or_null("HurtboxComponent")
 
 		if player_hurtbox and player_hurtbox.has_method("damage"):
-			var attack = AttackEntity.new()
+			var attack: AttackEntity = AttackEntity.new()
 
 			attack.damage = attack_damage
 

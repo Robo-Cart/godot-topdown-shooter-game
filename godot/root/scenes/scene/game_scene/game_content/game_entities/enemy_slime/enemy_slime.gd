@@ -4,7 +4,6 @@ extends CharacterBody2D
 @export var display_name: String = "Enemy"
 
 @export var animation_tree: AnimationTree
-@onready var playback: AnimationNodeStateMachinePlayback = animation_tree.get("parameters/playback")
 @onready var sprite: Sprite2D = $Sprite2D
 
 @export_group("Vision Ranges")
@@ -13,11 +12,13 @@ extends CharacterBody2D
 
 var stunned: bool = false
 
+var playback: AnimationNodeStateMachinePlayback
+
 
 func _ready() -> void:
 	add_to_group("enemy")
 	animation_tree.active = true
-
+	playback = animation_tree.get("parameters/playback")
 	if playback == null:
 		push_error("AnimationTree playback is NULL. Check state machine setup.")
 
@@ -36,7 +37,15 @@ func _draw() -> void:
 
 
 func play_animation(_name: String) -> void:
+	if playback == null:
+		if animation_tree == null:
+			animation_tree = get_node_or_null("AnimationTree")
+
+		if animation_tree:
+			animation_tree.active = true
+			playback = animation_tree.get("parameters/playback")
+
 	if playback:
 		playback.travel(_name)
 	else:
-		push_error("Tried to play animation but playback is null.")
+		push_error("Tried to play animation '%s' but playback is still null!" % _name)

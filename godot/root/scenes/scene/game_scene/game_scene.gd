@@ -43,7 +43,7 @@ func _ready() -> void:
 
 
 func _setup_transition_screen() -> void:
-	var canvas = CanvasLayer.new()
+	var canvas: CanvasLayer = CanvasLayer.new()
 	canvas.layer = 100
 
 	transition_rect = ColorRect.new()
@@ -59,13 +59,13 @@ func fade_out() -> void:
 	is_transitioning = true
 	get_tree().paused = true
 
-	var tween = create_tween()
+	var tween: Tween = create_tween()
 	tween.tween_property(transition_rect, "color:a", 1.0, 0.4)
 	await tween.finished
 
 
 func fade_in() -> void:
-	var tween = create_tween()
+	var tween: Tween = create_tween()
 	tween.tween_property(transition_rect, "color:a", 0.0, 0.4)
 	await tween.finished
 

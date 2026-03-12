@@ -44,7 +44,7 @@ func _ready() -> void:
 
 
 func _arm_transition_safely() -> void:
-	var game_scene = get_tree().get_first_node_in_group("game_scene")
+	var game_scene: GameScene = get_tree().get_first_node_in_group("game_scene")
 
 	if game_scene:
 		while game_scene.get("is_transitioning") == true:
@@ -85,7 +85,7 @@ func _player_entered(_player: Node2D) -> void:
 	collision_shape.set_deferred("disabled", true)
 	LogWrapper.debug(self, "Player entered transition area.")
 
-	var game_scene = get_tree().get_first_node_in_group("game_scene")
+	var game_scene: GameScene = get_tree().get_first_node_in_group("game_scene")
 
 	if game_scene and game_scene.has_method("fade_out"):
 		await game_scene.fade_out()

@@ -18,7 +18,7 @@ func _ready() -> void:
 
 func try_chase() -> bool:
 	if player and slime:
-		var distance = player.global_position.distance_to(slime.global_position)
+		var distance: float = player.global_position.distance_to(slime.global_position)
 		if distance <= slime.detection_radius:
 			transitioned.emit(self, "chase")
 			return true

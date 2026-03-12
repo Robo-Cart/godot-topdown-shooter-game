@@ -16,7 +16,7 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	if !hit:
-		var collider = RayCast.get_collider()
+		var collider: Object = RayCast.get_collider()
 
 		if collider != null and RayCast.is_colliding() and !collider.is_in_group("player"):
 			Impact.play()
@@ -26,7 +26,7 @@ func _physics_process(delta: float) -> void:
 			$DistanceTimeout.start()
 
 		if collider is HurtboxComponent:
-			var attack = AttackEntity.new()
+			var attack: AttackEntity = AttackEntity.new()
 			attack.damage = 1
 
 			attack.knockback_force = 300.0

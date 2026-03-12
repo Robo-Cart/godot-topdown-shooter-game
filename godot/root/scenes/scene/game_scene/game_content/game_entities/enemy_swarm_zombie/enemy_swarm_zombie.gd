@@ -20,7 +20,7 @@ func _ready() -> void:
 
 	play_animation("run")
 
-	var health_comp = $HealthComponent
+	var health_comp: HealthComponent = $HealthComponent
 	if health_comp:
 		health_comp.damaged.connect(_on_damaged)
 
@@ -52,7 +52,7 @@ func play_animation(anim_name: String) -> void:
 	anim_sprite.play(anim_name)
 
 
-func _on_damaged(_attack) -> void:
+func _on_damaged(_attack: AttackEntity) -> void:
 	if hit_audio:
 		hit_audio.pitch_scale = randf_range(0.8, 1.2)
 		hit_audio.play()
