@@ -27,7 +27,7 @@ func _ready() -> void:
 	_connect_signals()
 	_toggle(main_menu)
 
-	AudioManagerWrapper.play_music(AudioEnum.Music.Rock_1, 1.0)
+	AudioManagerWrapper.play_music(AudioEnum.Music.ROCK_1, 1.0)
 
 	LogWrapper.debug(self, "Scene ready.")
 
