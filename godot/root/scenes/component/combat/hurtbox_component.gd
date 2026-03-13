@@ -1,10 +1,9 @@
-extends Area2D
 class_name HurtboxComponent
+extends Area2D
 
 @export var health_component: HealthComponent
 
 
-# Now accepts your custom AttackEntity instead of an integer
 func damage(attack: AttackEntity) -> void:
 	if health_component:
 		health_component.take_damage(attack)

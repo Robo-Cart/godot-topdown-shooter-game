@@ -1,18 +1,17 @@
 class_name GameScene
 extends Node
+
 @export_group("Menu Scene")
 @export var scene: SceneManagerEnum.Scene = SceneManagerEnum.Scene.MENU_SCENE
 @export var scene_manager_options_id: String = "fade_play"
 
+var is_transitioning: bool = false
+var transition_rect: ColorRect
+
 @onready var game_content: Node = $GameContent
 @onready var pause_menu: PauseMenu = %PauseMenu
 @onready var options_menu: OptionsMenu = %OptionsMenu
-
 @onready var ui_builder: UiBuilder = %UiBuilder
-
-var is_transitioning: bool = false
-
-var transition_rect: ColorRect
 
 
 # Esc key shortcut toggles pause menu or exits from options via back button

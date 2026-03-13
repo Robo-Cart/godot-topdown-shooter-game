@@ -1,10 +1,10 @@
 extends Sprite2D
 
-@onready var Impact: AudioStreamPlayer2D = $Impact
-@onready var HitParticle: CPUParticles2D = $HitParticle
-
-var speed: float = 1000
+var speed: float = 1000.0
 var hit: bool = false
+
+@onready var impact: AudioStreamPlayer2D = $Impact
+@onready var hit_particle: CPUParticles2D = $HitParticle
 
 
 func _ready() -> void:
@@ -51,11 +51,13 @@ func _on_hitbox_body_entered(body: Node2D) -> void:
 
 func _process_hit() -> void:
 	hit = true
-	Impact.play()
-	HitParticle.emitting = true
+
+	impact.play()
+	hit_particle.emitting = true
+
 	texture = null
 
-	var hitbox: Area2D = get_node_or_null("HitboxArea")
+	var hitbox = get_node_or_null("HitboxArea")
 	if hitbox:
 		hitbox.set_deferred("monitorable", false)
 		hitbox.set_deferred("monitoring", false)

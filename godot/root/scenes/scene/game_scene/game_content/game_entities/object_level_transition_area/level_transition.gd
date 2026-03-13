@@ -1,11 +1,10 @@
 @tool
-class_name LevelTransition extends Area2D
+class_name LevelTransition
+extends Area2D
 
 signal transition_to_level(
 	next_level_path: String, target_transition_area: String, location_offset: Vector2
 )
-
-@onready var player: Player = get_tree().get_first_node_in_group("player")
 
 enum SIDE { NORTH, EAST, SOUTH, WEST }
 
@@ -15,21 +14,30 @@ enum SIDE { NORTH, EAST, SOUTH, WEST }
 @export_category("Collision Area Settings")
 
 @export_range(1, 12, 1, "or_greater") var size: int = 2:
-	set(_v):
-		size = _v
-		_update_area()
-
+	set = _set_size
 @export var pixel_size: int = 32
 @export var side: SIDE = SIDE.WEST:
-	set(_v):
-		side = _v
-		_update_area()
-
+	set = _set_side
 @export var snap_to_grid: bool = false:
-	set(_v):
-		_snap_to_grid()
+	set = _set_snap_to_grid
 
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D
+@onready var player: Player = get_tree().get_first_node_in_group("player")
+
+
+func _set_size(_v: int) -> void:
+	size = _v
+	_update_area()
+
+
+func _set_side(_v: SIDE) -> void:
+	side = _v
+	_update_area()
+
+
+func _set_snap_to_grid(_v: bool) -> void:
+	snap_to_grid = _v
+	_snap_to_grid()
 
 
 func _ready() -> void:

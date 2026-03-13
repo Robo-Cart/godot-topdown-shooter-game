@@ -3,7 +3,7 @@ extends DroneState
 @export var speed: float = 100.0
 
 
-func physics_process_state(delta: float) -> void:
+func physics_process_state(_delta: float) -> void:
 	if not is_instance_valid(player):
 		return
 

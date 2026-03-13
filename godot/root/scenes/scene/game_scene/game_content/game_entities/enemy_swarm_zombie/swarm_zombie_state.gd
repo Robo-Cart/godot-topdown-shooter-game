@@ -1,8 +1,9 @@
 class_name SwarmZombieState
 extends State
 
-@onready var swarm: EnemySwarmZombie = owner as EnemySwarmZombie
 var player: Node2D
+
+@onready var swarm: EnemySwarmZombie = owner as EnemySwarmZombie
 
 
 func _ready() -> void:

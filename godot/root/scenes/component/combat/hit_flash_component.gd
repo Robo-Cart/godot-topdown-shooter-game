@@ -1,5 +1,5 @@
-extends Node
 class_name HitFlashComponent
+extends Node
 
 @export var health_component: HealthComponent
 @export var hit_flash_anim: AnimationPlayer

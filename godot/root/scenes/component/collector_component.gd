@@ -1,5 +1,5 @@
-extends Area2D
 class_name CollectorComponent
+extends Area2D
 
 @export var target_entity: Node
 

@@ -1,5 +1,5 @@
-extends Node2D
 class_name WeaponComponent
+extends Node2D
 
 signal weapon_fired(recoil_force: float, look_vector: Vector2)
 

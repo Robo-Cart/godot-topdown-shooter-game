@@ -2,13 +2,13 @@
 # - https://github.com/godotengine/godot-demo-projects/tree/master/3d/graphics_settings
 extends Control
 
-@onready var level_content_node: Node = $LevelContent
-@onready var player: Player = get_tree().get_first_node_in_group("player")
-
 var target_transition_area: String
 var position_offset: Vector2
 var player_characterbody2d_node: CollisionShape2D
 var is_transitioning: bool = false
+
+@onready var level_content_node: Node = $LevelContent
+@onready var player: Player = get_tree().get_first_node_in_group("player")
 
 
 func _ready() -> void:
@@ -62,7 +62,8 @@ func load_level_from_path(
 		for grandchild in child.get_children():
 			if grandchild.is_in_group("level_transition_area"):
 				grandchild.transition_to_level.connect(_on_level_completed)
-				if position_offset != Vector2.ZERO:  # first level load passes a zero offset, others will always have a value
+				# first level load passes a zero offset, others will always have a value
+				if position_offset != Vector2.ZERO:
 					if grandchild.name == target_transition_area:
 						player.global_position = grandchild.global_position + position_offset
 

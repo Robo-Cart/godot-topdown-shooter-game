@@ -1,5 +1,5 @@
-extends Resource
 class_name LevelData
+extends Resource
 
 @export var level_name: String = "LEVEL NAME"
 @export var level_number: int = 1

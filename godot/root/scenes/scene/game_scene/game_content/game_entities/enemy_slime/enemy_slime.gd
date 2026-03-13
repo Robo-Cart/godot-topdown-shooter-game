@@ -2,17 +2,16 @@ class_name EnemySlime
 extends CharacterBody2D
 
 @export var display_name: String = "Enemy"
-
 @export var animation_tree: AnimationTree
-@onready var sprite: Sprite2D = $Sprite2D
 
 @export_group("Vision Ranges")
 @export var detection_radius: float = 175.0
 @export var attack_range: float = 20.0
 
 var stunned: bool = false
-
 var playback: AnimationNodeStateMachinePlayback
+
+@onready var sprite: Sprite2D = $Sprite2D
 
 
 func _ready() -> void:

@@ -1,31 +1,30 @@
 class_name Player
 extends CharacterBody2D
 
-@export_group("Player Parameters")
-@onready var player_man: Node3D = $SubViewportContainer/SubViewport/Player_Man_3D
-@onready
-var animation_tree: AnimationTree = $SubViewportContainer/SubViewport/Player_Man_3D.get_node(
-	"AnimationTree"
-)
-@onready var Camera: Camera2D = $Camera2D
-
-@onready var weapon_comp: WeaponComponent = $WeaponComponent
-@onready var health_comp: HealthComponent = $HealthComponent
-
-@export var speed: float = 200
-@export var physicscontrol: bool = false
-@export var MAX_SPEED: float = 200.0
-@export var ACCELERATION: float = 800.0
-
-var permanent_buffs: Dictionary = {}
 const FRICTION = 900.0
 
+@export_group("Player Parameters")
+@export var speed: float = 200
+@export var physicscontrol: bool = false
+@export var max_speed: float = 200.0
+@export var acceleration: float = 800.0
+
+var permanent_buffs: Dictionary = {}
 var input_move: Vector2
 var input_aim: Vector2
 var playback: AnimationNodeStateMachinePlayback
 var look_vector: Vector2
 var player_offset_angle: float = 89.5
 var mouse_captured: bool = false
+
+@onready var player_man: Node3D = $SubViewportContainer/SubViewport/Player_Man_3D
+@onready
+var animation_tree: AnimationTree = $SubViewportContainer/SubViewport/Player_Man_3D.get_node(
+	"AnimationTree"
+)
+@onready var camera: Camera2D = $Camera2D
+@onready var weapon_comp: WeaponComponent = $WeaponComponent
+@onready var health_comp: HealthComponent = $HealthComponent
 
 
 func _ready() -> void:
@@ -52,7 +51,7 @@ func _physics_process(delta: float) -> void:
 
 	if physicscontrol:
 		if input_move:
-			velocity = velocity.move_toward(input_move * MAX_SPEED, ACCELERATION * delta)
+			velocity = velocity.move_toward(input_move * max_speed, acceleration * delta)
 		else:
 			velocity = velocity.move_toward(Vector2.ZERO, FRICTION * delta)
 	else:
@@ -62,7 +61,7 @@ func _physics_process(delta: float) -> void:
 		player_man.rotation.y = -input_aim.angle() + player_offset_angle
 		$CentrePoint.global_rotation = input_aim.angle()
 		look_vector = input_aim.normalized()
-	elif input_move != Vector2.ZERO:  # (Optimized your previous if/else block)
+	elif input_move != Vector2.ZERO:
 		player_man.rotation.y = -input_move.angle() + player_offset_angle
 		$CentrePoint.global_rotation = input_move.angle()
 		look_vector = input_move.normalized()
@@ -76,7 +75,7 @@ func _physics_process(delta: float) -> void:
 
 
 func _on_weapon_fired(recoil: float, l_vector: Vector2) -> void:
-	Camera.add_trauma(0.15)
+	camera.add_trauma(0.15)
 	velocity -= l_vector * recoil
 
 

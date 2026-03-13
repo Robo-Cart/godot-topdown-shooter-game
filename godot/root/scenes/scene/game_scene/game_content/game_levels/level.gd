@@ -172,7 +172,6 @@ func _get_spawn_position(location: SpawnConfig.Location) -> Vector2:
 		)
 
 		return base_spawn_pos + (perpendicular_direction * random_slide)
-
 	else:
 		LogWrapper.debug(
 			self,

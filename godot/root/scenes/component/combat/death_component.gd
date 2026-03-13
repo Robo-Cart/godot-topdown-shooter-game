@@ -1,5 +1,5 @@
-extends Node
 class_name DeathComponent
+extends Node
 
 @export var health_component: HealthComponent
 @export var entity: Node2D

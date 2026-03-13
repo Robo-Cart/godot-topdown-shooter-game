@@ -1,11 +1,12 @@
-extends Node
 class_name HealthComponent
+extends Node
 
 signal health_changed(current_health: int, max_health: int)
 signal died
 signal damaged(attack: AttackEntity)
 
 @export var max_health: int = 100
+
 var current_health: int
 
 

@@ -1,25 +1,21 @@
 @tool
-extends Resource
 class_name EnemyWaveConfig
+extends Resource
 
 @export var time_stamp: String = "0:00":
 	set(value):
 		time_stamp = value
 		time = _convert_to_seconds(value)
-
-var time: float = 0.0
-
 @export var enemy_name: String = "Default Enemy"
 @export_file("*.tscn") var enemy_scene_path: String:
 	set(value):
 		enemy_scene_path = value
 		_update_enemy_name()
-
 @export var number_of_enemies: int = 1
 @export var seconds_to_spawn_over: float = 0.0
-
-# Uses the globally shared enum
 @export var spawn_points: Array[SpawnConfig.Location]
+
+var time: float = 0.0
 
 
 func _convert_to_seconds(string_time: String) -> float:

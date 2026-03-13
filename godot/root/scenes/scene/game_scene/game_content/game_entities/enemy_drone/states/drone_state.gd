@@ -1,8 +1,9 @@
 class_name DroneState
 extends State
 
-@onready var drone: Drone = owner as Drone
 var player: Node2D
+
+@onready var drone: Drone = owner as Drone
 
 
 func _ready() -> void:

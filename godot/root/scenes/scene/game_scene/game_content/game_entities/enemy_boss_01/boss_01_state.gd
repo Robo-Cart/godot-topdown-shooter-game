@@ -1,8 +1,9 @@
 class_name BossState
 extends State
 
-@onready var boss: Node2D = owner
 var player: Node2D
+
+@onready var boss: Node2D = owner
 
 
 func _ready() -> void:
