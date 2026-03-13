@@ -153,3 +153,4 @@ stream = ExtResource("34_cqv16")
 
 [node name="DeathAudio" type="AudioStreamPlayer2D" parent="." unique_id=904114844]
 stream = ExtResource("35_8xxds")
+volume_db = -15.0

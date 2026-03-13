@@ -8,20 +8,15 @@
 offsets = PackedFloat32Array(0, 0.46961325, 1)
 colors = PackedColorArray(0.9833358, 0.7587462, 0.11645999, 1, 0.468777, 0.46877706, 0.468777, 1, 0.24115604, 0.24115604, 0.24115604, 0.22745098)
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_6ye5c"]
+radius = 10.129512
+height = 35.453293
+
 [node name="Bullet01" type="Sprite2D" unique_id=705673090]
 rotation = 3.1415927
 scale = Vector2(0.39488578, 0.39488578)
 texture = ExtResource("1_mh5wm")
 script = ExtResource("1_hwh1t")
-
-[node name="RayCast2D" type="RayCast2D" parent="." unique_id=132581369]
-position = Vector2(15.194266, -1.3283249e-06)
-rotation = 4.712389
-scale = Vector2(2.435, 2.435)
-target_position = Vector2(1.5001617e-06, 11.4399)
-collision_mask = 2
-hit_from_inside = true
-collide_with_areas = true
 
 [node name="DistanceTimeout" type="Timer" parent="." unique_id=318516296]
 wait_time = 3.0
@@ -54,5 +49,13 @@ scale_amount_min = 0.0
 scale_amount_max = 5.0
 color = Color(1, 1, 1, 0.9254902)
 color_ramp = SubResource("Gradient_id111")
+
+[node name="HitboxArea" type="Area2D" parent="." unique_id=759766422]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxArea" unique_id=458514862]
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_6ye5c")
 
 [connection signal="timeout" from="DistanceTimeout" to="." method="_on_distance_timeout_timeout"]
