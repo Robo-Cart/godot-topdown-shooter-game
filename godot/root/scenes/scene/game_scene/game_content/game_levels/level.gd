@@ -172,12 +172,11 @@ func _get_spawn_position(location: SpawnConfig.Location) -> Vector2:
 		)
 
 		return base_spawn_pos + (perpendicular_direction * random_slide)
-	else:
-		LogWrapper.debug(
-			self,
-			"WARNING: No valid spawner found for location %s! Defaulting to center." % location
-		)
-		return Vector2.ZERO
+
+	LogWrapper.debug(
+		self, "WARNING: No valid spawner found for location %s! Defaulting to center." % location
+	)
+	return Vector2.ZERO
 
 
 func _spawn_enemy(

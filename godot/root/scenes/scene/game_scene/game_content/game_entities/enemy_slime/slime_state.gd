@@ -1,8 +1,9 @@
 class_name SlimeState
 extends State
 
-@onready var slime: EnemySlime = owner as EnemySlime
 var player: Node2D
+
+@onready var slime: EnemySlime = owner as EnemySlime
 
 
 func _ready() -> void:

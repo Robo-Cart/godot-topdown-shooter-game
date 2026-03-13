@@ -7,13 +7,13 @@ extends Node
 const MENU_DOODLE_2_LOOP: AudioStream = preload(
 	PathConsts.ASSETS + "audio/music/menu_doodle_2_loop/ogg/menu_doodle_2_loop.ogg"
 )
-const Retro_Rock_1: AudioStream = preload(
+const RETRO_ROCK_1: AudioStream = preload(
 	PathConsts.ASSETS + "audio/music/Retro Rock/Retro Rock Theme #1 (looped).wav"
 )
-const Retro_Rock_2: AudioStream = preload(
+const RETRO_ROCK_2: AudioStream = preload(
 	PathConsts.ASSETS + "audio/music/Retro Rock/Retro Rock Theme #4 (looped).wav"
 )
-const Retro_Rock_3: AudioStream = preload(
+const RETRO_ROCK_3: AudioStream = preload(
 	PathConsts.ASSETS + "audio/music/Retro Rock/Retro Rock Theme #5 (looped).wav"
 )
 

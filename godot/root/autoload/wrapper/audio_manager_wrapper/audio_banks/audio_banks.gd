@@ -27,9 +27,9 @@ func _init_resonate_audio_banks() -> void:
 
 	var music_tracks: Array[MusicTrackResource] = []
 	music_tracks.append(_init_music(AssetReference.MENU_DOODLE_2_LOOP, AudioEnum.Music.MENU_DOODLE))
-	music_tracks.append(_init_music(AssetReference.Retro_Rock_1, AudioEnum.Music.ROCK_1))
-	music_tracks.append(_init_music(AssetReference.Retro_Rock_2, AudioEnum.Music.ROCK_2))
-	music_tracks.append(_init_music(AssetReference.Retro_Rock_3, AudioEnum.Music.ROCK_3))
+	music_tracks.append(_init_music(AssetReference.RETRO_ROCK_1, AudioEnum.Music.ROCK_1))
+	music_tracks.append(_init_music(AssetReference.RETRO_ROCK_2, AudioEnum.Music.ROCK_2))
+	music_tracks.append(_init_music(AssetReference.RETRO_ROCK_3, AudioEnum.Music.ROCK_3))
 	music_bank.tracks = music_tracks
 
 	var sound_tracks: Array[SoundEventResource] = []
