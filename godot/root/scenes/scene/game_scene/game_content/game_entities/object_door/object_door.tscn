@@ -19,7 +19,7 @@ tracks/0/keys = {
 }
 
 [sub_resource type="Animation" id="Animation_qpn2k"]
-resource_name = "horizontal_door_close"
+resource_name = "close_door"
 length = 0.8
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -35,7 +35,7 @@ tracks/0/keys = {
 }
 
 [sub_resource type="Animation" id="Animation_a4i0j"]
-resource_name = "horizontal_door_open"
+resource_name = "open_door"
 length = 0.8
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -53,8 +53,8 @@ tracks/0/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_qpn2k"]
 _data = {
 &"RESET": SubResource("Animation_imm6v"),
-&"horizontal_door_close": SubResource("Animation_qpn2k"),
-&"horizontal_door_open": SubResource("Animation_a4i0j")
+&"close_door": SubResource("Animation_qpn2k"),
+&"open_door": SubResource("Animation_a4i0j")
 }
 
 [sub_resource type="Animation" id="Animation_yeat8"]
@@ -152,7 +152,6 @@ scale = Vector2(1.8, 1.8)
 script = ExtResource("1_a4i0j")
 
 [node name="HorizontalSprite2D" type="Sprite2D" parent="." unique_id=1180269633]
-visible = false
 texture = ExtResource("1_imm6v")
 hframes = 9
 vframes = 10
