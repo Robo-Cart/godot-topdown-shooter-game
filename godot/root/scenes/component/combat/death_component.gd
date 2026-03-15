@@ -19,11 +19,9 @@ func _on_died() -> void:
 		entity.set_deferred("collision_mask", 0)
 		_disable_shapes(entity)
 
-	var hurtbox: Area2D = null
-	if entity.has_node("HurtboxComponent"):
-		hurtbox = entity.get_node("HurtboxComponent")
-	elif get_parent().has_node("HurtboxComponent"):
-		hurtbox = get_parent().get_node("HurtboxComponent")
+	var hurtbox: Area2D = entity.find_child("HurtboxComponent", true, false)
+	if not hurtbox and get_parent():
+		hurtbox = get_parent().find_child("HurtboxComponent", true, false)
 
 	if hurtbox:
 		hurtbox.set_deferred("collision_layer", 0)
@@ -49,3 +47,5 @@ func _disable_shapes(node: Node) -> void:
 	for child in node.get_children():
 		if child is CollisionShape2D or child is CollisionPolygon2D:
 			child.set_deferred("disabled", true)
+			child.set_deferred("visible", false)
+		_disable_shapes(child)

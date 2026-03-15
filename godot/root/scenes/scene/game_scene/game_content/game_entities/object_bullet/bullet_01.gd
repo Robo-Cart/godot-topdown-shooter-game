@@ -57,7 +57,7 @@ func _process_hit() -> void:
 
 	texture = null
 
-	var hitbox = get_node_or_null("HitboxArea")
+	var hitbox: Area2D= get_node_or_null("HitboxArea")
 	if hitbox:
 		hitbox.set_deferred("monitorable", false)
 		hitbox.set_deferred("monitoring", false)

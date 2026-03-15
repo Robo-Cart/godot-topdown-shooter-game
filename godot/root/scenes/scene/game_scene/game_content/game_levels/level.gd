@@ -63,7 +63,8 @@ func _build_spawn_queue() -> void:
 					"enemy_name": wave.enemy_name,
 					"scene_path": wave.enemy_scene_path,
 					"location": point,
-					"wave_stamp": wave.time_stamp
+					"wave_stamp": wave.time_stamp,
+					"wait_before_spawn": wave.is_boss_wave and i == 0
 				}
 			)
 
@@ -104,11 +105,52 @@ func _build_spawn_queue() -> void:
 		self, "Built unified spawn queue with %d total events scheduled." % spawn_queue.size()
 	)
 
+	# --- 4. Detailed Logging Summary ---
+	LogWrapper.debug(self, "--- Level Spawn Schedule Summary ---")
+
+	LogWrapper.debug(self, "[Enemy Waves]")
+	for wave in level_data.enemy_wave_config:
+		var boss_tag: String = " [BOSS WAVE]" if wave.is_boss_wave else ""
+		LogWrapper.debug(
+			self,
+			(
+				"  - %s: %d x %s (over %.1fs)%s"
+				% [
+					wave.time_stamp,
+					wave.number_of_enemies,
+					wave.enemy_name,
+					wave.seconds_to_spawn_over,
+					boss_tag
+				]
+			)
+		)
+
+	if level_data.powerup_wave_config.size() > 0:
+		LogWrapper.debug(self, "[Powerup Waves]")
+		for powerup in level_data.powerup_wave_config:
+			LogWrapper.debug(
+				self,
+				"  - %s: %s (random factor: %d)"
+				% [powerup.time_stamp, powerup.display_name, powerup.random_factor]
+			)
+
+	LogWrapper.debug(self, "-----------------------------------")
+
 
 func _process(delta: float) -> void:
 	if not is_spawner_paused:
-		level_timer += delta
 		_check_spawns()
+
+		var is_blocked: bool = false
+		if current_spawn_index < spawn_queue.size():
+			var next_spawn: Dictionary = spawn_queue[current_spawn_index]
+			if next_spawn.get("wait_before_spawn", false) and level_timer >= next_spawn.time:
+				var enemies: Array[Node] = get_tree().get_nodes_in_group("enemy")
+				if enemies.size() > 0:
+					is_blocked = true
+
+		if not is_blocked:
+			level_timer += delta
 
 
 func _check_spawns() -> void:
@@ -117,6 +159,11 @@ func _check_spawns() -> void:
 		and level_timer >= spawn_queue[current_spawn_index].time
 	):
 		var spawn_data: Dictionary = spawn_queue[current_spawn_index]
+
+		if spawn_data.get("wait_before_spawn", false):
+			var enemies: Array[Node] = get_tree().get_nodes_in_group("enemy")
+			if enemies.size() > 0:
+				break
 
 		if spawn_data.category == "enemy":
 			_spawn_enemy(

@@ -7,6 +7,7 @@ extends CharacterBody2D
 
 @onready var pivot: Node2D = $Pivot
 @onready var anim_sprite: AnimatedSprite2D = $Pivot/AnimatedSprite2D
+@onready var collision_shape: CollisionShape2D = $CollisionShape2D
 @onready var hit_audio: AudioStreamPlayer2D = $HitAudio
 
 
@@ -19,6 +20,9 @@ func _ready() -> void:
 		anim_sprite.sprite_frames = zombie_variants.pick_random()
 
 	play_animation("run")
+
+	if collision_shape == null:
+		collision_shape = $CollisionShape2D
 
 	var health_comp: HealthComponent = $HealthComponent
 	if health_comp:
@@ -33,6 +37,8 @@ func update_facing_direction(direction: Vector2) -> void:
 		pivot = $Pivot
 	if anim_sprite == null:
 		anim_sprite = $Pivot/AnimatedSprite2D
+	if collision_shape == null:
+		collision_shape = $CollisionShape2D
 
 	if abs(direction.x) > abs(direction.y):
 		if direction.x > 0:
@@ -44,6 +50,10 @@ func update_facing_direction(direction: Vector2) -> void:
 			pivot.rotation_degrees = 90  # Facing Down
 		else:
 			pivot.rotation_degrees = -90  # Facing Up
+
+	# Synchronize physics collision shape with pivot transform
+	collision_shape.rotation = pivot.rotation
+	collision_shape.position = pivot.transform * Vector2(-130, 0)
 
 
 func play_animation(anim_name: String) -> void:

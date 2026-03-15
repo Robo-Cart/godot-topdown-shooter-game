@@ -16,6 +16,13 @@
 [ext_resource type="AudioStream" uid="uid://b5gh46ndrudg2" path="res://root/assets/audio/sfx/enemies/short_zombie_grunt.wav" id="34_cqv16"]
 [ext_resource type="AudioStream" uid="uid://cr7s1uv7h0d85" path="res://root/assets/audio/sfx/enemies/zombie_splat.wav" id="35_8xxds"]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_dweiy"]
+radius = 89.99999
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dweiy"]
+radius = 99.999985
+height = 319.99994
+
 [sub_resource type="Animation" id="Animation_6spbj"]
 length = 0.001
 tracks/0/type = "value"
@@ -83,19 +90,17 @@ _data = {
 &"hit": SubResource("Animation_ahfaj")
 }
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_dweiy"]
-radius = 89.99999
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dweiy"]
-radius = 99.999985
-height = 319.99994
-
 [node name="EnemySwarmZombie" type="CharacterBody2D" unique_id=2093724462]
 scale = Vector2(0.1, 0.1)
 collision_layer = 8
 collision_mask = 8
 script = ExtResource("1_b16n7")
 zombie_variants = Array[SpriteFrames]([ExtResource("2_wtgtx"), ExtResource("3_0rh43"), ExtResource("4_phixi"), ExtResource("5_r8k36")])
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1351060185]
+position = Vector2(-90, -20)
+shape = SubResource("CircleShape2D_dweiy")
+debug_color = Color(0.9162243, 7.7394245e-05, 0.7118291, 0.41960785)
 
 [node name="Pivot" type="Node2D" parent="." unique_id=1677670484]
 scale = Vector2(0.99999994, 0.99999994)
@@ -106,25 +111,19 @@ scale = Vector2(1.0000001, 1.0000001)
 sprite_frames = ExtResource("2_wtgtx")
 animation = &"walk"
 
-[node name="HitFlashAnim" type="AnimationPlayer" parent="." unique_id=1261603199]
-root_node = NodePath("../Pivot/AnimatedSprite2D")
-libraries/ = SubResource("AnimationLibrary_vl614")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1351060185]
-position = Vector2(0, -130.00012)
-shape = SubResource("CircleShape2D_dweiy")
-debug_color = Color(0.9162243, 7.7394245e-05, 0.7118291, 0.41960785)
-
-[node name="HurtboxComponent" type="Area2D" parent="." unique_id=401203993 node_paths=PackedStringArray("health_component")]
+[node name="HurtboxComponent" type="Area2D" parent="Pivot" unique_id=401203993 node_paths=PackedStringArray("health_component")]
 collision_layer = 2
 collision_mask = 0
 script = ExtResource("2_ewlbi")
-health_component = NodePath("../HealthComponent")
+health_component = NodePath("../../HealthComponent")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent" unique_id=1804630701]
-position = Vector2(9.999999, -130)
-rotation = 1.5707964
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Pivot/HurtboxComponent" unique_id=1804630701]
+position = Vector2(-90, -20)
 shape = SubResource("CapsuleShape2D_dweiy")
+
+[node name="HitFlashAnim" type="AnimationPlayer" parent="." unique_id=1261603199]
+root_node = NodePath("../Pivot/AnimatedSprite2D")
+libraries/ = SubResource("AnimationLibrary_vl614")
 
 [node name="HealthComponent" type="Node" parent="." unique_id=341638325]
 script = ExtResource("3_mghsy")
