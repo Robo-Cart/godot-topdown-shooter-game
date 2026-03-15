@@ -21,13 +21,15 @@ var anim_player: AnimationPlayer
 func _ready() -> void:
 	_update_visuals()
 	if not Engine.is_editor_hint():
+		self.add_to_group("object_door")
+
 		open_door()
 
 
 func _update_visuals() -> void:
-	var h_sprite: Sprite2D = find_child("HorizontalSprite2D", true, false)
-	var v_sprite1: Sprite2D = find_child("VerticalSprite2D1", true, false)
-	var v_sprite2: Sprite2D = find_child("VerticalSprite2D2", true, false)
+	var h_sprite: Sprite2D = get_node_or_null("HorizontalSprite2D")
+	var v_sprite1: Sprite2D = get_node_or_null("VerticalSprite2D1")
+	var v_sprite2: Sprite2D = get_node_or_null("VerticalSprite2D2")
 
 	if orientation_setting == ORIENTATION.HORIZONTAL:
 		if h_sprite:
@@ -36,8 +38,9 @@ func _update_visuals() -> void:
 			v_sprite1.visible = false
 		if v_sprite2:
 			v_sprite2.visible = false
-		anim_player = find_child("HorizontalAnimationPlayer", true, false)
-		LogWrapper.debug(self, "Horizontal door selected.")
+		anim_player = get_node_or_null("HorizontalAnimationPlayer")
+		if not Engine.is_editor_hint():
+			LogWrapper.debug(self, "Horizontal door selected.")
 	else:
 		if h_sprite:
 			h_sprite.visible = false
@@ -45,8 +48,9 @@ func _update_visuals() -> void:
 			v_sprite1.visible = true
 		if v_sprite2:
 			v_sprite2.visible = true
-		anim_player = find_child("VerticalAnimationPlayer", true, false)
-		LogWrapper.debug(self, "Vertical door selected.")
+		anim_player = get_node_or_null("VerticalAnimationPlayer")
+		if not Engine.is_editor_hint():
+			LogWrapper.debug(self, "Vertical door selected.")
 
 
 func open_door() -> void:

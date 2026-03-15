@@ -161,6 +161,7 @@ frame = 82
 libraries/ = SubResource("AnimationLibrary_qpn2k")
 
 [node name="VerticalSprite2D1" type="Sprite2D" parent="." unique_id=665742429]
+visible = false
 position = Vector2(0, -16)
 texture = ExtResource("1_imm6v")
 hframes = 9
@@ -168,6 +169,7 @@ vframes = 10
 frame = 27
 
 [node name="VerticalSprite2D2" type="Sprite2D" parent="." unique_id=867447501]
+visible = false
 position = Vector2(0, 16)
 texture = ExtResource("1_imm6v")
 hframes = 9
