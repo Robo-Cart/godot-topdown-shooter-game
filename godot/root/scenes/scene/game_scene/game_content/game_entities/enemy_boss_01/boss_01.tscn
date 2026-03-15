@@ -9,8 +9,13 @@
 [ext_resource type="Script" uid="uid://7vrqbtiavfn" path="res://root/scenes/component/combat/hit_flash_component.gd" id="8_kcmhs"]
 [ext_resource type="Script" uid="uid://bihaxf65bv1yl" path="res://root/scenes/component/combat/death_component.gd" id="9_2iv7x"]
 [ext_resource type="PackedScene" uid="uid://c5018b824r3l6" path="res://root/scenes/scene/game_scene/game_content/game_entities/enemy_boss_01/boss_01_area_shield.tscn" id="10_shield"]
+[ext_resource type="Script" uid="uid://cy2gymo1tpt6w" path="res://root/scenes/scene/game_scene/game_content/game_entities/enemy_boss_01/boss_01.gd" id="11_boss_script"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_rgq6k"]
+radius = 48.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_pulj5"]
+resource_local_to_scene = true
 shader = ExtResource("2_1ccfh")
 shader_parameter/hit_flash_color = Color(1, 1, 1, 0)
 shader_parameter/hit_flash_on = false
@@ -57,15 +62,29 @@ _data = {
 offsets = PackedFloat32Array(0, 0.17, 0.75, 1)
 colors = PackedColorArray(1, 1, 1, 1, 1, 0.23, 0, 1, 0.28, 0.28, 0.28, 1, 0.24, 0.24, 0.24, 0.23)
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_rgq6k"]
-radius = 48.0
-
 [node name="Boss01" type="CharacterBody2D" unique_id=1861805115]
 collision_layer = 2
 collision_mask = 19
+script = ExtResource("11_boss_script")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=567110759]
+position = Vector2(0, 22)
+shape = SubResource("CircleShape2D_rgq6k")
+
+[node name="HurtboxComponent" type="Area2D" parent="." unique_id=1846607698 node_paths=PackedStringArray("health_component")]
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("6_jsotf")
+health_component = NodePath("../HealthComponent")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent" unique_id=567110758]
+position = Vector2(0, 22)
+shape = SubResource("CircleShape2D_rgq6k")
+debug_color = Color(1, 0, 0, 0.419608)
 
 [node name="HealthComponent" type="Node" parent="." unique_id=139036767]
 script = ExtResource("7_5el3m")
+max_health = 10
 
 [node name="HitFlashComponent" type="Node" parent="." unique_id=993214952 node_paths=PackedStringArray("health_component", "hit_flash_anim")]
 script = ExtResource("8_kcmhs")
@@ -89,9 +108,11 @@ turrets = [NodePath("../../AreaShield/ShieldBody/Sprite2D/Turret"), NodePath("..
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1395820460]
 material = SubResource("ShaderMaterial_pulj5")
+scale = Vector2(0.95, 0.95)
 texture = ExtResource("1_x6opd")
 
 [node name="HitFlashAnim" type="AnimationPlayer" parent="." unique_id=1020130363]
+root_node = NodePath("../Sprite2D")
 libraries/ = SubResource("AnimationLibrary_rgq6k")
 
 [node name="DieParticle" type="CPUParticles2D" parent="." unique_id=1002894111]
@@ -116,28 +137,14 @@ scale_amount_max = 130.0
 color = Color(1, 1, 1, 0.925)
 color_ramp = SubResource("Gradient_02cdo")
 
-[node name="HurtboxComponent" type="Area2D" parent="." unique_id=1846607698 node_paths=PackedStringArray("health_component")]
-collision_layer = 2
-collision_mask = 0
-script = ExtResource("6_jsotf")
-health_component = NodePath("../HealthComponent")
+[node name="AreaShield" parent="." unique_id=523368191 instance=ExtResource("10_shield")]
+position = Vector2(-2, -6)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent" unique_id=567110758]
-position = Vector2(0, 22)
-shape = SubResource("CircleShape2D_rgq6k")
-debug_color = Color(1, 0, 0, 0.419608)
+[node name="AreaShield2" parent="." unique_id=1548050744 instance=ExtResource("10_shield")]
+position = Vector2(26.000002, 41.000004)
+rotation = 2.0944
+scale = Vector2(0.95, 0.95)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=567110759]
-position = Vector2(0, 22)
-shape = SubResource("CircleShape2D_rgq6k")
-
-[node name="AreaShield" parent="." unique_id=384102449 instance=ExtResource("10_shield")]
-position = Vector2(-2, -12)
-
-[node name="AreaShield2" parent="." unique_id=761701351 instance=ExtResource("10_shield")]
-position = Vector2(25, 34)
-rotation = 2.0141098
-
-[node name="AreaShield3" parent="." unique_id=228648912 instance=ExtResource("10_shield")]
-position = Vector2(-18.999998, 32)
-rotation = 4.049164
+[node name="AreaShield3" parent="." unique_id=582627403 instance=ExtResource("10_shield")]
+position = Vector2(-16.999998, 33)
+rotation = 4.1085052

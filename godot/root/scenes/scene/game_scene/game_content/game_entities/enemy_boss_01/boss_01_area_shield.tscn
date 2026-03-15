@@ -10,6 +10,7 @@
 [ext_resource type="Script" uid="uid://bihaxf65bv1yl" path="res://root/scenes/component/combat/death_component.gd" id="8_death"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_pulj5"]
+resource_local_to_scene = true
 shader = ExtResource("4_shader")
 shader_parameter/hit_flash_color = Color(1, 1, 1, 0)
 shader_parameter/hit_flash_on = false
@@ -84,7 +85,7 @@ health_component = NodePath("../HealthComponent")
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="ShieldBody/HurtboxComponent" unique_id=276147658]
 position = Vector2(-9, -3)
 rotation = -0.4834562
-polygon = PackedVector2Array(-23.506598, -77.84883, -5.931179, -107.02252, 4.560669, -94.73753, 35, -70, 48, -45, 54.42998, -15.471825, 55.62499, 14.521038, 48, 45, 35, 70, 15, 83, -0.5542526, 95.7115, -10.138775, 105.36226, -28.355366, 54.009007, -46.837696, 16.069538, -49.89208, -10.38175, -40.506653, -32.560883)
+polygon = PackedVector2Array(-23.506598, -77.84883, -5.931179, -107.02252, 6.8405914, -96.92888, 35, -70, 48, -45, 54.42998, -15.471825, 55.62499, 14.521038, 48, 45, 35, 70, 16.201992, 85.30824, 1.2165298, 96.64119, -10.138775, 105.36226, -28.355366, 54.009007, -46.837696, 16.069538, -49.89208, -10.38175, -40.506653, -32.560883)
 
 [node name="HitFlashAnim" type="AnimationPlayer" parent="ShieldBody" unique_id=745835387]
 libraries/ = SubResource("AnimationLibrary_rgq6k")
