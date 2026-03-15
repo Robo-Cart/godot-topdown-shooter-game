@@ -11,5 +11,5 @@ func _ready() -> void:
 
 func apply_effect(target: Node) -> void:
 	if target is Player:
-		target.MAX_SPEED += speed_increase
-		target.ACCELERATION += acceleration_increase
+		target.max_speed += speed_increase
+		target.acceleration += acceleration_increase

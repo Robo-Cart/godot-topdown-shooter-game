@@ -15,13 +15,20 @@ func enter() -> void:
 	swarm.set_deferred("collision_layer", 0)
 	swarm.set_deferred("collision_mask", 0)
 
-	var hurtbox: HurtboxComponent = swarm.get_node_or_null("HurtboxComponent")
+	# Disable and hide main collision shape
+	if "collision_shape" in swarm and swarm.collision_shape:
+		swarm.collision_shape.set_deferred("disabled", true)
+		swarm.collision_shape.set_deferred("visible", false)
+
+	# Disable and hide hurtbox collision shapes
+	var hurtbox: HurtboxComponent = swarm.find_child("HurtboxComponent", true, false)
 	if hurtbox:
 		hurtbox.set_deferred("collision_layer", 0)
 		hurtbox.set_deferred("collision_mask", 0)
 		for child in hurtbox.get_children():
 			if child is CollisionShape2D:
 				child.set_deferred("disabled", true)
+				child.set_deferred("visible", false)
 
 	var tween: Tween = swarm.create_tween()
 

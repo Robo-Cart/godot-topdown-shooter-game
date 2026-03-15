@@ -13,6 +13,7 @@ extends Resource
 		_update_enemy_name()
 @export var number_of_enemies: int = 1
 @export var seconds_to_spawn_over: float = 0.0
+@export var is_boss_wave: bool = false
 @export var spawn_points: Array[SpawnConfig.Location]
 
 var time: float = 0.0

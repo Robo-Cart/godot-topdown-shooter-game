@@ -16,11 +16,12 @@ metadata/_custom_type_script = "uid://cytoc3vvi02bv"
 
 [sub_resource type="Resource" id="Resource_udwe2"]
 script = ExtResource("1_aj0ub")
-time_stamp = "0:30"
+time_stamp = "0:15"
 enemy_name = "Zombie"
 enemy_scene_path = "uid://cqa7uu0de3gu2"
 number_of_enemies = 20
 seconds_to_spawn_over = 1.5
+is_boss_wave = true
 spawn_points = Array[int]([4])
 metadata/_custom_type_script = "uid://cytoc3vvi02bv"
 
@@ -47,6 +48,7 @@ metadata/_custom_type_script = "uid://wx0so0300s53"
 script = ExtResource("2_mlaoo")
 time_stamp = "0:40"
 powerup_scene_path = "uid://dmy8ofvovrvfp"
+display_name = "Speed Up"
 random_factor = 10
 spawn_points = Array[int]([5])
 metadata/_custom_type_script = "uid://wx0so0300s53"
@@ -55,6 +57,7 @@ metadata/_custom_type_script = "uid://wx0so0300s53"
 script = ExtResource("2_mlaoo")
 time_stamp = "1:10"
 powerup_scene_path = "uid://bdx8t6nicos3i"
+display_name = "Fire Rate Up"
 random_factor = 15
 spawn_points = Array[int]([5])
 metadata/_custom_type_script = "uid://wx0so0300s53"
