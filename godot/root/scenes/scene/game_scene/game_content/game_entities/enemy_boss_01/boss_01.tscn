@@ -8,8 +8,8 @@
 [ext_resource type="Script" uid="uid://7wd617sb8xtn" path="res://root/scenes/component/combat/health_component.gd" id="7_5el3m"]
 [ext_resource type="Script" uid="uid://7vrqbtiavfn" path="res://root/scenes/component/combat/hit_flash_component.gd" id="8_kcmhs"]
 [ext_resource type="Script" uid="uid://bihaxf65bv1yl" path="res://root/scenes/component/combat/death_component.gd" id="9_2iv7x"]
-[ext_resource type="PackedScene" uid="uid://c5018b824r3l6" path="res://root/scenes/scene/game_scene/game_content/game_entities/enemy_boss_01/boss_01_area_shield.tscn" id="10_shield"]
-[ext_resource type="Script" uid="uid://cy2gymo1tpt6w" path="res://root/scenes/scene/game_scene/game_content/game_entities/enemy_boss_01/boss_01.gd" id="11_boss_script"]
+[ext_resource type="PackedScene" path="res://root/scenes/scene/game_scene/game_content/game_entities/enemy_boss_01/boss_01_area_shield.tscn" id="10_shield"]
+[ext_resource type="Script" path="res://root/scenes/scene/game_scene/game_content/game_entities/enemy_boss_01/boss_01.gd" id="11_boss_script"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_rgq6k"]
 radius = 48.0
@@ -141,10 +141,10 @@ color_ramp = SubResource("Gradient_02cdo")
 position = Vector2(-2, -6)
 
 [node name="AreaShield2" parent="." unique_id=1548050744 instance=ExtResource("10_shield")]
-position = Vector2(26.000002, 41.000004)
+position = Vector2(27.000004, 41)
 rotation = 2.0944
 scale = Vector2(0.95, 0.95)
 
 [node name="AreaShield3" parent="." unique_id=582627403 instance=ExtResource("10_shield")]
-position = Vector2(-16.999998, 33)
+position = Vector2(-16.999996, 34)
 rotation = 4.1085052
