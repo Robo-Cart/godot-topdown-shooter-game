@@ -45,7 +45,7 @@ func _on_hitbox_body_entered(body: Node2D) -> void:
 	if hit:
 		return
 
-	if not body.is_in_group("player"):
+	if not body.is_in_group("player") and not body.is_in_group("enemy"):
 		_process_hit()
 
 

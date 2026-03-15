@@ -1,7 +1,7 @@
-extends Node2D
+extends CharacterBody2D
 
-@onready var health_component: HealthComponent = $ShieldBody/HealthComponent
-@onready var hit_flash_anim: AnimationPlayer = $ShieldBody/HitFlashAnim
+@onready var health_component: HealthComponent = $HealthComponent
+@onready var hit_flash_anim: AnimationPlayer = $HitFlashAnim
 
 
 func _ready() -> void:

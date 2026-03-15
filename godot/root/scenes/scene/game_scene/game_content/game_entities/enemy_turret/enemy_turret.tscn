@@ -617,6 +617,8 @@ colors = PackedColorArray(1, 1, 1, 1, 1, 0.23333335, 0, 1, 0.27752772, 0.2775277
 radius = 14.0
 
 [node name="Turret" type="CharacterBody2D" unique_id=496178693 node_paths=PackedStringArray("animation_tree")]
+collision_layer = 2
+collision_mask = 19
 script = ExtResource("1_6spbj")
 animation_tree = NodePath("AnimationTree")
 

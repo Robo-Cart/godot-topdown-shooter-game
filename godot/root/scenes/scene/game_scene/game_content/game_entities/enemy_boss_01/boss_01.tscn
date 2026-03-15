@@ -2,14 +2,23 @@
 
 [ext_resource type="Texture2D" uid="uid://cet555hmdg6tn" path="res://root/assets/image/game/sprites/Enemy/boss_01/boss_core.png" id="1_x6opd"]
 [ext_resource type="Shader" uid="uid://g2cg0knko378" path="res://root/assets/image/game/sprites/Enemy/hit_flash.gdshader" id="2_1ccfh"]
-[ext_resource type="Texture2D" uid="uid://dpkaex5y52akm" path="res://root/assets/image/game/sprites/Enemy/boss_01/boss_outer.png" id="2_02cdo"]
-[ext_resource type="Texture2D" uid="uid://02us1kwremi" path="res://root/assets/image/game/sprites/Enemy/boss_01/boss_turret.png" id="3_1ccfh"]
 [ext_resource type="Script" uid="uid://dr4m1yn56ayjt" path="res://root/scenes/component/state_machine/state_machine.gd" id="4_kcmhs"]
 [ext_resource type="Script" uid="uid://bba7t8fqndejo" path="res://root/scenes/scene/game_scene/game_content/game_entities/enemy_boss_01/states/boss_01_aim_state.gd" id="5_2iv7x"]
 [ext_resource type="Script" uid="uid://ujpvmh8e02nj" path="res://root/scenes/component/combat/hurtbox_component.gd" id="6_jsotf"]
 [ext_resource type="Script" uid="uid://7wd617sb8xtn" path="res://root/scenes/component/combat/health_component.gd" id="7_5el3m"]
 [ext_resource type="Script" uid="uid://7vrqbtiavfn" path="res://root/scenes/component/combat/hit_flash_component.gd" id="8_kcmhs"]
 [ext_resource type="Script" uid="uid://bihaxf65bv1yl" path="res://root/scenes/component/combat/death_component.gd" id="9_2iv7x"]
+[ext_resource type="PackedScene" uid="uid://c5018b824r3l6" path="res://root/scenes/scene/game_scene/game_content/game_entities/enemy_boss_01/boss_01_area_shield.tscn" id="10_shield"]
+[ext_resource type="Script" uid="uid://cy2gymo1tpt6w" path="res://root/scenes/scene/game_scene/game_content/game_entities/enemy_boss_01/boss_01.gd" id="11_boss_script"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_rgq6k"]
+radius = 48.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_pulj5"]
+resource_local_to_scene = true
+shader = ExtResource("2_1ccfh")
+shader_parameter/hit_flash_color = Color(1, 1, 1, 0)
+shader_parameter/hit_flash_on = false
 
 [sub_resource type="Animation" id="Animation_6spbj"]
 length = 0.001
@@ -25,27 +34,10 @@ tracks/0/keys = {
 "update": 1,
 "values": [false]
 }
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:material")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [null]
-}
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_pulj5"]
-shader = ExtResource("2_1ccfh")
-shader_parameter/hit_flash_color = Color(1, 1, 1, 0)
-shader_parameter/hit_flash_on = false
 
 [sub_resource type="Animation" id="Animation_ahfaj"]
 resource_name = "hit"
-length = 0.15155052
+length = 0.15
 step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -54,22 +46,10 @@ tracks/0/path = NodePath(".:material:shader_parameter/hit_flash_on")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0.010293998, 0.02050747, 0.09722111),
+"times": PackedFloat32Array(0, 0.02, 0.1),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
 "values": [false, true, false]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:material")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.00972211, 0.09722111, 0.1435441),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 1,
-"values": [null, SubResource("ShaderMaterial_pulj5"), SubResource("ShaderMaterial_pulj5"), null]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_rgq6k"]
@@ -79,29 +59,28 @@ _data = {
 }
 
 [sub_resource type="Gradient" id="Gradient_02cdo"]
-offsets = PackedFloat32Array(0, 0.17012449, 0.75103736, 1)
-colors = PackedColorArray(1, 1, 1, 1, 1, 0.23333335, 0, 1, 0.27752772, 0.27752775, 0.27752766, 1, 0.24115604, 0.24115604, 0.24115604, 0.22745098)
+offsets = PackedFloat32Array(0, 0.17, 0.75, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 0.23, 0, 1, 0.28, 0.28, 0.28, 1, 0.24, 0.24, 0.24, 0.23)
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_rgq6k"]
-radius = 48.010414
+[node name="Boss01" type="CharacterBody2D" unique_id=1861805115]
+collision_layer = 2
+collision_mask = 19
+script = ExtResource("11_boss_script")
 
-[sub_resource type="GDScript" id="GDScript_5el3m"]
-script/source = "extends Sprite2D
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=567110759]
+position = Vector2(0, 22)
+shape = SubResource("CircleShape2D_rgq6k")
 
-var direction: Vector2
-@onready var player: Player = get_tree().get_first_node_in_group(\"player\")
-var rotation_speed: float = 5.0
+[node name="HurtboxComponent" type="Area2D" parent="." unique_id=1846607698 node_paths=PackedStringArray("health_component")]
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("6_jsotf")
+health_component = NodePath("../HealthComponent")
 
-
-func _physics_process(_delta: float) -> void:
-	look_at(player.global_position)
-	rotation = clamp(rotation, deg_to_rad(-45), deg_to_rad(45))
-"
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_5a3vp"]
-size = Vector2(106, 166)
-
-[node name="Boss01" type="Node2D" unique_id=1861805115]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent" unique_id=567110758]
+position = Vector2(0, 22)
+shape = SubResource("CircleShape2D_rgq6k")
+debug_color = Color(1, 0, 0, 0.419608)
 
 [node name="HealthComponent" type="Node" parent="." unique_id=139036767]
 script = ExtResource("7_5el3m")
@@ -125,9 +104,11 @@ initial_state = NodePath("AimState")
 
 [node name="AimState" type="Node" parent="BossStateMachine" unique_id=789941313 node_paths=PackedStringArray("turrets")]
 script = ExtResource("5_2iv7x")
-turrets = [NodePath("../../AreaShield/Sprite2D/Turret"), NodePath("../../AreaShield2/Sprite2D/Turret"), NodePath("../../AreaShield3/Sprite2D/Turret")]
+turrets = [NodePath("../../AreaShield/ShieldBody/Sprite2D/Turret"), NodePath("../../AreaShield2/ShieldBody/Sprite2D/Turret"), NodePath("../../AreaShield3/ShieldBody/Sprite2D/Turret")]
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1395820460]
+material = SubResource("ShaderMaterial_pulj5")
+scale = Vector2(0.95, 0.95)
 texture = ExtResource("1_x6opd")
 
 [node name="HitFlashAnim" type="AnimationPlayer" parent="." unique_id=1020130363]
@@ -136,7 +117,7 @@ libraries/ = SubResource("AnimationLibrary_rgq6k")
 
 [node name="DieParticle" type="CPUParticles2D" parent="." unique_id=1002894111]
 z_index = 1
-position = Vector2(1.9073486e-06, 23)
+position = Vector2(0, 23)
 emitting = false
 amount = 40
 lifetime = 0.24
@@ -153,213 +134,17 @@ initial_velocity_min = 632.48
 initial_velocity_max = 679.94
 scale_amount_min = 40.0
 scale_amount_max = 130.0
-color = Color(1, 1, 1, 0.9254902)
+color = Color(1, 1, 1, 0.925)
 color_ramp = SubResource("Gradient_02cdo")
 
-[node name="HurtboxComponent" type="Area2D" parent="." unique_id=1846607698 node_paths=PackedStringArray("health_component")]
-collision_layer = 2
-script = ExtResource("6_jsotf")
-health_component = NodePath("../HealthComponent")
+[node name="AreaShield" parent="." unique_id=523368191 instance=ExtResource("10_shield")]
+position = Vector2(-2, -6)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent" unique_id=567110758]
-position = Vector2(0, 22)
-shape = SubResource("CircleShape2D_rgq6k")
+[node name="AreaShield2" parent="." unique_id=1548050744 instance=ExtResource("10_shield")]
+position = Vector2(26.000002, 41.000004)
+rotation = 2.0944
+scale = Vector2(0.95, 0.95)
 
-[node name="AreaShield" type="Node2D" parent="." unique_id=2034135616]
-position = Vector2(66, -25)
-
-[node name="Sprite2D" type="Sprite2D" parent="AreaShield" unique_id=204696503]
-texture = ExtResource("2_02cdo")
-
-[node name="Turret" type="Sprite2D" parent="AreaShield/Sprite2D" unique_id=527984995]
-position = Vector2(-0.52664995, -22.343632)
-rotation = 1.1159095
-scale = Vector2(0.99999994, 0.99999994)
-texture = ExtResource("3_1ccfh")
-offset = Vector2(12.175198, 0.5368805)
-script = SubResource("GDScript_5el3m")
-
-[node name="HurtboxComponent" type="Area2D" parent="AreaShield" unique_id=1397103642 node_paths=PackedStringArray("health_component")]
-position = Vector2(-66, 25)
-collision_layer = 3
-collision_mask = 2
-script = ExtResource("6_jsotf")
-health_component = NodePath("../HealthComponent")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="AreaShield/HurtboxComponent" unique_id=280348073]
-position = Vector2(61, -30)
-shape = SubResource("RectangleShape2D_5a3vp")
-
-[node name="HitFlashAnim" type="AnimationPlayer" parent="AreaShield" unique_id=1971572997]
-root_node = NodePath("../Sprite2D")
-libraries/ = SubResource("AnimationLibrary_rgq6k")
-
-[node name="DieParticle" type="CPUParticles2D" parent="AreaShield" unique_id=862266825]
-position = Vector2(-5, -13)
-emitting = false
-amount = 24
-lifetime = 0.18000000000000002
-one_shot = true
-explosiveness = 0.4
-randomness = 0.48
-lifetime_randomness = 0.65
-emission_shape = 1
-emission_sphere_radius = 7.69
-direction = Vector2(0, 0)
-spread = 180.0
-gravity = Vector2(0, 0)
-initial_velocity_min = 137.43
-initial_velocity_max = 264.1
-scale_amount_min = 11.67
-scale_amount_max = 80.0
-color = Color(1, 1, 1, 0.9254902)
-color_ramp = SubResource("Gradient_02cdo")
-
-[node name="HealthComponent" type="Node" parent="AreaShield" unique_id=479622129]
-script = ExtResource("7_5el3m")
-max_health = 10
-
-[node name="HitFlashComponent" type="Node" parent="AreaShield" unique_id=1885555070 node_paths=PackedStringArray("health_component", "hit_flash_anim")]
-script = ExtResource("8_kcmhs")
-health_component = NodePath("../HealthComponent")
-hit_flash_anim = NodePath("../HitFlashAnim")
-
-[node name="DeathComponent" type="Node" parent="AreaShield" unique_id=589269883 node_paths=PackedStringArray("health_component", "entity", "sprite", "death_particles")]
-script = ExtResource("9_2iv7x")
-health_component = NodePath("../HealthComponent")
-entity = NodePath("..")
-sprite = NodePath("../Sprite2D")
-death_particles = NodePath("../DieParticle")
-
-[node name="AreaShield2" type="Node2D" parent="." unique_id=1027189547]
-position = Vector2(-59.964336, -37.21933)
-rotation = -2.2240105
-
-[node name="Sprite2D" type="Sprite2D" parent="AreaShield2" unique_id=2022438978]
-texture = ExtResource("2_02cdo")
-
-[node name="Turret" type="Sprite2D" parent="AreaShield2/Sprite2D" unique_id=813798791]
-position = Vector2(-0.016004264, -21.45012)
-rotation = 1.1159095
-texture = ExtResource("3_1ccfh")
-offset = Vector2(11.148193, 0.60302734)
-script = SubResource("GDScript_5el3m")
-
-[node name="HurtboxComponent" type="Area2D" parent="AreaShield2" unique_id=766109706 node_paths=PackedStringArray("health_component")]
-position = Vector2(-66, 25)
-collision_layer = 3
-collision_mask = 2
-script = ExtResource("6_jsotf")
-health_component = NodePath("../HealthComponent")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="AreaShield2/HurtboxComponent" unique_id=1673343058]
-position = Vector2(61, -30)
-shape = SubResource("RectangleShape2D_5a3vp")
-
-[node name="DieParticle" type="CPUParticles2D" parent="AreaShield2" unique_id=598929666]
-position = Vector2(-5.66288, -9.415588)
-emitting = false
-amount = 24
-lifetime = 0.18000000000000002
-one_shot = true
-explosiveness = 0.4
-randomness = 0.48
-lifetime_randomness = 0.65
-emission_shape = 1
-emission_sphere_radius = 7.69
-direction = Vector2(0, 0)
-spread = 180.0
-gravity = Vector2(0, 0)
-initial_velocity_min = 137.43
-initial_velocity_max = 264.1
-scale_amount_min = 11.67
-scale_amount_max = 80.0
-color = Color(1, 1, 1, 0.9254902)
-color_ramp = SubResource("Gradient_02cdo")
-
-[node name="HitFlashAnim" type="AnimationPlayer" parent="AreaShield2" unique_id=1701045329]
-root_node = NodePath("../Sprite2D")
-libraries/ = SubResource("AnimationLibrary_rgq6k")
-
-[node name="HealthComponent" type="Node" parent="AreaShield2" unique_id=1373739839]
-script = ExtResource("7_5el3m")
-max_health = 10
-
-[node name="HitFlashComponent" type="Node" parent="AreaShield2" unique_id=1925805629 node_paths=PackedStringArray("health_component", "hit_flash_anim")]
-script = ExtResource("8_kcmhs")
-health_component = NodePath("../HealthComponent")
-hit_flash_anim = NodePath("../HitFlashAnim")
-
-[node name="DeathComponent" type="Node" parent="AreaShield2" unique_id=1898903936 node_paths=PackedStringArray("health_component", "entity", "sprite", "death_particles")]
-script = ExtResource("9_2iv7x")
-health_component = NodePath("../HealthComponent")
-entity = NodePath("..")
-sprite = NodePath("../Sprite2D")
-death_particles = NodePath("../DieParticle")
-
-[node name="AreaShield3" type="Node2D" parent="." unique_id=1319575052]
-position = Vector2(6.0171413, 70.31923)
-rotation = 1.8475227
-
-[node name="Sprite2D" type="Sprite2D" parent="AreaShield3" unique_id=344472317]
-texture = ExtResource("2_02cdo")
-
-[node name="Turret" type="Sprite2D" parent="AreaShield3/Sprite2D" unique_id=1105921873]
-position = Vector2(-0.9546113, -21.843353)
-rotation = 1.1159095
-scale = Vector2(0.99999994, 0.99999994)
-texture = ExtResource("3_1ccfh")
-offset = Vector2(11.913823, -0.067359924)
-script = SubResource("GDScript_5el3m")
-
-[node name="HurtboxComponent" type="Area2D" parent="AreaShield3" unique_id=2043210405 node_paths=PackedStringArray("health_component")]
-position = Vector2(-66, 25.000004)
-collision_layer = 3
-collision_mask = 2
-script = ExtResource("6_jsotf")
-health_component = NodePath("../HealthComponent")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="AreaShield3/HurtboxComponent" unique_id=971012638]
-position = Vector2(61, -30)
-shape = SubResource("RectangleShape2D_5a3vp")
-
-[node name="HitFlashAnim" type="AnimationPlayer" parent="AreaShield3" unique_id=844256036]
-root_node = NodePath("../Sprite2D")
-libraries/ = SubResource("AnimationLibrary_rgq6k")
-
-[node name="DieParticle" type="CPUParticles2D" parent="AreaShield3" unique_id=819332421]
-position = Vector2(-3.5923538, -4.159649)
-emitting = false
-amount = 24
-lifetime = 0.18000000000000002
-one_shot = true
-explosiveness = 0.74
-randomness = 0.48
-lifetime_randomness = 0.65
-emission_shape = 1
-emission_sphere_radius = 7.69
-direction = Vector2(0, 0)
-spread = 180.0
-gravity = Vector2(0, 0)
-initial_velocity_min = 137.43
-initial_velocity_max = 264.1
-scale_amount_min = 41.37
-scale_amount_max = 100.98
-color = Color(1, 1, 1, 0.9254902)
-color_ramp = SubResource("Gradient_02cdo")
-
-[node name="HealthComponent" type="Node" parent="AreaShield3" unique_id=1640403448]
-script = ExtResource("7_5el3m")
-max_health = 10
-
-[node name="HitFlashComponent" type="Node" parent="AreaShield3" unique_id=1887303796 node_paths=PackedStringArray("health_component", "hit_flash_anim")]
-script = ExtResource("8_kcmhs")
-health_component = NodePath("../HealthComponent")
-hit_flash_anim = NodePath("../HitFlashAnim")
-
-[node name="DeathComponent" type="Node" parent="AreaShield3" unique_id=1277204730 node_paths=PackedStringArray("health_component", "entity", "sprite", "death_particles")]
-script = ExtResource("9_2iv7x")
-health_component = NodePath("../HealthComponent")
-entity = NodePath("..")
-sprite = NodePath("../Sprite2D")
-death_particles = NodePath("../DieParticle")
+[node name="AreaShield3" parent="." unique_id=582627403 instance=ExtResource("10_shield")]
+position = Vector2(-16.999998, 33)
+rotation = 4.1085052

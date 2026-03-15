@@ -617,8 +617,8 @@ radius = 5.0990195
 radius = 8.0
 
 [node name="Drone" type="CharacterBody2D" unique_id=496178693 node_paths=PackedStringArray("animation_tree")]
-collision_layer = 4
-collision_mask = 4
+collision_layer = 2
+collision_mask = 19
 script = ExtResource("1_p6pso")
 animation_tree = NodePath("AnimationTree")
 
