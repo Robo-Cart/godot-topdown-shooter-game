@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://wm4ru0t31ik0" path="res://root/scenes/scene/game_scene/game_content/game_entities/object_door/object_door.gd" id="1_a4i0j"]
 [ext_resource type="Texture2D" uid="uid://dpbrd3gr2j7e5" path="res://root/assets/image/game/sprites/WorldObjects/ansimuz-top-down-tech-lab-03-extension-spritesheet.png" id="1_imm6v"]
+[ext_resource type="Shader" uid="uid://cbc37ivfv0vd5" path="res://root/shaders/grayscale_adjustment.gdshader" id="3_shader"]
 
 [sub_resource type="Animation" id="Animation_imm6v"]
 length = 0.001
@@ -56,6 +57,13 @@ _data = {
 &"close_door": SubResource("Animation_qpn2k"),
 &"open_door": SubResource("Animation_a4i0j")
 }
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vertical"]
+shader = ExtResource("3_shader")
+shader_parameter/brightness = 0.0
+shader_parameter/contrast = 1.0
+shader_parameter/saturation = 0.0
+shader_parameter/tint = Color(1, 1, 1, 1)
 
 [sub_resource type="Animation" id="Animation_yeat8"]
 length = 0.001
@@ -150,8 +158,10 @@ _data = {
 [node name="ObjectDoor" type="Node2D" unique_id=396586455]
 scale = Vector2(1.8, 1.8)
 script = ExtResource("1_a4i0j")
+orientation_setting = 1
 
 [node name="HorizontalSprite2D" type="Sprite2D" parent="." unique_id=1180269633]
+visible = false
 texture = ExtResource("1_imm6v")
 hframes = 9
 vframes = 10
@@ -161,7 +171,7 @@ frame = 82
 libraries/ = SubResource("AnimationLibrary_qpn2k")
 
 [node name="VerticalSprite2D1" type="Sprite2D" parent="." unique_id=665742429]
-visible = false
+material = SubResource("ShaderMaterial_vertical")
 position = Vector2(0, -16)
 texture = ExtResource("1_imm6v")
 hframes = 9
@@ -169,7 +179,7 @@ vframes = 10
 frame = 27
 
 [node name="VerticalSprite2D2" type="Sprite2D" parent="." unique_id=867447501]
-visible = false
+material = SubResource("ShaderMaterial_vertical")
 position = Vector2(0, 16)
 texture = ExtResource("1_imm6v")
 hframes = 9
