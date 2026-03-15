@@ -1,0 +1,179 @@
+[gd_scene format=3 uid="uid://cstn5oflnkg3x"]
+
+[ext_resource type="Script" uid="uid://wm4ru0t31ik0" path="res://root/scenes/scene/game_scene/game_content/game_entities/object_door/object_door.gd" id="1_a4i0j"]
+[ext_resource type="Texture2D" uid="uid://dpbrd3gr2j7e5" path="res://root/assets/image/game/sprites/WorldObjects/ansimuz-top-down-tech-lab-03-extension-spritesheet.png" id="1_imm6v"]
+
+[sub_resource type="Animation" id="Animation_imm6v"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("HorizontalSprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [82]
+}
+
+[sub_resource type="Animation" id="Animation_qpn2k"]
+resource_name = "horizontal_door_close"
+length = 0.8
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("HorizontalSprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [48, 47, 56, 65, 82]
+}
+
+[sub_resource type="Animation" id="Animation_a4i0j"]
+resource_name = "horizontal_door_open"
+length = 0.8
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("HorizontalSprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [82, 65, 56, 47, 48]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_qpn2k"]
+_data = {
+&"RESET": SubResource("Animation_imm6v"),
+&"horizontal_door_close": SubResource("Animation_qpn2k"),
+&"horizontal_door_open": SubResource("Animation_a4i0j")
+}
+
+[sub_resource type="Animation" id="Animation_yeat8"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("VerticalSprite2D1:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [27]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("VerticalSprite2D2:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [36]
+}
+
+[sub_resource type="Animation" id="Animation_le5e6"]
+resource_name = "close_door"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("VerticalSprite2D1:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.099999994, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [32, 31, 30, 29, 28, 27]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("VerticalSprite2D2:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.099999994, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [83, 40, 39, 38, 37, 36]
+}
+
+[sub_resource type="Animation" id="Animation_w8g0g"]
+resource_name = "open_door"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("VerticalSprite2D1:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.20071529, 0.3, 0.4, 0.4964378),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [27, 28, 29, 30, 31, 32]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("VerticalSprite2D2:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.20071529, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [36, 37, 38, 39, 40, 83]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_le5e6"]
+_data = {
+&"RESET": SubResource("Animation_yeat8"),
+&"close_door": SubResource("Animation_le5e6"),
+&"open_door": SubResource("Animation_w8g0g")
+}
+
+[node name="ObjectDoor" type="Node2D" unique_id=396586455]
+scale = Vector2(1.8, 1.8)
+script = ExtResource("1_a4i0j")
+
+[node name="HorizontalSprite2D" type="Sprite2D" parent="." unique_id=1180269633]
+visible = false
+texture = ExtResource("1_imm6v")
+hframes = 9
+vframes = 10
+frame = 82
+
+[node name="HorizontalAnimationPlayer" type="AnimationPlayer" parent="." unique_id=389386061]
+libraries/ = SubResource("AnimationLibrary_qpn2k")
+
+[node name="VerticalSprite2D1" type="Sprite2D" parent="." unique_id=665742429]
+position = Vector2(0, -16)
+texture = ExtResource("1_imm6v")
+hframes = 9
+vframes = 10
+frame = 27
+
+[node name="VerticalSprite2D2" type="Sprite2D" parent="." unique_id=867447501]
+position = Vector2(0, 16)
+texture = ExtResource("1_imm6v")
+hframes = 9
+vframes = 10
+frame = 36
+
+[node name="VerticalAnimationPlayer" type="AnimationPlayer" parent="." unique_id=2121494996]
+libraries/ = SubResource("AnimationLibrary_le5e6")

@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://dljv1vlu75c78" path="res://root/scenes/scene/game_scene/game_content/game_entities/object_level_transition_area/level_transition.tscn" id="2_38wbn"]
 [ext_resource type="Resource" uid="uid://b14ummy131opn" path="res://root/autoload/level_data/levels/002/level_data_002.tres" id="2_dhvo7"]
 [ext_resource type="PackedScene" uid="uid://bkbrd2ibjvjvk" path="res://root/scenes/scene/game_scene/game_content/game_entities/object_enemy_wave_spawner/enemy_wave_spawner.tscn" id="3_44iox"]
+[ext_resource type="PackedScene" uid="uid://cstn5oflnkg3x" path="res://root/scenes/scene/game_scene/game_content/game_entities/object_door/object_door.tscn" id="6_dhvo7"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ua44u"]
 texture = ExtResource("1_nerwf")
@@ -1099,3 +1100,6 @@ location = 5
 [node name="EnemyWaveSpawner8" parent="." unique_id=1045792306 instance=ExtResource("3_44iox")]
 position = Vector2(686, 460)
 location = 5
+
+[node name="ObjectDoor" parent="." unique_id=396586455 instance=ExtResource("6_dhvo7")]
+position = Vector2(548, 499)
