@@ -24,7 +24,28 @@ func physics_process_state(_delta: float) -> void:
 		transitioned.emit(self, "attack")
 		return
 
-	swarm.velocity = direction * current_speed
+	# --- Separation Force (to avoid clumping at doorways/corners) ---
+	var separation: Vector2 = Vector2.ZERO
+	var enemies: Array[Node] = get_tree().get_nodes_in_group("enemy")
+	for enemy: Node in enemies:
+		if enemy == swarm or not is_instance_valid(enemy) or not enemy is Node2D:
+			continue
+		var dist_sq: float = swarm.global_position.distance_squared_to(enemy.global_position)
+		if dist_sq < 900.0: # 30 pixel detection radius
+			var diff: Vector2 = swarm.global_position - enemy.global_position
+			separation += diff.normalized() * (1.0 - sqrt(dist_sq) / 30.0)
+
+	var move_dir: Vector2 = (direction + separation * 1.5).normalized()
+	swarm.velocity = move_dir * current_speed
 	swarm.move_and_slide()
+
+	# --- Anti-Stuck Corner Nudge ---
+	if swarm.get_slide_collision_count() > 0 and swarm.velocity.length() < current_speed * 0.5:
+		var collision: KinematicCollision2D = swarm.get_slide_collision(0)
+		var nudge: Vector2 = collision.get_normal().orthogonal()
+		if nudge.dot(direction) < 0:
+			nudge = -nudge
+		swarm.velocity = nudge * current_speed
+		swarm.move_and_slide()
 
 	swarm.update_facing_direction(direction)

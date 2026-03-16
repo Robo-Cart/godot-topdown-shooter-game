@@ -64,7 +64,7 @@ colors = PackedColorArray(1, 1, 1, 1, 1, 0.23, 0, 1, 0.28, 0.28, 0.28, 1, 0.24, 
 
 [node name="Boss01" type="CharacterBody2D" unique_id=1861805115]
 collision_layer = 2
-collision_mask = 19
+collision_mask = 23
 script = ExtResource("11_boss_script")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=567110759]

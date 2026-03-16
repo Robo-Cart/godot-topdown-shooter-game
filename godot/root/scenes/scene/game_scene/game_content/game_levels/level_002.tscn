@@ -707,19 +707,19 @@ tile_set = SubResource("TileSet_260dr")
 
 [node name="ObjectDoor" parent="." unique_id=396586455 instance=ExtResource("6_dhvo7")]
 position = Vector2(547.00006, 29)
-orientation_setting = 0
 
 [node name="ObjectDoor2" parent="." unique_id=1877917934 instance=ExtResource("6_dhvo7")]
 position = Vector2(1160, 326.8)
 scale = Vector2(1.492, 1.492)
+orientation_setting = 1
 
 [node name="ObjectDoor3" parent="." unique_id=691318586 instance=ExtResource("6_dhvo7")]
 position = Vector2(547, 605)
-orientation_setting = 0
 
 [node name="ObjectDoor4" parent="." unique_id=680067287 instance=ExtResource("6_dhvo7")]
 position = Vector2(27, 326.8)
 scale = Vector2(1.7, 1.492)
+orientation_setting = 1
 
 [node name="LevelTransition" parent="." unique_id=747450673 instance=ExtResource("2_38wbn")]
 position = Vector2(546, 635)
@@ -764,3 +764,7 @@ location = 5
 [node name="EnemyWaveSpawner10" parent="." unique_id=1966717555 instance=ExtResource("3_44iox")]
 position = Vector2(950, 363)
 location = 5
+
+[node name="EnemyWaveSpawner11" parent="." unique_id=514578391 instance=ExtResource("3_44iox")]
+position = Vector2(563, 285)
+location = 6

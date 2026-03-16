@@ -1,17 +1,23 @@
 extends Node2D
 
+const DOOR_CLEARANCE_RADIUS: float = 160.0
+
 @export var level_data: LevelData
 
 @export_group("Spawn Positioning")
-@export var spawn_distance_towards_player: float = 20.0
+@export var spawn_distance_towards_player: float = 60.0
 @export var spawn_perpendicular_variance: float = 10.0
 
-var level_timer: float = 0.0
-var current_spawn_index: int = 0
-var spawn_queue: Array[Dictionary] = []
-var is_spawner_paused: bool = false
-
-var cached_scenes: Dictionary = {}
+var _level_timer: float = 0.0
+var _current_spawn_index: int = 0
+var _spawn_queue: Array[Dictionary] = []
+var _is_spawner_paused: bool = false
+var _cached_scenes: Dictionary = {}
+var _last_indices_for_waves: Dictionary = {}
+var _opened_doors_per_wave: Dictionary = {}
+var _active_waves_waiting_to_close: Array[String] = []
+var _wave_spawners: Dictionary = {} # wave_stamp -> Array[Vector2]
+var _all_spawns_completed: bool = false
 
 
 func _ready() -> void:
@@ -29,6 +35,43 @@ func _ready() -> void:
 	)
 
 	_build_spawn_queue()
+	_setup_initial_doors()
+
+
+func _process(delta: float) -> void:
+	if not _is_spawner_paused:
+		_check_spawns()
+
+		if _all_spawns_completed:
+			var enemies: Array[Node] = get_tree().get_nodes_in_group("enemy")
+			if enemies.size() == 0:
+				_open_all_doors_final()
+				_is_spawner_paused = true # Level complete
+		else:
+			var is_blocked: bool = false
+			if _current_spawn_index < _spawn_queue.size():
+				var next_spawn: Dictionary = _spawn_queue[_current_spawn_index]
+				if next_spawn.get("wait_before_spawn", false) and _level_timer >= next_spawn.time:
+					var enemies: Array[Node] = get_tree().get_nodes_in_group("enemy")
+					if enemies.size() > 0:
+						is_blocked = true
+
+			if not is_blocked:
+				_level_timer += delta
+	
+	_update_active_waves_clearance()
+
+
+func _setup_initial_doors() -> void:
+	var doors: Array[Node] = get_tree().get_nodes_in_group("object_door")
+	for door in doors:
+		if door is ObjectDoor:
+			# Use set_deferred or direct internal access if we were the owner, 
+			# but ObjectDoor manages its own is_open now.
+			# To force a close animation, we can just call close_door().
+			# If we need to force it, ObjectDoor needs a way.
+			# Since we just updated ObjectDoor, we should ensure it handles initial state.
+			door.close_door()
 
 
 func _build_spawn_queue() -> void:
@@ -48,15 +91,15 @@ func _build_spawn_queue() -> void:
 		if num_enemies > 1 and duration > 0.0:
 			time_interval = duration / float(num_enemies - 1)
 
-		if not cached_scenes.has(wave.enemy_scene_path):
+		if not _cached_scenes.has(wave.enemy_scene_path):
 			ResourceLoader.load_threaded_request(wave.enemy_scene_path)
-			cached_scenes[wave.enemy_scene_path] = true  # Just mark that we requested it
+			_cached_scenes[wave.enemy_scene_path] = true  # Just mark that we requested it
 
 		for i in range(num_enemies):
 			var exact_spawn_time: float = wave.time + (i * time_interval)
 			var point: SpawnConfig.Location = wave.spawn_points[i % num_spawn_points]
 
-			spawn_queue.append(
+			_spawn_queue.append(
 				{
 					"time": exact_spawn_time,
 					"category": "enemy",
@@ -83,11 +126,11 @@ func _build_spawn_queue() -> void:
 		if powerup.spawn_points.size() > 0:
 			chosen_location = powerup.spawn_points.pick_random()
 
-		if not cached_scenes.has(powerup.powerup_scene_path):
+		if not _cached_scenes.has(powerup.powerup_scene_path):
 			ResourceLoader.load_threaded_request(powerup.powerup_scene_path)
-			cached_scenes[powerup.powerup_scene_path] = true
+			_cached_scenes[powerup.powerup_scene_path] = true
 
-		spawn_queue.append(
+		_spawn_queue.append(
 			{
 				"time": exact_spawn_time,
 				"category": "powerup",
@@ -99,10 +142,14 @@ func _build_spawn_queue() -> void:
 		)
 
 	# --- 3. Sort the Unified Timeline ---
-	spawn_queue.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return a.time < b.time)
+	_spawn_queue.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return a.time < b.time)
+
+	# --- 3b. Map last indices for waves to handle door closing ---
+	for i in range(_spawn_queue.size()):
+		_last_indices_for_waves[_spawn_queue[i].wave_stamp] = i
 
 	LogWrapper.debug(
-		self, "Built unified spawn queue with %d total events scheduled." % spawn_queue.size()
+		self, "Built unified spawn queue with %d total events scheduled." % _spawn_queue.size()
 	)
 
 	# --- 4. Detailed Logging Summary ---
@@ -137,28 +184,39 @@ func _build_spawn_queue() -> void:
 	LogWrapper.debug(self, "-----------------------------------")
 
 
-func _process(delta: float) -> void:
-	if not is_spawner_paused:
-		_check_spawns()
-
-		var is_blocked: bool = false
-		if current_spawn_index < spawn_queue.size():
-			var next_spawn: Dictionary = spawn_queue[current_spawn_index]
-			if next_spawn.get("wait_before_spawn", false) and level_timer >= next_spawn.time:
-				var enemies: Array[Node] = get_tree().get_nodes_in_group("enemy")
-				if enemies.size() > 0:
-					is_blocked = true
-
-		if not is_blocked:
-			level_timer += delta
+func _update_active_waves_clearance() -> void:
+	var enemies: Array[Node] = get_tree().get_nodes_in_group("enemy")
+	var waves_to_remove: Array[String] = []
+	
+	for wave_stamp in _active_waves_waiting_to_close:
+		var is_clear: bool = true
+		var spawner_positions: Array = _wave_spawners.get(wave_stamp, [])
+		
+		# For each spawner involved in this wave, check if any enemy is nearby
+		for spawner_pos: Vector2 in spawner_positions:
+			for enemy in enemies:
+				if enemy is Node2D:
+					if enemy.global_position.distance_to(spawner_pos) < DOOR_CLEARANCE_RADIUS:
+						is_clear = false
+						break
+			if not is_clear:
+				break
+		
+		if is_clear:
+			_close_doors_for_wave(wave_stamp)
+			waves_to_remove.append(wave_stamp)
+			_wave_spawners.erase(wave_stamp)
+			
+	for wave_stamp in waves_to_remove:
+		_active_waves_waiting_to_close.erase(wave_stamp)
 
 
 func _check_spawns() -> void:
 	while (
-		current_spawn_index < spawn_queue.size()
-		and level_timer >= spawn_queue[current_spawn_index].time
+		_current_spawn_index < _spawn_queue.size()
+		and _level_timer >= _spawn_queue[_current_spawn_index].time
 	):
-		var spawn_data: Dictionary = spawn_queue[current_spawn_index]
+		var spawn_data: Dictionary = _spawn_queue[_current_spawn_index]
 
 		if spawn_data.get("wait_before_spawn", false):
 			var enemies: Array[Node] = get_tree().get_nodes_in_group("enemy")
@@ -180,13 +238,37 @@ func _check_spawns() -> void:
 				spawn_data.wave_stamp
 			)
 
-		current_spawn_index += 1
+		if (spawn_data.category == "enemy" 
+				and _last_indices_for_waves.get(spawn_data.wave_stamp) == _current_spawn_index):
+			# Instead of closing immediately, we add to the clearance queue
+			if spawn_data.wave_stamp not in _active_waves_waiting_to_close:
+				_active_waves_waiting_to_close.append(spawn_data.wave_stamp)
 
-		if current_spawn_index >= spawn_queue.size():
+		_current_spawn_index += 1
+
+		if _current_spawn_index >= _spawn_queue.size():
 			LogWrapper.debug(self, "All scheduled events (enemies and powerups) have been spawned.")
+			_all_spawns_completed = true
 
 
-func _get_spawn_position(location: SpawnConfig.Location) -> Vector2:
+func _close_doors_for_wave(wave_stamp: String) -> void:
+	if _opened_doors_per_wave.has(wave_stamp):
+		for door: ObjectDoor in _opened_doors_per_wave[wave_stamp]:
+			if is_instance_valid(door):
+				door.close_door()
+		_opened_doors_per_wave.erase(wave_stamp)
+
+
+func _open_all_doors_final() -> void:
+	_active_waves_waiting_to_close.clear()
+	_wave_spawners.clear()
+	var doors: Array[Node] = get_tree().get_nodes_in_group("object_door")
+	for door in doors:
+		if door is ObjectDoor:
+			door.open_door_final()
+
+
+func _get_spawn_position(location: SpawnConfig.Location, wave_stamp: String = "") -> Vector2:
 	var valid_spawners: Array[Node] = []
 	var edge_spawners: Array[Node] = get_tree().get_nodes_in_group("enemy_wave_spawner_edge")
 	var inner_spawners: Array[Node] = get_tree().get_nodes_in_group("enemy_wave_spawner_inner")
@@ -203,6 +285,10 @@ func _get_spawn_position(location: SpawnConfig.Location) -> Vector2:
 	if valid_spawners.size() > 0:
 		var chosen_spawner: Node = valid_spawners.pick_random()
 		var spawner_pos: Vector2 = chosen_spawner.global_position
+
+		# Handle doors near spawner if wave_stamp provided
+		if wave_stamp != "":
+			_handle_doors_near_spawner(spawner_pos, wave_stamp)
 
 		var player: Node2D = get_tree().get_first_node_in_group("player")
 
@@ -226,8 +312,35 @@ func _get_spawn_position(location: SpawnConfig.Location) -> Vector2:
 	return Vector2.ZERO
 
 
+func _handle_doors_near_spawner(spawner_pos: Vector2, wave_stamp: String) -> void:
+	var doors: Array[Node] = get_tree().get_nodes_in_group("object_door")
+	var closest_door: ObjectDoor = null
+	var min_dist: float = 120.0 # Proximity threshold for door association
+
+	for door in doors:
+		if door is ObjectDoor:
+			var dist: float = door.global_position.distance_to(spawner_pos)
+			if dist < min_dist:
+				min_dist = dist
+				closest_door = door
+
+	if closest_door:
+		if not _opened_doors_per_wave.has(wave_stamp):
+			_opened_doors_per_wave[wave_stamp] = []
+		
+		if closest_door not in _opened_doors_per_wave[wave_stamp]:
+			closest_door.open_door_for_spawn()
+			_opened_doors_per_wave[wave_stamp].append(closest_door)
+			
+			# Record spawner position for clearance check
+			if not _wave_spawners.has(wave_stamp):
+				_wave_spawners[wave_stamp] = []
+			if spawner_pos not in _wave_spawners[wave_stamp]:
+				_wave_spawners[wave_stamp].append(spawner_pos)
+
+
 func _spawn_enemy(
-	scene_path: String, nice_name: String, location: SpawnConfig.Location, _wave_stamp: String
+	scene_path: String, nice_name: String, location: SpawnConfig.Location, wave_stamp: String
 ) -> void:
 	if scene_path == "" or scene_path == null:
 		LogWrapper.debug(self, "CRITICAL: Cannot spawn '%s'. No scene path assigned!" % nice_name)
@@ -235,15 +348,15 @@ func _spawn_enemy(
 
 	var enemy_scene: PackedScene
 
-	if typeof(cached_scenes.get(scene_path)) == TYPE_BOOL:
+	if typeof(_cached_scenes.get(scene_path)) == TYPE_BOOL:
 		enemy_scene = ResourceLoader.load_threaded_get(scene_path) as PackedScene
-		cached_scenes[scene_path] = enemy_scene
+		_cached_scenes[scene_path] = enemy_scene
 	else:
-		enemy_scene = cached_scenes.get(scene_path) as PackedScene
+		enemy_scene = _cached_scenes.get(scene_path) as PackedScene
 
 	if enemy_scene:
 		var enemy_instance: Node2D = enemy_scene.instantiate() as Node2D
-		var spawn_pos: Vector2 = _get_spawn_position(location)
+		var spawn_pos: Vector2 = _get_spawn_position(location, wave_stamp)
 		enemy_instance.global_position = spawn_pos
 		add_child(enemy_instance)
 	else:
@@ -261,15 +374,16 @@ func _spawn_powerup(
 
 	var powerup_scene: PackedScene
 
-	if typeof(cached_scenes.get(scene_path)) == TYPE_BOOL:
+	if typeof(_cached_scenes.get(scene_path)) == TYPE_BOOL:
 		powerup_scene = ResourceLoader.load_threaded_get(scene_path) as PackedScene
-		cached_scenes[scene_path] = powerup_scene
+		_cached_scenes[scene_path] = powerup_scene
 	else:
-		powerup_scene = cached_scenes.get(scene_path) as PackedScene
+		powerup_scene = _cached_scenes.get(scene_path) as PackedScene
 
 	if powerup_scene:
 		var powerup_instance: Node2D = powerup_scene.instantiate() as Node2D
-		var spawn_pos: Vector2 = _get_spawn_position(location)
+		# Do not pass wave_stamp to _get_spawn_position for powerups to avoid opening doors
+		var spawn_pos: Vector2 = _get_spawn_position(location, "")
 		powerup_instance.global_position = spawn_pos
 		add_child(powerup_instance)
 	else:

@@ -187,6 +187,7 @@ locale/translations=PackedStringArray("res://root/assets/i18n/localization.ar.tr
 
 2d_physics/layer_1="Player"
 2d_physics/layer_2="Enemies"
+2d_physics/layer_3="Enemy Blocking Only"
 
 [rendering]
 
