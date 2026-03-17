@@ -309,7 +309,7 @@ func _force_close_all_doors() -> void:
 	var doors: Array[Node] = get_tree().get_nodes_in_group("object_door")
 	for door in doors:
 		if door is ObjectDoor:
-			# Force a single close animation. 
+			# Force a single close animation.
 			# ObjectDoor already handles is_open/is_final_open checks inside close_door.
 			# But we want to ensure any current spawn_request_count is reset.
 			# We'll just loop until it's closed since close_door decrements.
