@@ -1,9 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://bkbrd2ibjvjvk"]
+[gd_scene format=3 uid="uid://bkbrd2ibjvjvk"]
 
 [ext_resource type="Script" uid="uid://bi7udyk8hr0v8" path="res://root/scenes/scene/game_scene/game_content/game_entities/object_enemy_wave_spawner/enemy_wave_spawner.gd" id="1_u56dv"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_funnel"]
-size = Vector2(20, 100)
 
 [node name="EnemyWaveSpawner" type="Node2D" unique_id=99171236]
 script = ExtResource("1_u56dv")
@@ -13,17 +10,3 @@ offset_left = -26.0
 offset_top = -26.0
 offset_right = 26.0
 offset_bottom = 26.0
-
-[node name="FunnelWalls" type="StaticBody2D" parent="." unique_id=2001]
-collision_layer = 4
-collision_mask = 0
-
-[node name="LeftWall" type="CollisionShape2D" parent="FunnelWalls" unique_id=2002]
-position = Vector2(-45, 40)
-rotation = 0.523599
-shape = SubResource("RectangleShape2D_funnel")
-
-[node name="RightWall" type="CollisionShape2D" parent="FunnelWalls" unique_id=2003]
-position = Vector2(45, 40)
-rotation = -0.523599
-shape = SubResource("RectangleShape2D_funnel")

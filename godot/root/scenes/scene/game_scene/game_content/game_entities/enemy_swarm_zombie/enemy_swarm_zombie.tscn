@@ -13,6 +13,7 @@
 [ext_resource type="Script" uid="uid://7wd617sb8xtn" path="res://root/scenes/component/combat/health_component.gd" id="6_mghsy"]
 [ext_resource type="Script" uid="uid://ujpvmh8e02nj" path="res://root/scenes/component/combat/hurtbox_component.gd" id="8_ewlbi"]
 [ext_resource type="Script" path="res://root/scenes/scene/game_scene/game_content/game_entities/enemy_swarm_zombie/states/swarm_zombie_death_state.gd" id="32_a1gjt"]
+[ext_resource type="Script" path="res://root/scenes/component/movement/spawn_intro_component.gd" id="9_intro"]
 [ext_resource type="AudioStream" path="res://root/assets/audio/sfx/enemies/short_zombie_grunt.wav" id="34_cqv16"]
 [ext_resource type="AudioStream" path="res://root/assets/audio/sfx/enemies/zombie_splat.wav" id="35_8xxds"]
 
@@ -155,3 +156,6 @@ stream = ExtResource("35_8xxds")
 volume_db = -15.0
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=375503443]
+
+[node name="SpawnIntroComponent" type="Node" parent="." unique_id=1111111111]
+script = ExtResource("9_intro")

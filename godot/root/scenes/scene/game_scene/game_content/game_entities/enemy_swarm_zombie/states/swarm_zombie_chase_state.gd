@@ -17,7 +17,13 @@ func physics_process_state(_delta: float) -> void:
 		swarm.move_and_slide()
 		return
 
-	var direction: Vector2 = (player.global_position - swarm.global_position).normalized()
+	var target_pos: Vector2 = player.global_position
+
+	var intro_comp: SpawnIntroComponent = swarm.find_child("*SpawnIntroComponent*", true, false)
+	if intro_comp:
+		target_pos = intro_comp.get_target_position(target_pos)
+
+	var direction: Vector2 = (target_pos - swarm.global_position).normalized()
 	var distance: float = player.global_position.distance_to(swarm.global_position)
 
 	if distance < attack_range:

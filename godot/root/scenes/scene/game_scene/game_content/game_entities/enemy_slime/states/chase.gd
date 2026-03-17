@@ -4,9 +4,14 @@ extends SlimeState
 
 
 func physics_process_state(_delta: float) -> void:
-	var direction: Vector2 = player.global_position - slime.global_position
+	var target_pos: Vector2 = player.global_position
+	
+	var intro_comp: SpawnIntroComponent = slime.find_child("*SpawnIntroComponent*", true, false)
+	if intro_comp:
+		target_pos = intro_comp.get_target_position(target_pos)
 
-	var distance: float = direction.length()
+	var direction: Vector2 = target_pos - slime.global_position
+	var distance: float = (player.global_position - slime.global_position).length()
 
 	if distance > slime.detection_radius:
 		transitioned.emit(self, "idle")
