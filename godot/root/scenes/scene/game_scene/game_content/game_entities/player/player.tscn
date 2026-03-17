@@ -29,7 +29,7 @@ visibility_layer = 3
 z_index = 1
 scale = Vector2(0.465, 0.465)
 collision_layer = 17
-collision_mask = 19
+collision_mask = 27
 script = ExtResource("1_sonw0")
 physicscontrol = true
 

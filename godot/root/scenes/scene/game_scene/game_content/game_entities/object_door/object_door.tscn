@@ -155,13 +155,17 @@ _data = {
 &"open_door": SubResource("Animation_w8g0g")
 }
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_horizontal"]
+size = Vector2(32, 32.222225)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vertical"]
+size = Vector2(11.111111, 58.333336)
+
 [node name="ObjectDoor" type="Node2D" unique_id=396586455]
 scale = Vector2(1.8, 1.8)
 script = ExtResource("1_a4i0j")
-orientation_setting = 1
 
 [node name="HorizontalSprite2D" type="Sprite2D" parent="." unique_id=1180269633]
-visible = false
 texture = ExtResource("1_imm6v")
 hframes = 9
 vframes = 10
@@ -171,6 +175,7 @@ frame = 82
 libraries/ = SubResource("AnimationLibrary_qpn2k")
 
 [node name="VerticalSprite2D1" type="Sprite2D" parent="." unique_id=665742429]
+visible = false
 material = SubResource("ShaderMaterial_vertical")
 position = Vector2(0, -16)
 texture = ExtResource("1_imm6v")
@@ -179,6 +184,7 @@ vframes = 10
 frame = 27
 
 [node name="VerticalSprite2D2" type="Sprite2D" parent="." unique_id=867447501]
+visible = false
 material = SubResource("ShaderMaterial_vertical")
 position = Vector2(0, 16)
 texture = ExtResource("1_imm6v")
@@ -188,3 +194,15 @@ frame = 36
 
 [node name="VerticalAnimationPlayer" type="AnimationPlayer" parent="." unique_id=2121494996]
 libraries/ = SubResource("AnimationLibrary_le5e6")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=456789123]
+collision_mask = 0
+
+[node name="HorizontalShape" type="CollisionShape2D" parent="StaticBody2D" unique_id=456789124]
+position = Vector2(0, -5.298191e-07)
+shape = SubResource("RectangleShape2D_horizontal")
+
+[node name="VerticalShape" type="CollisionShape2D" parent="StaticBody2D" unique_id=456789125]
+position = Vector2(-10.555556, 3.0555563)
+shape = SubResource("RectangleShape2D_vertical")
+disabled = true

@@ -15,6 +15,7 @@
 [ext_resource type="Script" uid="uid://7wd617sb8xtn" path="res://root/scenes/component/combat/health_component.gd" id="13_e3vt7"]
 [ext_resource type="Script" uid="uid://7vrqbtiavfn" path="res://root/scenes/component/combat/hit_flash_component.gd" id="14_cgc2o"]
 [ext_resource type="Script" uid="uid://bihaxf65bv1yl" path="res://root/scenes/component/combat/death_component.gd" id="15_70mq2"]
+[ext_resource type="Script" path="res://root/scenes/component/movement/spawn_intro_component.gd" id="16_intro"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_auwsv"]
 radius = 2.0
@@ -497,7 +498,7 @@ radius = 14.0
 
 [node name="EnemySlime" type="CharacterBody2D" unique_id=569572327 node_paths=PackedStringArray("animation_tree")]
 collision_layer = 2
-collision_mask = 19
+collision_mask = 23
 script = ExtResource("1_ghu57")
 display_name = "Slime"
 animation_tree = NodePath("AnimationTree")
@@ -578,3 +579,6 @@ health_component = NodePath("../HealthComponent")
 entity = NodePath("..")
 sprite = NodePath("../Sprite2D")
 death_audio = NodePath("../DeathAudio")
+
+[node name="SpawnIntroComponent" type="Node" parent="." unique_id=2222222222]
+script = ExtResource("16_intro")

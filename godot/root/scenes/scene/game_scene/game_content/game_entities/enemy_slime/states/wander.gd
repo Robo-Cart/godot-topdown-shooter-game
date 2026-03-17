@@ -24,6 +24,15 @@ func physics_process_state(delta: float) -> void:
 	slime.velocity = wander_direction * wander_speed
 	slime.move_and_slide()
 
+	# --- Anti-Stuck Corner Nudge ---
+	if slime.get_slide_collision_count() > 0 and slime.velocity.length() < wander_speed * 0.5:
+		var collision: KinematicCollision2D = slime.get_slide_collision(0)
+		var nudge: Vector2 = collision.get_normal().orthogonal()
+		if nudge.dot(wander_direction) < 0:
+			nudge = -nudge
+		slime.velocity = nudge * wander_speed
+		slime.move_and_slide()
+
 	current_time += delta
 
 	if current_time >= wander_duration:
