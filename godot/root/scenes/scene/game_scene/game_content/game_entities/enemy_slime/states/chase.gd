@@ -5,7 +5,7 @@ extends SlimeState
 
 func physics_process_state(_delta: float) -> void:
 	var target_pos: Vector2 = player.global_position
-	
+
 	var intro_comp: SpawnIntroComponent = slime.find_child("*SpawnIntroComponent*", true, false)
 	if intro_comp:
 		target_pos = intro_comp.get_target_position(target_pos)
