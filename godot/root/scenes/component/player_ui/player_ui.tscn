@@ -1,0 +1,93 @@
+[gd_scene format=3 uid="uid://8lji6xoe4r47"]
+
+[ext_resource type="Script" uid="uid://b52ater0la4pg" path="res://root/scenes/component/player_ui/player_ui.gd" id="1_m4n7v"]
+[ext_resource type="Texture2D" uid="uid://c7gqanlot626t" path="res://root/assets/image/game/sprites/Player/UI/player_ui_face_AIGENREMOVETHIS.png" id="2_kl6ql"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_border"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 10.0
+content_margin_bottom = 4.0
+bg_color = Color(0.1, 0.1, 0.1, 0.6)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bg"]
+content_margin_left = 2.0
+content_margin_top = 2.0
+content_margin_right = 2.0
+content_margin_bottom = 2.0
+bg_color = Color(1, 0, 0, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fill"]
+bg_color = Color(0, 1, 0, 1)
+
+[node name="PlayerUI" type="PanelContainer" unique_id=312685568]
+custom_minimum_size = Vector2(240, 62)
+offset_right = 240.0
+offset_bottom = 62.0
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_border")
+script = ExtResource("1_m4n7v")
+
+[node name="HBox" type="HBoxContainer" parent="." unique_id=1945537430]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="PlayerFace" type="TextureRect" parent="HBox" unique_id=1969609912]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(54, 54)
+layout_mode = 2
+texture = ExtResource("2_kl6ql")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="StatsVBox" type="VBoxContainer" parent="HBox" unique_id=778491362]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 4
+alignment = 1
+
+[node name="TopRow" type="HBoxContainer" parent="HBox/StatsVBox" unique_id=2063030419]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HealthBar" type="ProgressBar" parent="HBox/StatsVBox/TopRow" unique_id=1098420340]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 14)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_styles/background = SubResource("StyleBoxFlat_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_fill")
+value = 100.0
+show_percentage = false
+
+[node name="BottomRow" type="MarginContainer" parent="HBox/StatsVBox" unique_id=1225657703]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_bottom = 5
+
+[node name="BottomHBox" type="HBoxContainer" parent="HBox/StatsVBox/BottomRow" unique_id=686279287]
+layout_mode = 2
+
+[node name="LivesContainer" type="HBoxContainer" parent="HBox/StatsVBox/BottomRow/BottomHBox" unique_id=1110970822]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.6
+theme_override_constants/separation = 4
+
+[node name="PowerupsContainer" type="HBoxContainer" parent="HBox/StatsVBox/BottomRow/BottomHBox" unique_id=1265136094]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.4
+alignment = 2

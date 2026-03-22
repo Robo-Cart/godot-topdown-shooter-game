@@ -12,10 +12,12 @@ var transition_rect: ColorRect
 @onready var pause_menu: PauseMenu = %PauseMenu
 @onready var options_menu: OptionsMenu = %OptionsMenu
 @onready var ui_builder: UiBuilder = %UiBuilder
+@onready var hud: HUD = %HUD
 
 
 # Esc key shortcut toggles pause menu or exits from options via back button
 func _input(_event: InputEvent) -> void:
+
 	if is_transitioning:
 		return
 
@@ -37,8 +39,23 @@ func _ready() -> void:
 	ui_builder.build()
 
 	_connect_signals()
+	_setup_hud()
 
 	LogWrapper.debug(self, "Ready.")
+
+
+func _setup_hud() -> void:
+	if not hud:
+		return
+
+	var player: Player = null
+	if "player" in game_content and game_content.player is Player:
+		player = game_content.player
+	elif get_tree().get_nodes_in_group("player").size() > 0:
+		player = get_tree().get_nodes_in_group("player")[0]
+
+	if player:
+		hud.setup_player_ui(0, player)
 
 
 func _setup_transition_screen() -> void:

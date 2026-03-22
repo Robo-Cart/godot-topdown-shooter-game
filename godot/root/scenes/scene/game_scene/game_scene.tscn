@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://cvaa73qxuiw6n" path="res://root/scenes/component/builder/ui_builder/ui_builder.tscn" id="5_4r42l"]
 [ext_resource type="PackedScene" uid="uid://bea1npdsg7ii1" path="res://root/scenes/scene/menu_scene/options_menu/options_menu.tscn" id="5_4rg8g"]
 [ext_resource type="PackedScene" uid="uid://cw05vfw5mgk1v" path="res://root/scenes/scene/game_scene/game_content/game_entities/player/player.tscn" id="6_keakv"]
+[ext_resource type="PackedScene" path="res://root/scenes/component/hud/hud.tscn" id="7_hud"]
 
 [node name="GameScene" type="Node" unique_id=1678510910]
 process_mode = 3
@@ -27,6 +28,9 @@ z_index = 1001
 z_as_relative = false
 
 [node name="UiBuilder" parent="." unique_id=1154226004 instance=ExtResource("5_4r42l")]
+unique_name_in_owner = true
+
+[node name="HUD" parent="." instance=ExtResource("7_hud")]
 unique_name_in_owner = true
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1305643184]
