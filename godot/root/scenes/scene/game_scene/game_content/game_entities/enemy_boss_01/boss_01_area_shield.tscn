@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://c5018b824r3l6"]
+[gd_scene format=3 uid="uid://byb7pya3r3k88"]
 
 [ext_resource type="Script" uid="uid://dauqaps7fkupe" path="res://root/scenes/scene/game_scene/game_content/game_entities/enemy_boss_01/boss_01_area_shield.gd" id="1_script"]
 [ext_resource type="Texture2D" uid="uid://dpkaex5y52akm" path="res://root/assets/image/game/sprites/Enemy/boss_01/boss_outer.png" id="2_outer"]
@@ -74,7 +74,7 @@ script = SubResource("GDScript_5el3m")
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="ShieldBody" unique_id=682925319]
 position = Vector2(-19, -1)
 rotation = -0.5637413
-polygon = PackedVector2Array(-20.3642, -38.90115, 3.3707428, -78.31755, 12.853107, -87.70289, 35, -70, 48, -45, 53, -15, 53, 15, 48, 45, 35, 70, 15, 83, -0.2616501, 92.11369, -9.60804, 95.66967, -18.935326, 54.281242, -29.068916, 25.396814, -34.888733, 2.7886333, -34.61678, -8.870098)
+polygon = PackedVector2Array(-20.3642, -38.90115, 3.3707428, -78.31755, 10.851677, -90.151215, 35, -70, 48, -45, 56.56418, -12.747293, 55.03904, 15.865183, 45.459663, 44.11824, 30.497795, 67.785576, 9.308182, 86.332825, -0.2616501, 92.11369, -8.539337, 93.97915, -18.935326, 54.281242, -29.068916, 25.396814, -34.888733, 2.7886333, -34.61678, -8.870098)
 
 [node name="HurtboxComponent" type="Area2D" parent="ShieldBody" unique_id=1036031816 node_paths=PackedStringArray("health_component")]
 collision_layer = 2
@@ -85,7 +85,7 @@ health_component = NodePath("../HealthComponent")
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="ShieldBody/HurtboxComponent" unique_id=276147658]
 position = Vector2(-9, -3)
 rotation = -0.4834562
-polygon = PackedVector2Array(-23.506598, -77.84883, -5.931179, -107.02252, 6.8405914, -96.92888, 35, -70, 48, -45, 54.42998, -15.471825, 55.62499, 14.521038, 48, 45, 35, 70, 16.201992, 85.30824, 1.2165298, 96.64119, -10.138775, 105.36226, -28.355366, 54.009007, -46.837696, 16.069538, -49.89208, -10.38175, -40.506653, -32.560883)
+polygon = PackedVector2Array(-23.506598, -77.84883, -5.931179, -107.02252, 8.235119, -99.58505, 38.5376, -71.252045, 50.99934, -45.508984, 58.015842, -15.848091, 59.631405, 15.495014, 50.954212, 47.0815, 36.54411, 74.5287, 18.349041, 89.82378, 2.4781837, 100.691895, -10.138775, 105.36226, -31.100126, 57.085743, -50.467854, 18.68143, -58.967464, -3.852024, -43.627678, -33.070015)
 
 [node name="HitFlashAnim" type="AnimationPlayer" parent="ShieldBody" unique_id=745835387]
 libraries/ = SubResource("AnimationLibrary_rgq6k")

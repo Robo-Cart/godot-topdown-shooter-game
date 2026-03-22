@@ -1,6 +1,8 @@
 extends Sprite2D
 
-var speed: float = 1000.0
+@export var damage: int = 2
+@export var speed: float = 1000.0
+
 var hit: bool = false
 
 @onready var impact: AudioStreamPlayer2D = $Impact
@@ -32,7 +34,7 @@ func _on_hitbox_area_entered(area: Area2D) -> void:
 		_process_hit()
 
 		var attack: AttackEntity = AttackEntity.new()
-		attack.damage = 1
+		attack.damage = damage
 		attack.knockback_force = 300.0
 		attack.knockback_direction = Vector2(1, 0).rotated(rotation).normalized()
 		attack.element = "physical"
