@@ -16,14 +16,14 @@ var _cached_scenes: Dictionary = {}
 var _last_indices_for_waves: Dictionary = {}
 var _opened_doors_per_wave: Dictionary = {}
 var _active_waves_waiting_to_close: Array[String] = []
-var _wave_spawners: Dictionary = {} # wave_stamp -> Array[Vector2]
+var _wave_spawners: Dictionary = {}  # wave_stamp -> Array[Vector2]
 var _all_spawns_completed: bool = false
 var _time_since_last_enemy_clear: float = 0.0
 var _last_boss_wave_stamp: String = ""
 var _last_boss_wave_fully_spawned: bool = false
 var _spawned_enemies_tracking: Array[Node2D] = []
+var _last_boss_wave_enemies: Array[Node2D] = []
 var _victory_triggered: bool = false
-var _victory_cleanup_timer: float = 0.0
 
 
 func _ready() -> void:
@@ -48,42 +48,68 @@ func _process(delta: float) -> void:
 	if not _is_spawner_paused:
 		_check_spawns()
 
-		if _all_spawns_completed:
-			# Filter out dead references
-			_spawned_enemies_tracking.assign(_spawned_enemies_tracking.filter(
-				func(node): return is_instance_valid(node)
-			))
-			
-			if _spawned_enemies_tracking.size() == 0:
-				_open_all_doors_final()
-				_is_spawner_paused = true # Level complete
-		elif not _victory_triggered:
-			# Check for boss victory if the last boss wave has started spawning
-			if _last_boss_wave_stamp != "" and _last_boss_wave_fully_spawned:
-				var bosses: Array[Node] = get_tree().get_nodes_in_group("boss")
-				var boss_still_alive: bool = false
-				
-				for boss in bosses:
-					if is_instance_valid(boss) and not boss.is_queued_for_deletion():
-						var health_comp: HealthComponent = boss.get_node_or_null("HealthComponent")
+		# Cleanup dead references periodically
+		if Engine.get_process_frames() % 60 == 0:
+			_spawned_enemies_tracking.assign(
+				_spawned_enemies_tracking.filter(
+					func(node: Variant) -> bool: return is_instance_valid(node)
+				)
+			)
+			_last_boss_wave_enemies.assign(
+				_last_boss_wave_enemies.filter(
+					func(node: Variant) -> bool: return is_instance_valid(node)
+				)
+			)
+
+		# 1. Boss Victory Check
+		if not _victory_triggered and _last_boss_wave_stamp != "" and _last_boss_wave_fully_spawned:
+			var bosses: Array[Node] = get_tree().get_nodes_in_group("boss")
+			var boss_still_alive: bool = false
+
+			# Check nodes in the "boss" group
+			for boss: Node in bosses:
+				if is_instance_valid(boss) and not boss.is_queued_for_deletion():
+					var health_comp: HealthComponent = boss.get_node_or_null("HealthComponent")
+					if not health_comp:
+						health_comp = (
+							boss.find_child("*HealthComponent*", true, false) as HealthComponent
+						)
+
+					if not health_comp or health_comp.current_health > 0:
+						boss_still_alive = true
+						break
+
+			# Check specifically tracked enemies of the last boss wave
+			if not boss_still_alive:
+				for enemy: Node2D in _last_boss_wave_enemies:
+					if is_instance_valid(enemy) and not enemy.is_queued_for_deletion():
+						var health_comp: HealthComponent = (
+							enemy.get_node_or_null("HealthComponent")
+						)
 						if not health_comp:
-							health_comp = boss.find_child("*HealthComponent*", true, false) as HealthComponent
-						
+							health_comp = (
+								enemy.find_child("*HealthComponent*", true, false)
+								as HealthComponent
+							)
+
 						if not health_comp or health_comp.current_health > 0:
 							boss_still_alive = true
 							break
-				
-				if not boss_still_alive:
-					LogWrapper.debug(self, "Victory detected: All bosses are defeated.")
-					_victory_triggered = true
-					_handle_boss_victory()
 
-			# Cleanup dead references from tracking periodically
-			if Engine.get_process_frames() % 60 == 0:
-				_spawned_enemies_tracking.assign(_spawned_enemies_tracking.filter(
-					func(node): return is_instance_valid(node)
-				))
+			if not boss_still_alive:
+				LogWrapper.debug(self, "Victory detected: Last boss wave defeated.")
+				_victory_triggered = true
+				_handle_boss_victory()
 
+		# 2. Normal Level Completion (if not already triggered by boss victory)
+		if not _victory_triggered and _all_spawns_completed:
+			if _spawned_enemies_tracking.size() == 0:
+				LogWrapper.debug(self, "Level complete: All spawned enemies defeated.")
+				_open_all_doors_final()
+				_is_spawner_paused = true  # Level complete
+
+		# 3. Handle spawn queue blocking and timing
+		if not _is_spawner_paused and not _victory_triggered:
 			var enemies: Array[Node] = get_tree().get_nodes_in_group("enemy")
 			var is_blocked: bool = false
 
@@ -100,6 +126,17 @@ func _process(delta: float) -> void:
 				var next_spawn: Dictionary = _spawn_queue[_current_spawn_index]
 				if next_spawn.get("wait_before_spawn", false) and _level_timer >= next_spawn.time:
 					if enemies.size() > 0:
+						if not is_blocked:
+							(
+								LogWrapper
+								. debug(
+									self,
+									(
+										"Spawn queue BLOCKED: Waiting for %d enemies to clear before boss spawn."
+										% enemies.size()
+									)
+								)
+							)
 						is_blocked = true
 
 			if not is_blocked:
@@ -119,16 +156,18 @@ func _accelerate_spawns() -> void:
 	if shift_amount > 0:
 		LogWrapper.debug(
 			self,
-			"Level clear! Shifting remaining %d spawns forward by %.2fs"
-			% [_spawn_queue.size() - _current_spawn_index, shift_amount]
+			(
+				"Level clear! Shifting remaining %d spawns forward by %.2fs"
+				% [_spawn_queue.size() - _current_spawn_index, shift_amount]
+			)
 		)
-		for i in range(_current_spawn_index, _spawn_queue.size()):
+		for i: int in range(_current_spawn_index, _spawn_queue.size()):
 			_spawn_queue[i].time -= shift_amount
 
 
 func _setup_initial_doors() -> void:
 	var doors: Array[Node] = get_tree().get_nodes_in_group("object_door")
-	for door in doors:
+	for door: Node in doors:
 		if door is ObjectDoor:
 			# Use set_deferred or direct internal access if we were the owner,
 			# but ObjectDoor manages its own is_open now.
@@ -140,7 +179,7 @@ func _setup_initial_doors() -> void:
 
 func _build_spawn_queue() -> void:
 	# --- 1. Process Enemy Waves ---
-	for wave in level_data.enemy_wave_config:
+	for wave: EnemyWaveConfig in level_data.enemy_wave_config:
 		var num_enemies: int = wave.number_of_enemies
 		var duration: float = wave.seconds_to_spawn_over
 		var num_spawn_points: int = wave.spawn_points.size()
@@ -159,7 +198,7 @@ func _build_spawn_queue() -> void:
 			ResourceLoader.load_threaded_request(wave.enemy_scene_path)
 			_cached_scenes[wave.enemy_scene_path] = true  # Just mark that we requested it
 
-		for i in range(num_enemies):
+		for i: int in range(num_enemies):
 			var exact_spawn_time: float = wave.time + (i * time_interval)
 			var point: SpawnConfig.Location = wave.spawn_points[i % num_spawn_points]
 
@@ -177,7 +216,7 @@ func _build_spawn_queue() -> void:
 			)
 
 	# --- 2. Process Powerup Waves ---
-	for powerup in level_data.powerup_wave_config:
+	for powerup: PowerupWaveConfig in level_data.powerup_wave_config:
 		var exact_spawn_time: float = powerup.time
 
 		if powerup.random_factor > 0:
@@ -210,7 +249,7 @@ func _build_spawn_queue() -> void:
 	_spawn_queue.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return a.time < b.time)
 
 	# --- 3b. Map last indices for waves to handle door closing ---
-	for i in range(_spawn_queue.size()):
+	for i: int in range(_spawn_queue.size()):
 		_last_indices_for_waves[_spawn_queue[i].wave_stamp] = i
 		if _spawn_queue[i].get("is_boss_wave", false):
 			_last_boss_wave_stamp = _spawn_queue[i].wave_stamp
@@ -223,7 +262,7 @@ func _build_spawn_queue() -> void:
 	LogWrapper.debug(self, "--- Level Spawn Schedule Summary ---")
 
 	LogWrapper.debug(self, "[Enemy Waves]")
-	for wave in level_data.enemy_wave_config:
+	for wave: EnemyWaveConfig in level_data.enemy_wave_config:
 		var boss_tag: String = " [BOSS WAVE]" if wave.is_boss_wave else ""
 		LogWrapper.debug(
 			self,
@@ -241,11 +280,13 @@ func _build_spawn_queue() -> void:
 
 	if level_data.powerup_wave_config.size() > 0:
 		LogWrapper.debug(self, "[Powerup Waves]")
-		for powerup in level_data.powerup_wave_config:
+		for powerup: PowerupWaveConfig in level_data.powerup_wave_config:
 			LogWrapper.debug(
 				self,
-				"  - %s: %s (random factor: %d)"
-				% [powerup.time_stamp, powerup.display_name, powerup.random_factor]
+				(
+					"  - %s: %s (random factor: %d)"
+					% [powerup.time_stamp, powerup.display_name, powerup.random_factor]
+				)
 			)
 
 	LogWrapper.debug(self, "-----------------------------------")
@@ -255,13 +296,13 @@ func _update_active_waves_clearance() -> void:
 	var enemies: Array[Node] = get_tree().get_nodes_in_group("enemy")
 	var waves_to_remove: Array[String] = []
 
-	for wave_stamp in _active_waves_waiting_to_close:
+	for wave_stamp: String in _active_waves_waiting_to_close:
 		var is_clear: bool = true
 		var spawner_positions: Array = _wave_spawners.get(wave_stamp, [])
 
 		# For each spawner involved in this wave, check if any enemy is nearby
 		for spawner_pos: Vector2 in spawner_positions:
-			for enemy in enemies:
+			for enemy: Node in enemies:
 				if enemy is Node2D:
 					if enemy.global_position.distance_to(spawner_pos) < DOOR_CLEARANCE_RADIUS:
 						is_clear = false
@@ -274,7 +315,7 @@ func _update_active_waves_clearance() -> void:
 			waves_to_remove.append(wave_stamp)
 			_wave_spawners.erase(wave_stamp)
 
-	for wave_stamp in waves_to_remove:
+	for wave_stamp: String in waves_to_remove:
 		_active_waves_waiting_to_close.erase(wave_stamp)
 
 
@@ -290,6 +331,7 @@ func _check_spawns() -> void:
 			if enemies.size() > 0:
 				break
 			# Start of a boss wave and level is clear: close all doors
+			LogWrapper.debug(self, "Wait condition met: Closing all doors for boss wave.")
 			_force_close_all_doors()
 
 		if spawn_data.category == "enemy":
@@ -308,12 +350,14 @@ func _check_spawns() -> void:
 				spawn_data.wave_stamp
 			)
 
-		if (spawn_data.category == "enemy"
-				and _last_indices_for_waves.get(spawn_data.wave_stamp) == _current_spawn_index):
+		if (
+			spawn_data.category == "enemy"
+			and _last_indices_for_waves.get(spawn_data.wave_stamp) == _current_spawn_index
+		):
 			# Instead of closing immediately, we add to the clearance queue
 			if spawn_data.wave_stamp not in _active_waves_waiting_to_close:
 				_active_waves_waiting_to_close.append(spawn_data.wave_stamp)
-			
+
 			if spawn_data.wave_stamp == _last_boss_wave_stamp:
 				_last_boss_wave_fully_spawned = true
 
@@ -326,19 +370,35 @@ func _check_spawns() -> void:
 
 func _handle_boss_victory() -> void:
 	LogWrapper.debug(self, "VICTORY: Boss defeated! Executing cleanup.")
+
+	var remaining_spawns: int = _spawn_queue.size() - _current_spawn_index
+	if remaining_spawns > 0:
+		LogWrapper.debug(self, "Cancelling %d remaining queued spawns." % remaining_spawns)
+
 	_spawn_queue.clear()
 	_current_spawn_index = 0
 	_all_spawns_completed = true
 
 	# Kill every node in standard enemy group
-	get_tree().call_group("enemy", "queue_free")
-	
+	var enemies_to_kill: Array[Node] = get_tree().get_nodes_in_group("enemy")
+	if enemies_to_kill.size() > 0:
+		LogWrapper.debug(self, "Killing %d remaining spawned enemies." % enemies_to_kill.size())
+		get_tree().call_group("enemy", "queue_free")
+
 	_spawned_enemies_tracking.clear()
+	_last_boss_wave_enemies.clear()
+
+	_open_all_doors_final()
+	_is_spawner_paused = true  # Victory achieved, stop processing spawns
 
 
 func _close_doors_for_wave(wave_stamp: String) -> void:
 	if _opened_doors_per_wave.has(wave_stamp):
-		for door: ObjectDoor in _opened_doors_per_wave[wave_stamp]:
+		var doors_to_close: Array = _opened_doors_per_wave[wave_stamp]
+		LogWrapper.debug(
+			self, "Closing %d doors associated with wave %s." % [doors_to_close.size(), wave_stamp]
+		)
+		for door: ObjectDoor in doors_to_close:
 			if is_instance_valid(door):
 				door.close_door()
 		_opened_doors_per_wave.erase(wave_stamp)
@@ -348,7 +408,7 @@ func _open_all_doors_final() -> void:
 	_active_waves_waiting_to_close.clear()
 	_wave_spawners.clear()
 	var doors: Array[Node] = get_tree().get_nodes_in_group("object_door")
-	for door in doors:
+	for door: Node in doors:
 		if door is ObjectDoor:
 			door.open_door_final()
 
@@ -359,7 +419,7 @@ func _force_close_all_doors() -> void:
 	_wave_spawners.clear()
 	_opened_doors_per_wave.clear()
 	var doors: Array[Node] = get_tree().get_nodes_in_group("object_door")
-	for door in doors:
+	for door: Node in doors:
 		if door is ObjectDoor:
 			# Force a single close animation.
 			# ObjectDoor already handles is_open/is_final_open checks inside close_door.
@@ -386,7 +446,7 @@ func _get_spawn_position(
 	elif location == SpawnConfig.Location.MAIN_BOSS:
 		valid_spawners = boss_spawners
 	else:
-		for spawner in edge_spawners:
+		for spawner: Node in edge_spawners:
 			if spawner.location == location as int:
 				valid_spawners.append(spawner)
 
@@ -424,9 +484,9 @@ func _get_spawn_position(
 func _handle_doors_near_spawner(spawner_pos: Vector2, wave_stamp: String) -> ObjectDoor:
 	var doors: Array[Node] = get_tree().get_nodes_in_group("object_door")
 	var closest_door: ObjectDoor = null
-	var min_dist: float = 120.0 # Proximity threshold for door association
+	var min_dist: float = 120.0  # Proximity threshold for door association
 
-	for door in doors:
+	for door: Node in doors:
 		if door is ObjectDoor:
 			var dist: float = door.global_position.distance_to(spawner_pos)
 			if dist < min_dist:
@@ -480,35 +540,50 @@ func _spawn_enemy(
 		var door: ObjectDoor = result[1]
 
 		enemy_instance.global_position = spawn_pos
-		
+
 		add_child(enemy_instance)
 		_spawned_enemies_tracking.append(enemy_instance)
 
+		if wave_stamp == _last_boss_wave_stamp:
+			_last_boss_wave_enemies.append(enemy_instance)
+
 		# Generic component check for intro logic (skip for boss waves)
 		if not is_boss_wave:
-			var is_edge: bool = location in [
-				SpawnConfig.Location.NORTH, SpawnConfig.Location.EAST,
-				SpawnConfig.Location.SOUTH, SpawnConfig.Location.WEST,
-				SpawnConfig.Location.RANDOM_SIDE
-			]
+			var is_edge: bool = (
+				location
+				in [
+					SpawnConfig.Location.NORTH,
+					SpawnConfig.Location.EAST,
+					SpawnConfig.Location.SOUTH,
+					SpawnConfig.Location.WEST,
+					SpawnConfig.Location.RANDOM_SIDE
+				]
+			)
 
 			if is_edge and door:
-				var intro_comp: SpawnIntroComponent = enemy_instance.find_child(
-					"*SpawnIntroComponent*", true, false
-				) as SpawnIntroComponent
+				var intro_comp: SpawnIntroComponent = (
+					enemy_instance.find_child("*SpawnIntroComponent*", true, false)
+					as SpawnIntroComponent
+				)
 				if intro_comp:
 					# For RANDOM_SIDE, we need to know WHICH side was actually chosen
 					var actual_location: SpawnConfig.Location = location
 					if location == SpawnConfig.Location.RANDOM_SIDE:
 						# Infer location from door proximity if possible
-						var viewport_center: Vector2 = Vector2(576, 324) # Approximate
+						var viewport_center: Vector2 = Vector2(576, 324)  # Approximate
 						var dir: Vector2 = door.global_position - viewport_center
 						if abs(dir.x) > abs(dir.y):
-							actual_location = SpawnConfig.Location.EAST if dir.x > 0 \
+							actual_location = (
+								SpawnConfig.Location.EAST
+								if dir.x > 0
 								else SpawnConfig.Location.WEST
+							)
 						else:
-							actual_location = SpawnConfig.Location.SOUTH if dir.y > 0 \
+							actual_location = (
+								SpawnConfig.Location.SOUTH
+								if dir.y > 0
 								else SpawnConfig.Location.NORTH
+							)
 
 					intro_comp.setup(actual_location, door)
 	else:
