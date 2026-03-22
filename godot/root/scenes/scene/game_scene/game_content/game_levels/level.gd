@@ -19,6 +19,11 @@ var _active_waves_waiting_to_close: Array[String] = []
 var _wave_spawners: Dictionary = {} # wave_stamp -> Array[Vector2]
 var _all_spawns_completed: bool = false
 var _time_since_last_enemy_clear: float = 0.0
+var _last_boss_wave_stamp: String = ""
+var _last_boss_wave_fully_spawned: bool = false
+var _spawned_enemies_tracking: Array[Node2D] = []
+var _victory_triggered: bool = false
+var _victory_cleanup_timer: float = 0.0
 
 
 func _ready() -> void:
@@ -44,16 +49,46 @@ func _process(delta: float) -> void:
 		_check_spawns()
 
 		if _all_spawns_completed:
-			var enemies: Array[Node] = get_tree().get_nodes_in_group("enemy")
-			if enemies.size() == 0:
+			# Filter out dead references
+			_spawned_enemies_tracking.assign(_spawned_enemies_tracking.filter(
+				func(node): return is_instance_valid(node)
+			))
+			
+			if _spawned_enemies_tracking.size() == 0:
 				_open_all_doors_final()
 				_is_spawner_paused = true # Level complete
-		else:
+		elif not _victory_triggered:
+			# Check for boss victory if the last boss wave has started spawning
+			if _last_boss_wave_stamp != "" and _last_boss_wave_fully_spawned:
+				var bosses: Array[Node] = get_tree().get_nodes_in_group("boss")
+				var boss_still_alive: bool = false
+				
+				for boss in bosses:
+					if is_instance_valid(boss) and not boss.is_queued_for_deletion():
+						var health_comp: HealthComponent = boss.get_node_or_null("HealthComponent")
+						if not health_comp:
+							health_comp = boss.find_child("*HealthComponent*", true, false) as HealthComponent
+						
+						if not health_comp or health_comp.current_health > 0:
+							boss_still_alive = true
+							break
+				
+				if not boss_still_alive:
+					LogWrapper.debug(self, "Victory detected: All bosses are defeated.")
+					_victory_triggered = true
+					_handle_boss_victory()
+
+			# Cleanup dead references from tracking periodically
+			if Engine.get_process_frames() % 60 == 0:
+				_spawned_enemies_tracking.assign(_spawned_enemies_tracking.filter(
+					func(node): return is_instance_valid(node)
+				))
+
 			var enemies: Array[Node] = get_tree().get_nodes_in_group("enemy")
 			var is_blocked: bool = false
 
 			# Accelerate spawns if clear for 3 seconds
-			if enemies.size() == 0 and _current_spawn_index > 0:
+			if enemies.size() == 0 and _current_spawn_index < _spawn_queue.size():
 				_time_since_last_enemy_clear += delta
 				if _time_since_last_enemy_clear >= 3.0:
 					_accelerate_spawns()
@@ -177,6 +212,8 @@ func _build_spawn_queue() -> void:
 	# --- 3b. Map last indices for waves to handle door closing ---
 	for i in range(_spawn_queue.size()):
 		_last_indices_for_waves[_spawn_queue[i].wave_stamp] = i
+		if _spawn_queue[i].get("is_boss_wave", false):
+			_last_boss_wave_stamp = _spawn_queue[i].wave_stamp
 
 	LogWrapper.debug(
 		self, "Built unified spawn queue with %d total events scheduled." % _spawn_queue.size()
@@ -276,12 +313,27 @@ func _check_spawns() -> void:
 			# Instead of closing immediately, we add to the clearance queue
 			if spawn_data.wave_stamp not in _active_waves_waiting_to_close:
 				_active_waves_waiting_to_close.append(spawn_data.wave_stamp)
+			
+			if spawn_data.wave_stamp == _last_boss_wave_stamp:
+				_last_boss_wave_fully_spawned = true
 
 		_current_spawn_index += 1
 
 		if _current_spawn_index >= _spawn_queue.size():
 			LogWrapper.debug(self, "All scheduled events (enemies and powerups) have been spawned.")
 			_all_spawns_completed = true
+
+
+func _handle_boss_victory() -> void:
+	LogWrapper.debug(self, "VICTORY: Boss defeated! Executing cleanup.")
+	_spawn_queue.clear()
+	_current_spawn_index = 0
+	_all_spawns_completed = true
+
+	# Kill every node in standard enemy group
+	get_tree().call_group("enemy", "queue_free")
+	
+	_spawned_enemies_tracking.clear()
 
 
 func _close_doors_for_wave(wave_stamp: String) -> void:
@@ -405,6 +457,10 @@ func _spawn_enemy(
 	wave_stamp: String,
 	is_boss_wave: bool = false
 ) -> void:
+	if _all_spawns_completed or _is_spawner_paused:
+		LogWrapper.debug(self, "Blocking spawn of '%s' because level is completing." % nice_name)
+		return
+
 	if scene_path == "" or scene_path == null:
 		LogWrapper.debug(self, "CRITICAL: Cannot spawn '%s'. No scene path assigned!" % nice_name)
 		return
@@ -424,7 +480,9 @@ func _spawn_enemy(
 		var door: ObjectDoor = result[1]
 
 		enemy_instance.global_position = spawn_pos
+		
 		add_child(enemy_instance)
+		_spawned_enemies_tracking.append(enemy_instance)
 
 		# Generic component check for intro logic (skip for boss waves)
 		if not is_boss_wave:

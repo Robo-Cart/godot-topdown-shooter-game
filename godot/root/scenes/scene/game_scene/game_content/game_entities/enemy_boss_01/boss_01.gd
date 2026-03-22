@@ -6,6 +6,7 @@ extends CharacterBody2D
 
 func _ready() -> void:
 	add_to_group("enemy")
+	add_to_group("boss")
 
 	if health_component:
 		health_component.damaged.connect(_on_damaged)
