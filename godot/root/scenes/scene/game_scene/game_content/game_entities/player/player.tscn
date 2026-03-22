@@ -121,6 +121,7 @@ muzzle_particles = NodePath("../CentrePoint/ShootPos/MuzzleParticles")
 
 [node name="HealthComponent" type="Node" parent="." unique_id=1638987698]
 script = ExtResource("8_1xgtt")
+max_health = 10
 
 [node name="HurtboxComponent" type="Area2D" parent="." unique_id=396573726 node_paths=PackedStringArray("health_component")]
 script = ExtResource("9_vah0g")

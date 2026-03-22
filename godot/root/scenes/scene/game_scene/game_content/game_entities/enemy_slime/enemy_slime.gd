@@ -6,7 +6,7 @@ extends CharacterBody2D
 
 @export_group("Vision Ranges")
 @export var detection_radius: float = 175.0
-@export var attack_range: float = 20.0
+@export var attack_range: float = 40.0
 
 var stunned: bool = false
 var playback: AnimationNodeStateMachinePlayback

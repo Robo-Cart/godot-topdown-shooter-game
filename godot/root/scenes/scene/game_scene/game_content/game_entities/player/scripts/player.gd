@@ -1,6 +1,8 @@
 class_name Player
 extends CharacterBody2D
 
+signal lives_changed(current_lives: int, max_lives: int)
+
 const FRICTION = 900.0
 
 @export_group("Player Parameters")
@@ -8,7 +10,10 @@ const FRICTION = 900.0
 @export var physicscontrol: bool = false
 @export var max_speed: float = 200.0
 @export var acceleration: float = 800.0
+@export var max_lives: int = 5
+@export var starting_lives: int = 3
 
+var current_lives: int = starting_lives
 var permanent_buffs: Dictionary = {}
 var input_move: Vector2
 var input_aim: Vector2
@@ -35,14 +40,23 @@ func _ready() -> void:
 		weapon_comp.weapon_fired.connect(_on_weapon_fired)
 
 	if health_comp:
-		health_comp.health_changed.connect(
-			func(current_health: int, _max_health: int) -> void:
-				print("Ouch! Player health is now: ", current_health)
+		health_comp.health_changed.connect(_on_health_changed)
+		health_comp.died.connect(_on_died)
 
-				if current_health <= 0:
-					print("PLAYER IS DEAD!")
-				# TODO: can call queue_free() here for now, or trigger a game over
-		)
+
+func _on_health_changed(current_hp: int, max_hp: int) -> void:
+	LogWrapper.debug(self, "Player health: %d/%d" % [current_hp, max_hp])
+
+
+func _on_died() -> void:
+	LogWrapper.debug(self, "Player died! Reducing life.")
+	remove_life()
+	if current_lives > 0:
+		# Reset health for the next life
+		health_comp.current_health = health_comp.max_health
+		health_comp.health_changed.emit(health_comp.current_health, health_comp.max_health)
+	else:
+		LogWrapper.debug(self, "GAME OVER - No lives left.")
 
 
 func _physics_process(delta: float) -> void:
@@ -111,3 +125,17 @@ func capture_mouse() -> void:
 func release_mouse() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	mouse_captured = false
+
+
+## Updates the number of lives and emits the signal.
+func set_lives(count: int) -> void:
+	current_lives = clamp(count, 0, max_lives)
+	lives_changed.emit(current_lives, max_lives)
+
+
+func add_life() -> void:
+	set_lives(current_lives + 1)
+
+
+func remove_life() -> void:
+	set_lives(current_lives - 1)
