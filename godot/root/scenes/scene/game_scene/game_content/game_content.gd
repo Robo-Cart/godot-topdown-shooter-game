@@ -75,7 +75,7 @@ func load_level_from_path(
 
 						# Calculate spread grid (e.g., 3x3 for up to 8-9 players)
 						var cols: int = ceili(sqrt(players_count))
-						var grid_spacing: float = 40.0 # Enough to clear collision shapes
+						var grid_spacing: float = 50.0 # Enough to clear collision shapes
 
 						for i in range(players_count):
 							var row: int = i / cols

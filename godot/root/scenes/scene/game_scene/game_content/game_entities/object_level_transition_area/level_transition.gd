@@ -77,7 +77,8 @@ func get_offset(p: Node2D) -> Vector2:
 	var player_position: Vector2 = p.global_position
 
 	# Create a safe spawn distance that clears the area + player radius
-	var safe_distance: float = pixel_size * 2.0
+	# Doubled to 4.0x to accommodate player groups in multiplayer
+	var safe_distance: float = pixel_size * 4.0
 
 	if side == SIDE.WEST or side == SIDE.EAST:
 		offset.y = player_position.y - global_position.y

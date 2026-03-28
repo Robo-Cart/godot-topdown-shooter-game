@@ -156,15 +156,28 @@ func _get_player_log_prefix() -> String:
 		if s_id > 0:
 			steam_id = "Steam%d" % s_id
 
-	# In a real multiplayer scenario, we'd check if this is a remote peer
-	# and get the IP last octet if not Steam.
-	# For now, we'll indicate if it's the local host or a generic peer.
-	var peer_info: String = "Host" if multiplayer.is_server() else "Peer"
-	if steam_id == "Local" and not multiplayer.is_server():
-		# This is a placeholder for actual IP logic if ENet is used without Steam
-		peer_info = "Remote"
+	var network_info: String = "Host" if multiplayer.is_server() else "Peer"
+	if steam_id == "Local":
+		# Try to find the actual peer ID for this player's device
+		var peer_id: int = 1
+		for p in MultiplayerManager.players:
+			if device_id in MultiplayerManager.players[p]:
+				peer_id = p
+				break
 
-	return "[%s|%s|%s|%s] " % [p_id, d_id, steam_id, peer_info]
+		if peer_id != 1:
+			var m_peer: Object = multiplayer.multiplayer_peer
+			if m_peer and m_peer.has_method("get_peer_address"):
+				var ip: String = m_peer.get_peer_address(peer_id)
+				var parts: PackedStringArray = ip.split(".")
+				if parts.size() == 4:
+					network_info = "IP.*.*.%s" % parts[3]
+				else:
+					network_info = ip
+			else:
+				network_info = "Remote"
+
+	return "[%s|%s|%s|%s] " % [p_id, d_id, steam_id, network_info]
 
 
 func select_animation() -> void:
