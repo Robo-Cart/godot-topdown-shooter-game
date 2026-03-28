@@ -7,6 +7,9 @@ extends Node
 
 var is_transitioning: bool = false
 var transition_rect: ColorRect
+var takeover_dialog: ConfirmationDialog
+var _first_gamepad_handled: bool = false
+var _takeover_device_id: int = -1
 
 @onready var game_content: Node = $GameContent
 @onready var pause_menu: PauseMenu = %PauseMenu
@@ -24,13 +27,11 @@ func _input(event: InputEvent) -> void:
 	if event is InputEventJoypadButton or event is InputEventJoypadMotion:
 		device_id = event.device
 
-	if (
-		event.is_action_pressed("game_pause")
-		or (
-			event is InputEventJoypadButton
-			and event.button_index == JOY_BUTTON_START
-			and event.pressed
-		)
+	# Handle Pause (Start button on assigned pads or Escape on keyboard)
+	if event.is_action_pressed("game_pause") or (
+		event is InputEventJoypadButton
+		and event.button_index == JOY_BUTTON_START
+		and event.pressed
 	):
 		var players: Array[Node] = get_tree().get_nodes_in_group("player")
 		var player_for_device: Player = null
@@ -39,23 +40,31 @@ func _input(event: InputEvent) -> void:
 				player_for_device = p as Player
 				break
 
-		if player_for_device == null:
-			_spawn_player(device_id)
+		# If this is a new gamepad
+		if device_id != -1 and player_for_device == null:
+			if not _first_gamepad_handled:
+				_takeover_device_id = device_id
+				get_tree().paused = true
+				takeover_dialog.popup_centered()
+			else:
+				_spawn_player(device_id)
 			return
 
-	if Input.is_action_just_pressed("game_pause"):
-		if get_tree().paused:
-			if pause_menu.visible:
-				_action_continue_menu_button()
+		# Toggle pause only if the device is assigned to a player or is keyboard
+		if device_id == -1 or player_for_device != null:
+			if get_tree().paused:
+				if pause_menu.visible:
+					_action_continue_menu_button()
+				else:
+					_action_options_back_menu_button()
 			else:
-				_action_options_back_menu_button()
-		else:
-			_action_game_pause_menu_button()
+				_action_game_pause_menu_button()
 
 
 func _ready() -> void:
 	add_to_group("game_scene")
 	_setup_transition_screen()
+	_setup_takeover_dialog()
 	_load_game_content_scene()
 
 	ui_builder.build()
@@ -64,6 +73,37 @@ func _ready() -> void:
 	_setup_hud()
 
 	LogWrapper.debug(self, "Ready.")
+
+
+func _setup_takeover_dialog() -> void:
+	takeover_dialog = ConfirmationDialog.new()
+	takeover_dialog.title = "Gamepad Detected"
+	takeover_dialog.dialog_text = (
+		"Would you like this gamepad to take over Player 1 (Keyboard) or Join as a new Player?"
+	)
+	takeover_dialog.ok_button_text = "Take Over P1"
+	takeover_dialog.cancel_button_text = "Join as P2"
+	takeover_dialog.confirmed.connect(_on_takeover_confirmed)
+	takeover_dialog.canceled.connect(_on_takeover_join_new)
+	add_child(takeover_dialog)
+
+
+func _on_takeover_confirmed() -> void:
+	var players: Array[Node] = get_tree().get_nodes_in_group("player")
+	for p in players:
+		var player: Player = p as Player
+		if player.device_id == -1:
+			player.device_id = _takeover_device_id
+			LogWrapper.debug(self, "Gamepad %d took over Player 1" % _takeover_device_id)
+			break
+	_first_gamepad_handled = true
+	get_tree().paused = false
+
+
+func _on_takeover_join_new() -> void:
+	_spawn_player(_takeover_device_id)
+	_first_gamepad_handled = true
+	get_tree().paused = false
 
 
 func _setup_hud() -> void:

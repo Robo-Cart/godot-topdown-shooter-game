@@ -63,8 +63,22 @@ func _on_died() -> void:
 
 func _physics_process(delta: float) -> void:
 	if device_id == -1:
-		input_move = Input.get_vector("move_left", "move_right", "move_forward", "move_backwards")
-		input_aim = Input.get_vector("look_left", "look_right", "look_up", "look_down")
+		# Specifically poll keyboard for Player 1 to avoid gamepad "crosstalk"
+		# if the InputMap actions are bound to both.
+		var move_vec: Vector2 = Vector2.ZERO
+		if Input.is_key_pressed(KEY_W) or Input.is_key_pressed(KEY_UP):
+			move_vec.y -= 1
+		if Input.is_key_pressed(KEY_S) or Input.is_key_pressed(KEY_DOWN):
+			move_vec.y += 1
+		if Input.is_key_pressed(KEY_A) or Input.is_key_pressed(KEY_LEFT):
+			move_vec.x -= 1
+		if Input.is_key_pressed(KEY_D) or Input.is_key_pressed(KEY_RIGHT):
+			move_vec.x += 1
+		input_move = move_vec.normalized()
+
+		# For aim on keyboard/mouse, we usually use mouse position
+		var mouse_pos: Vector2 = get_global_mouse_position()
+		input_aim = (mouse_pos - global_position).normalized()
 	else:
 		var deadzone: float = 0.2
 		var move_x: float = Input.get_joy_axis(device_id, JOY_AXIS_LEFT_X)
@@ -98,7 +112,7 @@ func _physics_process(delta: float) -> void:
 
 	var is_firing: bool = false
 	if device_id == -1:
-		is_firing = Input.is_action_pressed("fire")
+		is_firing = Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) or Input.is_action_pressed("fire")
 	else:
 		# Use RT/R2 or a joypad button (JOY_BUTTON_A is standard)
 		if (
