@@ -6,8 +6,9 @@ extends Node
 @export var scene_manager_options_id: String = "fade_play"
 
 var is_transitioning: bool = false
-var transition_rect: ColorRect
 var takeover_dialog: ConfirmationDialog
+
+var _transition_rect: ColorRect
 var _first_gamepad_handled: bool = false
 var _takeover_device_id: int = -1
 
@@ -94,7 +95,10 @@ func _on_takeover_confirmed() -> void:
 		var player: Player = p as Player
 		if player.device_id == -1:
 			player.device_id = _takeover_device_id
-			LogWrapper.debug(self, "Gamepad %d took over Player 1" % _takeover_device_id)
+			LogWrapper.debug(
+				self,
+				_get_player_info(_takeover_device_id) + "Gamepad %d took over Player 1" % _takeover_device_id
+			)
 			break
 	_first_gamepad_handled = true
 	get_tree().paused = false
@@ -120,6 +124,7 @@ func _setup_hud() -> void:
 		player.device_id = -1
 		player.color_index = 0
 		player.apply_tint()
+		hud.add_player_ui()
 		hud.setup_player_ui(0, player)
 
 
@@ -130,6 +135,21 @@ func _spawn_player(device_id: int) -> void:
 	var new_player: Player = player_scene.instantiate() as Player
 	new_player.device_id = device_id
 
+	# Spawn in an area close to the centre of the 2d camera viewport
+	var viewport_rect: Rect2 = get_viewport().get_visible_rect()
+	var camera: Camera2D = get_viewport().get_camera_2d()
+	var spawn_center: Vector2 = viewport_rect.size / 2.0
+	if camera:
+		spawn_center = camera.get_screen_center_position()
+
+	var max_offset_x: float = viewport_rect.size.x * 0.25
+	var max_offset_y: float = viewport_rect.size.y * 0.25
+
+	new_player.global_position = spawn_center + Vector2(
+		randf_range(-max_offset_x, max_offset_x),
+		randf_range(-max_offset_y, max_offset_y)
+	)
+
 	var player_count: int = get_tree().get_nodes_in_group("player").size()
 	new_player.color_index = player_count % MultiplayerManager.player_colors.size()
 
@@ -139,19 +159,31 @@ func _spawn_player(device_id: int) -> void:
 	hud.add_player_ui()
 	hud.setup_player_ui(hud.player_ui_container.get_child_count() - 1, new_player)
 
-	LogWrapper.debug(self, "Spawned player for device %d" % device_id)
+	LogWrapper.debug(self, _get_player_info(device_id) + "Spawned player for device %d" % device_id)
+
+
+func _get_player_info(device_id: int) -> String:
+	var steam_id: String = "Local"
+	if Engine.has_singleton("Steam"):
+		var steam_singleton: Object = Engine.get_singleton("Steam")
+		var s_id: int = steam_singleton.getSteamID()
+		if s_id > 0:
+			steam_id = "Steam%d" % s_id
+
+	var peer_info: String = "Host" if multiplayer.is_server() else "Peer"
+	return "[Dev%d|%s|%s] " % [device_id, steam_id, peer_info]
 
 
 func _setup_transition_screen() -> void:
 	var canvas: CanvasLayer = CanvasLayer.new()
 	canvas.layer = 100
 
-	transition_rect = ColorRect.new()
-	transition_rect.color = Color(0, 0, 0, 0)
-	transition_rect.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	transition_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_transition_rect = ColorRect.new()
+	_transition_rect.color = Color(0, 0, 0, 0)
+	_transition_rect.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_transition_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
 
-	canvas.add_child(transition_rect)
+	canvas.add_child(_transition_rect)
 	add_child(canvas)
 
 
@@ -160,13 +192,13 @@ func fade_out() -> void:
 	get_tree().paused = true
 
 	var tween: Tween = create_tween()
-	tween.tween_property(transition_rect, "color:a", 1.0, 0.4)
+	tween.tween_property(_transition_rect, "color:a", 1.0, 0.4)
 	await tween.finished
 
 
 func fade_in() -> void:
 	var tween: Tween = create_tween()
-	tween.tween_property(transition_rect, "color:a", 0.0, 0.4)
+	tween.tween_property(_transition_rect, "color:a", 0.0, 0.4)
 	await tween.finished
 
 	get_tree().paused = false

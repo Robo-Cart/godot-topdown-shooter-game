@@ -31,12 +31,33 @@ func setup_player_ui(index: int, player: Player) -> void:
 
 func _update_ui_layout() -> void:
 	var child_count: int = player_ui_container.get_child_count()
-	player_ui_container.alignment = BoxContainer.ALIGNMENT_CENTER
+	if child_count == 0:
+		return
 
-	if child_count > 4:
-		player_ui_container.scale = Vector2(0.5, 0.5)
-		# Adjust separation for smaller scale
-		player_ui_container.add_theme_constant_override("separation", 40)
+	# Force layout recalculation of minimum size before we set pivot and scale
+	player_ui_container.add_theme_constant_override("separation", 16)
+	var target_scale: float = 1.0
+	var target_sep: int = 16
+
+	if child_count > 6:
+		target_scale = 0.5
+		target_sep = 40
+	elif child_count > 4:
+		target_scale = 0.7
+		target_sep = 28
 	else:
-		player_ui_container.scale = Vector2(1.0, 1.0)
-		player_ui_container.add_theme_constant_override("separation", 10)
+		target_scale = 1.0
+		target_sep = 16
+
+	player_ui_container.add_theme_constant_override("separation", target_sep)
+
+	# Calculate unscaled combined size immediately
+	var unscaled_size: Vector2 = player_ui_container.get_combined_minimum_size()
+	player_ui_container.pivot_offset = unscaled_size / 2.0
+	player_ui_container.scale = Vector2(target_scale, target_scale)
+
+	# We still wait a frame to ensure Godot's internal layout engine catches up
+	# and centers the container based on its new size.
+	await get_tree().process_frame
+	if is_instance_valid(player_ui_container):
+		player_ui_container.pivot_offset = player_ui_container.size / 2.0

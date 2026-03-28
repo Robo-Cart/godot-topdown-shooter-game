@@ -95,14 +95,39 @@ func _on_lobby_joined(new_lobby_id: int, _permissions: int, _locked: bool, respo
 
 
 func _on_peer_connected(id: int) -> void:
-	LogWrapper.debug(self, "Peer connected: " + str(id))
+	LogWrapper.debug(self, _get_peer_log_prefix(id) + "Peer connected: " + str(id))
 
 
 func _on_peer_disconnected(id: int) -> void:
-	LogWrapper.debug(self, "Peer disconnected: " + str(id))
+	LogWrapper.debug(self, _get_peer_log_prefix(id) + "Peer disconnected: " + str(id))
 	if players.has(id):
 		players.erase(id)
 		players_updated.emit()
+
+
+func _get_peer_log_prefix(id: int) -> String:
+	var steam_id: String = "Local"
+	var network_info: String = "Local"
+
+	if Engine.has_singleton("Steam"):
+		var steam_singleton: Object = Engine.get_singleton("Steam")
+		# We'd need to map peer IDs to Steam IDs if using SteamMultiplayerPeer
+		# For this exercise, we'll check the local Steam ID as a fallback
+		var s_id: int = steam_singleton.getSteamID()
+		if s_id > 0:
+			steam_id = "Steam%d" % s_id
+
+	if id != 1:  # Not server/host
+		var peer: Object = multiplayer.multiplayer_peer
+		if peer and peer.has_method("get_peer_address"):
+			var ip: String = peer.get_peer_address(id)
+			var parts: PackedStringArray = ip.split(".")
+			if parts.size() == 4:
+				network_info = "IP.*.*.%s" % parts[3]
+			else:
+				network_info = ip
+
+	return "[Peer%d|%s|%s] " % [id, steam_id, network_info]
 
 
 func spawn_local_player(device_id: int) -> void:

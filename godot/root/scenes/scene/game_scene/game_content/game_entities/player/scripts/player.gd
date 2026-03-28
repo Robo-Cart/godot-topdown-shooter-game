@@ -21,7 +21,10 @@ var playback: AnimationNodeStateMachinePlayback
 var look_vector: Vector2
 var player_offset_angle: float = 89.5
 var mouse_captured: bool = false
-var device_id: int = -1
+var device_id: int = -1:
+	set(value):
+		device_id = value
+		_update_weapon_device_id()
 var color_index: int = 0
 
 @onready var player_man: Node3D = $SubViewportContainer/SubViewport/Player_Man_3D
@@ -47,18 +50,18 @@ func _ready() -> void:
 
 
 func _on_health_changed(current_hp: int, max_hp: int) -> void:
-	LogWrapper.debug(self, "Player health: %d/%d" % [current_hp, max_hp])
+	LogWrapper.debug(self, _get_player_log_prefix() + "Player health: %d/%d" % [current_hp, max_hp])
 
 
 func _on_died() -> void:
-	LogWrapper.debug(self, "Player died! Reducing life.")
+	LogWrapper.debug(self, _get_player_log_prefix() + "Player died! Reducing life.")
 	remove_life()
 	if current_lives > 0:
 		# Reset health for the next life
 		health_comp.current_health = health_comp.max_health
 		health_comp.health_changed.emit(health_comp.current_health, health_comp.max_health)
 	else:
-		LogWrapper.debug(self, "GAME OVER - No lives left.")
+		LogWrapper.debug(self, _get_player_log_prefix() + "GAME OVER - No lives left.")
 
 
 func _physics_process(delta: float) -> void:
@@ -112,7 +115,7 @@ func _physics_process(delta: float) -> void:
 
 	var is_firing: bool = false
 	if device_id == -1:
-		is_firing = Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) or Input.is_action_pressed("fire")
+		is_firing = Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT)
 	else:
 		# Use RT/R2 or a joypad button (JOY_BUTTON_A is standard)
 		if (
@@ -139,7 +142,29 @@ func add_buff(buff_name: String) -> void:
 		permanent_buffs[buff_name] += 1
 	else:
 		permanent_buffs[buff_name] = 1
-	LogWrapper.debug(self, "Player Buffs Updated: " + str(permanent_buffs))
+	LogWrapper.debug(self, _get_player_log_prefix() + "Player Buffs Updated: " + str(permanent_buffs))
+
+
+func _get_player_log_prefix() -> String:
+	var p_id: String = "P%d" % (color_index + 1)
+	var d_id: String = "Dev%d" % device_id
+	var steam_id: String = "Local"
+
+	if Engine.has_singleton("Steam"):
+		var steam_singleton: Object = Engine.get_singleton("Steam")
+		var s_id: int = steam_singleton.getSteamID()
+		if s_id > 0:
+			steam_id = "Steam%d" % s_id
+
+	# In a real multiplayer scenario, we'd check if this is a remote peer
+	# and get the IP last octet if not Steam.
+	# For now, we'll indicate if it's the local host or a generic peer.
+	var peer_info: String = "Host" if multiplayer.is_server() else "Peer"
+	if steam_id == "Local" and not multiplayer.is_server():
+		# This is a placeholder for actual IP logic if ENet is used without Steam
+		peer_info = "Remote"
+
+	return "[%s|%s|%s|%s] " % [p_id, d_id, steam_id, peer_info]
 
 
 func select_animation() -> void:
@@ -201,3 +226,14 @@ func apply_tint() -> void:
 				var new_mat: StandardMaterial3D = mat.duplicate()
 				new_mat.albedo_color = new_mat.albedo_color.lerp(color, 0.4)
 				mesh_node.set_surface_override_material(i, new_mat)
+
+
+func _update_weapon_device_id() -> void:
+	if not is_node_ready():
+		await ready
+
+	var bone_attachment: BoneAttachment3D = player_man.get_node_or_null(
+		"Armature/Skeleton3D/BoneAttachment3D"
+	)
+	if bone_attachment:
+		bone_attachment.set("device_id", device_id)
