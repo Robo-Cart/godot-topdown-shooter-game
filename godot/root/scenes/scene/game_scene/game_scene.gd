@@ -96,7 +96,7 @@ func _spawn_player(device_id: int) -> void:
 	game_content.add_child(new_player)
 	new_player.apply_tint()
 
-	var _player_ui_inst: PlayerUI = hud.add_player_ui()
+	hud.add_player_ui()
 	hud.setup_player_ui(hud.player_ui_container.get_child_count() - 1, new_player)
 
 	LogWrapper.debug(self, "Spawned player for device %d" % device_id)

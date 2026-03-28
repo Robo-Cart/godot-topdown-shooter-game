@@ -1,7 +1,8 @@
 extends Node2D
 
 const DOOR_CLEARANCE_RADIUS: float = 160.0
-const SCALING_DATA_PATH: String = "res://root/scenes/component/multiplayer_scaling/multiplayer_scaling_data.gd"
+const SCALING_DATA_PATH: String = \
+		"res://root/scenes/component/multiplayer_scaling/multiplayer_scaling_data.gd"
 
 @export var level_data: LevelData
 
