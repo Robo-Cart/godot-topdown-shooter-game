@@ -36,10 +36,14 @@ func load_level_from_path(
 	target_transition_area = _target_transition_area
 	position_offset = _position_offset
 
-	for child in player.get_children():
-		if child is CollisionShape2D:
-			player_characterbody2d_node = child
-			player_characterbody2d_node.set_deferred("disabled", true)
+	var players: Array[Node] = get_tree().get_nodes_in_group("player")
+	var player_col_shapes: Array[CollisionShape2D] = []
+
+	for p in players:
+		for child in p.get_children():
+			if child is CollisionShape2D:
+				player_col_shapes.append(child)
+				child.set_deferred("disabled", true)
 
 	await get_tree().process_frame
 
@@ -65,7 +69,10 @@ func load_level_from_path(
 				# first level load passes a zero offset, others will always have a value
 				if position_offset != Vector2.ZERO:
 					if grandchild.name == target_transition_area:
-						player.global_position = grandchild.global_position + position_offset
+						for p in players:
+							(p as Node2D).global_position = (
+								grandchild.global_position + position_offset
+							)
 
 	await get_tree().process_frame
 
@@ -73,7 +80,8 @@ func load_level_from_path(
 
 	get_tree().paused = false
 
-	player_characterbody2d_node.set_deferred("disabled", false)
+	for col in player_col_shapes:
+		col.set_deferred("disabled", false)
 
 	# Wait for the physics engine to tick and clear the "ghost" state
 	# We use two physics frames to guarantee a clean state update

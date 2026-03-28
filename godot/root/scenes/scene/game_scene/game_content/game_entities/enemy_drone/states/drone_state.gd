@@ -1,14 +1,16 @@
 class_name DroneState
 extends State
 
-var player: Node2D
+var player: Node2D:
+	get:
+		if drone:
+			return MultiplayerManager.get_closest_player(drone.global_position)
+		return null
 
 @onready var drone: Drone = owner as Drone
 
 
 func _ready() -> void:
-	player = get_tree().get_first_node_in_group("player")
-
 	if drone:
 		var health_comp: HealthComponent = drone.get_node_or_null("HealthComponent")
 		if health_comp:

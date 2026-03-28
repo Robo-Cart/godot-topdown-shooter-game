@@ -1,14 +1,16 @@
 class_name SwarmZombieState
 extends State
 
-var player: Node2D
+var player: Node2D:
+	get:
+		if swarm:
+			return MultiplayerManager.get_closest_player(swarm.global_position)
+		return null
 
 @onready var swarm: EnemySwarmZombie = owner as EnemySwarmZombie
 
 
 func _ready() -> void:
-	player = get_tree().get_first_node_in_group("player")
-
 	if swarm:
 		var health_comp: HealthComponent = swarm.get_node_or_null("HealthComponent")
 		if health_comp:

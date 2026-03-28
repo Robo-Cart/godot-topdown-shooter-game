@@ -1,8 +1,7 @@
 class_name PooledAudioStreamPlayer2D
 extends AudioStreamPlayer2D
-## An extension of AudioStreamPlayer2D that manages sequential and 
+## An extension of AudioStreamPlayer2D that manages sequential and
 ## polyphonic playback as part of a pool of players.
-
 
 ## Emitted when this player has been released and should return to the pool.
 signal released
@@ -34,7 +33,6 @@ var follow_target: Node
 ## When the player should sync its transform when following a target.
 var follow_type: PoolEntity.FollowType
 
-
 # ------------------------------------------------------------------------------
 # Lifecycle methods
 # ------------------------------------------------------------------------------
@@ -42,12 +40,12 @@ var follow_type: PoolEntity.FollowType
 
 func _ready() -> void:
 	finished.connect(_on_finished)
-	
+
 
 func _process(_p_delta) -> void:
 	PoolEntity.sync_process(self)
 	PoolEntity.update_poly_playback_state(self)
-	
+
 
 func _physics_process(_p_delta) -> void:
 	PoolEntity.sync_physics_process(self)
@@ -69,9 +67,17 @@ func is_null() -> bool:
 
 
 ## Configure this player with the given streams and charateristics.
-func configure(p_streams: Array, p_reserved: bool, p_bus: String, p_poly: bool, p_volume: float, p_pitch: float, p_mode: Node.ProcessMode) -> void:
+func configure(
+	p_streams: Array,
+	p_reserved: bool,
+	p_bus: String,
+	p_poly: bool,
+	p_volume: float,
+	p_pitch: float,
+	p_mode: Node.ProcessMode
+) -> void:
 	PoolEntity.configure(self, p_streams, p_reserved, p_bus, p_poly, p_volume, p_pitch, p_mode)
-	
+
 
 ## Attach this player to a 2D/3D position or node.
 func attach_to(p_node: Variant) -> void:
@@ -81,7 +87,7 @@ func attach_to(p_node: Variant) -> void:
 ## Trigger (play) a random variation associated with this player.
 func trigger() -> void:
 	PoolEntity.trigger(self, false, 1.0, 0.0)
-	
+
 
 ## Trigger (play) a random variation associated with this
 ## player with the given volume and pitch settings.
@@ -92,12 +98,12 @@ func trigger_varied(p_pitch: float = 1.0, p_volume: float = 0.0) -> void:
 ## Reset the volume of this player back to the default set in its bank.
 func reset_volume() -> void:
 	PoolEntity.reset_volume(self)
-	
+
 
 ## Reset the pitch of this player back to the default set in its bank.
 func reset_pitch() -> void:
 	PoolEntity.reset_pitch(self)
-	
+
 
 ## Reset both the volume and pitch of this player back to the default set in its bank.
 func reset_all() -> void:

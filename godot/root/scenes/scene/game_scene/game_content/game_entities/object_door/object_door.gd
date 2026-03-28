@@ -2,10 +2,7 @@
 class_name ObjectDoor
 extends Node2D
 
-enum DoorOrientation {
-	HORIZONTAL,
-	VERTICAL
-}
+enum DoorOrientation { HORIZONTAL, VERTICAL }
 
 @export var orientation_setting: ObjectDoor.DoorOrientation = ObjectDoor.DoorOrientation.HORIZONTAL:
 	set(value):
@@ -113,14 +110,18 @@ func _update_collision() -> void:
 	if not _static_body:
 		return
 
-	var h_shape: CollisionShape2D = get_node_or_null("StaticBody2D/HorizontalShape") \
-		as CollisionShape2D
-	var v_shape: CollisionShape2D = get_node_or_null("StaticBody2D/VerticalShape") \
-		as CollisionShape2D
-	var active_shape: CollisionShape2D = h_shape \
-		if orientation_setting == DoorOrientation.HORIZONTAL else v_shape
-	var inactive_shape: CollisionShape2D = v_shape \
-		if orientation_setting == DoorOrientation.HORIZONTAL else h_shape
+	var h_shape: CollisionShape2D = (
+		get_node_or_null("StaticBody2D/HorizontalShape") as CollisionShape2D
+	)
+	var v_shape: CollisionShape2D = (
+		get_node_or_null("StaticBody2D/VerticalShape") as CollisionShape2D
+	)
+	var active_shape: CollisionShape2D = (
+		h_shape if orientation_setting == DoorOrientation.HORIZONTAL else v_shape
+	)
+	var inactive_shape: CollisionShape2D = (
+		v_shape if orientation_setting == DoorOrientation.HORIZONTAL else h_shape
+	)
 
 	if inactive_shape:
 		inactive_shape.set_deferred("disabled", true)

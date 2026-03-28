@@ -1,7 +1,7 @@
 @tool
 extends Control
 
-@export var editor_view_path : NodePath
+@export var editor_view_path: NodePath
 
 @export_enum("Filter", "Process", "Sort") var mode := 0
 @export var title := ""
@@ -21,16 +21,16 @@ extends Control
 		_textfield_ml.text = v
 @export var function_save_key := ""
 
-var _textfield : LineEdit
-var _textfield_ml : TextEdit
-var _togglable_popup : PopupPanel
-var _saved_function_index_label : Label
+var _textfield: LineEdit
+var _textfield_ml: TextEdit
+var _togglable_popup: PopupPanel
+var _saved_function_index_label: Label
 
-var _saved_functions : Array = []
+var _saved_functions: Array = []
 var _saved_function_selected := -1
 
 
-func load_saved_functions(func_dict : Dictionary):
+func load_saved_functions(func_dict: Dictionary):
 	if !func_dict.has(function_save_key):
 		func_dict[function_save_key] = [default_text_ml]
 
@@ -88,7 +88,6 @@ func _ready():
 	move_button_r.pressed.connect(_on_saved_function_bumped.bind(+1))
 
 
-
 func _on_expand_pressed():
 	_togglable_popup.popup(Rect2i(_textfield.get_screen_position(), Vector2(size.x, 256.0)))
 
@@ -99,7 +98,7 @@ func _on_text_submitted():
 	get_node(editor_view_path).save_data.call_deferred()
 
 
-func _get_script_source_code(first_line : String):
+func _get_script_source_code(first_line: String):
 	var new_text := ""
 	if !_togglable_popup.visible:
 		new_text = _textfield.text
@@ -132,26 +131,33 @@ func _table_filter():
 
 func _table_process():
 	var new_script := GDScript.new()
-	new_script.source_code = _get_script_source_code("static func get_result(value, res, all_res, row_index):\n")
+	new_script.source_code = _get_script_source_code(
+		"static func get_result(value, res, all_res, row_index):\n"
+	)
 	new_script.reload()
 
 	var editor_view := get_node(editor_view_path)
 	var new_script_instance := new_script.new()
-	var values : Array = editor_view.get_edited_cells_values()
+	var values: Array = editor_view.get_edited_cells_values()
 
-	var edited_rows : Array[int] = editor_view._selection.get_edited_rows()
+	var edited_rows: Array[int] = editor_view._selection.get_edited_rows()
 	var edited_resources := edited_rows.map(func(x): return editor_view.rows[x])
 	for i in values.size():
-		values[i] = new_script_instance.get_result(values[i], editor_view.rows[edited_rows[i]], edited_resources, i)
+		values[i] = new_script_instance.get_result(
+			values[i], editor_view.rows[edited_rows[i]], edited_resources, i
+		)
 
 	editor_view.set_edited_cells_values(values)
 
 
-func _on_saved_function_selected(new_index : int):
+func _on_saved_function_selected(new_index: int):
 	if new_index < 0:
 		new_index = 0
 
-	if _saved_function_selected == _saved_functions.size() - 1 and _textfield_ml.text == default_text_ml:
+	if (
+		_saved_function_selected == _saved_functions.size() - 1
+		and _textfield_ml.text == default_text_ml
+	):
 		_saved_functions.resize(_saved_functions.size() - 1)
 
 	elif _saved_function_selected >= 0:
@@ -169,5 +175,5 @@ func _on_saved_function_selected(new_index : int):
 	get_node(editor_view_path).save_data.call_deferred()
 
 
-func _on_saved_function_bumped(increment : int):
+func _on_saved_function_bumped(increment: int):
 	_on_saved_function_selected(_saved_function_selected + increment)

@@ -16,10 +16,32 @@ var transition_rect: ColorRect
 
 
 # Esc key shortcut toggles pause menu or exits from options via back button
-func _input(_event: InputEvent) -> void:
-
+func _input(event: InputEvent) -> void:
 	if is_transitioning:
 		return
+
+	var device_id: int = -1
+	if event is InputEventJoypadButton or event is InputEventJoypadMotion:
+		device_id = event.device
+
+	if (
+		event.is_action_pressed("game_pause")
+		or (
+			event is InputEventJoypadButton
+			and event.button_index == JOY_BUTTON_START
+			and event.pressed
+		)
+	):
+		var players: Array[Node] = get_tree().get_nodes_in_group("player")
+		var player_for_device: Player = null
+		for p in players:
+			if (p as Player).device_id == device_id:
+				player_for_device = p as Player
+				break
+
+		if player_for_device == null:
+			_spawn_player(device_id)
+			return
 
 	if Input.is_action_just_pressed("game_pause"):
 		if get_tree().paused:
@@ -55,7 +77,29 @@ func _setup_hud() -> void:
 		player = get_tree().get_nodes_in_group("player")[0]
 
 	if player:
+		player.device_id = -1
+		player.color_index = 0
+		player.apply_tint()
 		hud.setup_player_ui(0, player)
+
+
+func _spawn_player(device_id: int) -> void:
+	var player_scene: PackedScene = load(
+		"res://root/scenes/scene/game_scene/game_content/game_entities/player/player.tscn"
+	)
+	var new_player: Player = player_scene.instantiate() as Player
+	new_player.device_id = device_id
+
+	var player_count: int = get_tree().get_nodes_in_group("player").size()
+	new_player.color_index = player_count % MultiplayerManager.player_colors.size()
+
+	game_content.add_child(new_player)
+	new_player.apply_tint()
+
+	var _player_ui_inst: PlayerUI = hud.add_player_ui()
+	hud.setup_player_ui(hud.player_ui_container.get_child_count() - 1, new_player)
+
+	LogWrapper.debug(self, "Spawned player for device %d" % device_id)
 
 
 func _setup_transition_screen() -> void:

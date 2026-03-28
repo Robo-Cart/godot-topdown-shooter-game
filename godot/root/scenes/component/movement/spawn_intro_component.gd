@@ -9,6 +9,7 @@ var _spawn_location: SpawnConfig.Location
 var _target_door: ObjectDoor
 var _parent: Node2D
 
+
 func _ready() -> void:
 	_parent = get_parent() as Node2D
 	if not _parent:
@@ -40,10 +41,14 @@ func get_target_position(player_position: Vector2) -> Vector2:
 	# Target a point well past the door to ensure we keep moving through it
 	var push_vector: Vector2 = Vector2.ZERO
 	match _spawn_location:
-		SpawnConfig.Location.NORTH: push_vector = Vector2.DOWN
-		SpawnConfig.Location.SOUTH: push_vector = Vector2.UP
-		SpawnConfig.Location.WEST:  push_vector = Vector2.RIGHT
-		SpawnConfig.Location.EAST:  push_vector = Vector2.LEFT
+		SpawnConfig.Location.NORTH:
+			push_vector = Vector2.DOWN
+		SpawnConfig.Location.SOUTH:
+			push_vector = Vector2.UP
+		SpawnConfig.Location.WEST:
+			push_vector = Vector2.RIGHT
+		SpawnConfig.Location.EAST:
+			push_vector = Vector2.LEFT
 
 	return _target_door.global_position + (push_vector * (entrance_offset + 20.0))
 

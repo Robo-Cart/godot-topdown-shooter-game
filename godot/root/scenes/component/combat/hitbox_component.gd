@@ -48,7 +48,9 @@ func _deal_damage(hurtbox: HurtboxComponent) -> void:
 	attack.attacker = attacker
 
 	if attacker:
-		attack.knockback_direction = (hurtbox.global_position - attacker.global_position).normalized()
+		attack.knockback_direction = (
+			(hurtbox.global_position - attacker.global_position).normalized()
+		)
 
 	hurtbox.damage(attack)
 	_cooldown_timer = damage_cooldown

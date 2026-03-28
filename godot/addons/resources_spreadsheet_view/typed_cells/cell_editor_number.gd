@@ -9,5 +9,5 @@ func to_text(value) -> String:
 	return str(value)
 
 
-func from_text(text : String):
+func from_text(text: String):
 	return text.to_float()

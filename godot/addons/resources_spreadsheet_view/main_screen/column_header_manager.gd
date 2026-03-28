@@ -1,14 +1,16 @@
 @tool
 extends Control
 
-const TablesPluginSettingsClass := preload("res://addons/resources_spreadsheet_view/settings_grid.gd")
+const TablesPluginSettingsClass := preload(
+	"res://addons/resources_spreadsheet_view/settings_grid.gd"
+)
 
-@export var table_header_scene : PackedScene
+@export var table_header_scene: PackedScene
 
-@onready var editor_view : Control = $"../../../.."
-@onready var hide_columns_button : MenuButton = $"../../MenuStrip/VisibleCols"
-@onready var grid : GridContainer = $"../../../MarginContainer/FooterContentSplit/Panel/Scroll/MarginContainer/TableGrid"
-
+@onready var editor_view: Control = $"../../../.."
+@onready var hide_columns_button: MenuButton = $"../../MenuStrip/VisibleCols"
+@onready
+var grid: GridContainer = $"../../../MarginContainer/FooterContentSplit/Panel/Scroll/MarginContainer/TableGrid"
 
 var hidden_columns := {}
 var columns := []:
@@ -18,7 +20,7 @@ var columns := []:
 			remove_child(x)
 			x.queue_free()
 
-		var new_node : Control
+		var new_node: Control
 		for x in v:
 			new_node = table_header_scene.instantiate()
 			new_node.manager = self
@@ -28,14 +30,13 @@ var columns := []:
 
 
 func _ready():
-	hide_columns_button\
-		.get_popup()\
-		.id_pressed\
-		.connect(_on_visible_cols_id_pressed)
-	$"../../../MarginContainer/FooterContentSplit/Panel/Scroll"\
-		.get_h_scroll_bar()\
-		.value_changed\
-		.connect(_on_h_scroll_changed)
+	hide_columns_button.get_popup().id_pressed.connect(_on_visible_cols_id_pressed)
+	(
+		$"../../../MarginContainer/FooterContentSplit/Panel/Scroll"
+		. get_h_scroll_bar()
+		. value_changed
+		. connect(_on_h_scroll_changed)
+	)
 
 
 func update():
@@ -43,31 +44,34 @@ func update():
 	_update_column_sizes()
 
 
-func hide_column(column_index : int):
+func hide_column(column_index: int):
 	hidden_columns[editor_view.current_path][editor_view.columns[column_index]] = true
 	editor_view.save_data()
 	update()
 
 
-func select_column(column_index : int):
+func select_column(column_index: int):
 	editor_view.select_column(column_index)
 
 
 func _update_column_sizes():
 	if grid.get_child_count() == 0:
 		return
-		
+
 	await get_tree().process_frame
 	var column_headers := get_children()
 
-	if grid.get_child_count() < column_headers.size(): return
+	if grid.get_child_count() < column_headers.size():
+		return
 	if column_headers.size() != columns.size():
 		editor_view.refresh()
 		return
-	
-	var clip_text : bool = ProjectSettings.get_setting(TablesPluginSettingsClass.PREFIX + "clip_headers")
+
+	var clip_text: bool = ProjectSettings.get_setting(
+		TablesPluginSettingsClass.PREFIX + "clip_headers"
+	)
 	var min_width := 0
-	var cell : Control
+	var cell: Control
 
 	for i in column_headers.size():
 		var header = column_headers[i]
@@ -100,19 +104,19 @@ func _update_column_sizes():
 
 
 func _update_hidden_columns():
-	var current_path : String = editor_view.current_path
-	var rows_shown : int = editor_view.last_row - editor_view.first_row
+	var current_path: String = editor_view.current_path
+	var rows_shown: int = editor_view.last_row - editor_view.first_row
 
 	if !hidden_columns.has(current_path):
 		hidden_columns[current_path] = {
-      "resource_local_to_scene" : true,
-      "resource_name" : true,
-    }
+			"resource_local_to_scene": true,
+			"resource_name": true,
+		}
 		editor_view.save_data()
 
 	var visible_column_count := 0
 	for i in columns.size():
-		var column_visible : bool = !hidden_columns[current_path].has(columns[i])
+		var column_visible: bool = !hidden_columns[current_path].has(columns[i])
 		get_child(i).visible = column_visible
 		for j in rows_shown:
 			grid.get_child(j * columns.size() + i).visible = column_visible
@@ -128,18 +132,18 @@ func _on_h_scroll_changed(value):
 
 
 func _on_visible_cols_about_to_popup():
-	var current_path : String = editor_view.current_path
+	var current_path: String = editor_view.current_path
 	var popup := hide_columns_button.get_popup()
 	popup.clear()
 	popup.hide_on_checkable_item_selection = false
-	
+
 	for i in columns.size():
 		popup.add_check_item(columns[i].capitalize(), i)
 		popup.set_item_checked(i, not hidden_columns[current_path].has(columns[i]))
 
 
-func _on_visible_cols_id_pressed(id : int):
-	var current_path : String = editor_view.current_path
+func _on_visible_cols_id_pressed(id: int):
+	var current_path: String = editor_view.current_path
 	var popup := hide_columns_button.get_popup()
 	if popup.is_item_checked(id):
 		popup.set_item_checked(id, false)

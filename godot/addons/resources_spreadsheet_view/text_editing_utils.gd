@@ -3,31 +3,31 @@ extends RefCounted
 const non_typing_paragraph := "¶"
 const non_typing_space := "●"
 const whitespace_chars := [
-	32, # " "
-	44, # ","
-	58, # ":"
-	45, # "-"
-	59, # ";"
-	40, # "("
-	41, # ")"
-	46, # "."
-	182, # "¶" Linefeed
-	10, # "\n" Actual Linefeed
-	967, # "●" Whitespace
+	32,  # " "
+	44,  # ","
+	58,  # ":"
+	45,  # "-"
+	59,  # ";"
+	40,  # "("
+	41,  # ")"
+	46,  # "."
+	182,  # "¶" Linefeed
+	10,  # "\n" Actual Linefeed
+	967,  # "●" Whitespace
 ]
 
 
-static func is_character_whitespace(text : String, idx : int) -> bool:
-	if idx <= 0: return true  # Stop at the edges.
-	if idx >= text.length(): return true
+static func is_character_whitespace(text: String, idx: int) -> bool:
+	if idx <= 0:
+		return true  # Stop at the edges.
+	if idx >= text.length():
+		return true
 	return text.unicode_at(idx) in whitespace_chars
 
 
-static func show_non_typing(text : String) -> String:
-	text = text\
-		.replace(non_typing_paragraph, "\n")\
-		.replace(non_typing_space, " ")
-	
+static func show_non_typing(text: String) -> String:
+	text = text.replace(non_typing_paragraph, "\n").replace(non_typing_space, " ")
+
 	if text.ends_with("\n"):
 		text = text.left(text.length() - 1) + non_typing_paragraph
 
@@ -37,7 +37,7 @@ static func show_non_typing(text : String) -> String:
 	return text
 
 
-static func revert_non_typing(text : String) -> String:
+static func revert_non_typing(text: String) -> String:
 	if text.ends_with(non_typing_paragraph):
 		text = text.left(text.length() - 1) + "\n"
 
@@ -47,28 +47,34 @@ static func revert_non_typing(text : String) -> String:
 	return text
 
 
-static func get_caret_movement_from_key(keycode : int) -> int:
+static func get_caret_movement_from_key(keycode: int) -> int:
 	match keycode:
-		KEY_LEFT: 
+		KEY_LEFT:
 			return -1
-		KEY_RIGHT: 
+		KEY_RIGHT:
 			return +1
-		KEY_HOME: 
+		KEY_HOME:
 			return -2
-		KEY_END: 
+		KEY_END:
 			return +2
 
 	return 0
 
 
-static func multi_move_caret(offset : int, edited_cells_text : Array, edit_caret_positions : Array, whole_word : bool) -> bool:
+static func multi_move_caret(
+	offset: int, edited_cells_text: Array, edit_caret_positions: Array, whole_word: bool
+) -> bool:
 	if offset == -1:
 		for i in edit_caret_positions.size():
-			edit_caret_positions[i] = _step_cursor(edited_cells_text[i], edit_caret_positions[i], -1, whole_word)
+			edit_caret_positions[i] = _step_cursor(
+				edited_cells_text[i], edit_caret_positions[i], -1, whole_word
+			)
 
 	elif offset == +1:
 		for i in edit_caret_positions.size():
-			edit_caret_positions[i] = _step_cursor(edited_cells_text[i], edit_caret_positions[i], +1, whole_word)
+			edit_caret_positions[i] = _step_cursor(
+				edited_cells_text[i], edit_caret_positions[i], +1, whole_word
+			)
 
 	elif offset < -1:
 		for i in edit_caret_positions.size():
@@ -81,38 +87,29 @@ static func multi_move_caret(offset : int, edited_cells_text : Array, edit_caret
 	return offset != 0
 
 
-static func multi_erase_right(values : Array, cursor_positions : Array, whole_word : bool):
+static func multi_erase_right(values: Array, cursor_positions: Array, whole_word: bool):
 	for i in values.size():
-		var start_pos : int = cursor_positions[i]
+		var start_pos: int = cursor_positions[i]
 		cursor_positions[i] = _step_cursor(values[i], cursor_positions[i], 1, whole_word)
 
-		cursor_positions[i] = min(
-			cursor_positions[i], 
-			values[i].length()
-		)
-		values[i] = (
-			values[i].left(start_pos)
-			+ values[i].substr(cursor_positions[i])
-		)
+		cursor_positions[i] = min(cursor_positions[i], values[i].length())
+		values[i] = (values[i].left(start_pos) + values[i].substr(cursor_positions[i]))
 		cursor_positions[i] = start_pos
 
 	return values
 
 
-static func multi_erase_left(values : Array, cursor_positions : Array, whole_word : bool):
+static func multi_erase_left(values: Array, cursor_positions: Array, whole_word: bool):
 	for i in values.size():
-		var start_pos : int = cursor_positions[i]
+		var start_pos: int = cursor_positions[i]
 
 		cursor_positions[i] = _step_cursor(values[i], cursor_positions[i], -1, whole_word)
-		values[i] = (
-			values[i].substr(0, cursor_positions[i])
-			+ values[i].substr(start_pos)
-		)
+		values[i] = (values[i].substr(0, cursor_positions[i]) + values[i].substr(start_pos))
 
 	return values
 
 
-static func multi_paste(values : Array, cursor_positions : Array):
+static func multi_paste(values: Array, cursor_positions: Array):
 	var pasted_lines := DisplayServer.clipboard_get().replace("\r", "").split("\n")
 	var paste_each_line := pasted_lines.size() == values.size()
 
@@ -132,27 +129,33 @@ static func multi_paste(values : Array, cursor_positions : Array):
 	return values
 
 
-static func multi_copy(values : Array):
+static func multi_copy(values: Array):
 	DisplayServer.clipboard_set("\n".join(values))
 
 
-static func multi_input(input_char : String, values : Array, cursor_positions : Array):
+static func multi_input(input_char: String, values: Array, cursor_positions: Array):
 	for i in values.size():
 		values[i] = (
-			values[i].left(cursor_positions[i])
-			+ input_char
-			+ values[i].substr(cursor_positions[i])
+			values[i].left(cursor_positions[i]) + input_char + values[i].substr(cursor_positions[i])
 		)
 		cursor_positions[i] = min(cursor_positions[i] + 1, values[i].length())
 
 	return values
 
 
-static func get_caret_rect(cell_text : String, caret_position : int, font : Font, font_size : int, label_padding_left : float, caret_width : float = 2.0) -> Rect2:
+static func get_caret_rect(
+	cell_text: String,
+	caret_position: int,
+	font: Font,
+	font_size: int,
+	label_padding_left: float,
+	caret_width: float = 2.0
+) -> Rect2:
 	var char_size := Vector2(0, font.get_ascent(font_size))
 	var result_pos := Vector2(label_padding_left, 0)
 	for j in max(caret_position, 0) + 1:
-		if j == 0: continue
+		if j == 0:
+			continue
 		if cell_text.unicode_at(j - 1) == 10:
 			# If "\n" found, next line.
 			result_pos.x = label_padding_left
@@ -165,7 +168,7 @@ static func get_caret_rect(cell_text : String, caret_position : int, font : Font
 	return Rect2(result_pos, Vector2(2, char_size.y))
 
 
-static func _step_cursor(text : String, start : int, step : int = 1, whole_word : bool = false) -> int:
+static func _step_cursor(text: String, start: int, step: int = 1, whole_word: bool = false) -> int:
 	var cur := start
 	if whole_word and is_character_whitespace(text, cur + step):
 		cur += step

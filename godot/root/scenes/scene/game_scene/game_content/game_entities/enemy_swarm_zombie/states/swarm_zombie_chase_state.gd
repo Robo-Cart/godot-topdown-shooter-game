@@ -37,7 +37,7 @@ func physics_process_state(_delta: float) -> void:
 		if enemy == swarm or not is_instance_valid(enemy) or not enemy is Node2D:
 			continue
 		var dist_sq: float = swarm.global_position.distance_squared_to(enemy.global_position)
-		if dist_sq < 900.0: # 30 pixel detection radius
+		if dist_sq < 900.0:  # 30 pixel detection radius
 			var diff: Vector2 = swarm.global_position - enemy.global_position
 			separation += diff.normalized() * (1.0 - sqrt(dist_sq) / 30.0)
 

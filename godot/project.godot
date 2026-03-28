@@ -48,6 +48,7 @@ manager/music/bus="Music"
 [autoload]
 
 LogWrapper="*res://root/autoload/wrapper/log_wrapper/log_wrapper.tscn"
+MultiplayerManager="*res://root/autoload/multiplayer_manager/multiplayer_manager.tscn"
 TranslationServerWrapper="*res://root/autoload/wrapper/translation_server_wrapper/translation_server_wrapper.tscn"
 SceneManagerWrapper="*res://root/autoload/wrapper/scene_manager_wrapper/scene_manager_wrapper.tscn"
 AudioManagerWrapper="*res://root/autoload/wrapper/audio_manager_wrapper/audio_manager_wrapper.tscn"

@@ -46,10 +46,10 @@ func _ready():
 func try_edit_value(value, type, property_hint) -> bool:
 	if type != TYPE_FLOAT and type != TYPE_INT:
 		return false
-	
+
 	_stored_value = value
 	_value_label.text = str(value)
-	
+
 	_stored_value_is_int = type != TYPE_FLOAT
 	_button_grid.columns = 5 if _stored_value_is_int else 6
 	_button_grid.get_child(0).visible = !_stored_value_is_int
@@ -58,8 +58,8 @@ func try_edit_value(value, type, property_hint) -> bool:
 	return true
 
 
-func resize_drag(to_height : float):
-	var expanded : bool = to_height >= _resize_height_small
+func resize_drag(to_height: float):
+	var expanded: bool = to_height >= _resize_height_small
 	if _resize_expanded == expanded:
 		return
 
@@ -74,8 +74,8 @@ func resize_drag(to_height : float):
 	$"HBoxContainer/CustomX/Label".visible = expanded
 
 
-func _increment_values(by : float):
-	var cell_values : Array = sheet.get_edited_cells_values()
+func _increment_values(by: float):
+	var cell_values: Array = sheet.get_edited_cells_values()
 	if _stored_value_is_int:
 		_stored_value += int(by)
 		for i in cell_values.size():
@@ -90,20 +90,21 @@ func _increment_values(by : float):
 	_value_label.text = str(_stored_value)
 
 
-func _increment_values_custom(positive : bool, multiplier : bool):
+func _increment_values_custom(positive: bool, multiplier: bool):
 	var value := float(_custom_value_edit.text)
 	if !multiplier:
 		_increment_values(value if positive else -value)
 
 	else:
-		if !positive: value = 1 / value
-		var cell_values : Array = sheet.get_edited_cells_values()
+		if !positive:
+			value = 1 / value
+		var cell_values: Array = sheet.get_edited_cells_values()
 		_stored_value *= value
 		for i in cell_values.size():
 			cell_values[i] *= value
 			if _stored_value_is_int:
 				cell_values[i] = int(cell_values[i])
-	
+
 		sheet.set_edited_cells_values(cell_values)
 		_value_label.text = str(_stored_value)
 
@@ -119,7 +120,7 @@ func _on_NumberPanel_gui_input(event):
 			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 			if _mouse_down:
 				Input.warp_mouse(_value_label.global_position + _value_label.size * 0.5)
-				
+
 			_increment_values(_mouse_drag_increment)
 			_mouse_down = false
 
@@ -133,28 +134,28 @@ func _on_NumberPanel_gui_input(event):
 			_value_label.text = str(_stored_value + _mouse_drag_increment)
 
 
-func _on_SequenceFill_pressed(add : bool = false):
+func _on_SequenceFill_pressed(add: bool = false):
 	sheet.set_edited_cells_values(_fill_sequence(sheet.get_edited_cells_values(), add))
 
 
-func _fill_sequence(arr : Array, add : bool = false) -> Array:
+func _fill_sequence(arr: Array, add: bool = false) -> Array:
 	if !_sequence_gen_inputs.get_node("Start").text.is_valid_float():
 		return arr
 
 	var start := float(_sequence_gen_inputs.get_child(0).text)
 	var end = null
 	var step = null
-		
+
 	if _sequence_gen_inputs.get_node("Step").text.is_valid_float():
 		step = float(_sequence_gen_inputs.get_node("Step").text)
-	
+
 	if _sequence_gen_inputs.get_node("End").text.is_valid_float():
 		end = float(_sequence_gen_inputs.get_node("End").text)
 
 	if end == null:
 		end = INF if step == null or step >= 0 else -INF
 
-	var end_is_higher =  end > start
+	var end_is_higher = end > start
 	if step == null:
 		if end == null or end == INF or end == -INF:
 			step = 0.0
@@ -171,7 +172,6 @@ func _fill_sequence(arr : Array, add : bool = false) -> Array:
 
 		if end != INF and end != -INF:
 			end = int(end)
-
 
 	var cur = start
 	if !add:

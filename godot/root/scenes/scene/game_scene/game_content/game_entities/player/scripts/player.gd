@@ -21,6 +21,8 @@ var playback: AnimationNodeStateMachinePlayback
 var look_vector: Vector2
 var player_offset_angle: float = 89.5
 var mouse_captured: bool = false
+var device_id: int = -1
+var color_index: int = 0
 
 @onready var player_man: Node3D = $SubViewportContainer/SubViewport/Player_Man_3D
 @onready
@@ -60,8 +62,22 @@ func _on_died() -> void:
 
 
 func _physics_process(delta: float) -> void:
-	input_move = Input.get_vector("move_left", "move_right", "move_forward", "move_backwards")
-	input_aim = Input.get_vector("look_left", "look_right", "look_up", "look_down")
+	if device_id == -1:
+		input_move = Input.get_vector("move_left", "move_right", "move_forward", "move_backwards")
+		input_aim = Input.get_vector("look_left", "look_right", "look_up", "look_down")
+	else:
+		var deadzone: float = 0.2
+		var move_x: float = Input.get_joy_axis(device_id, JOY_AXIS_LEFT_X)
+		var move_y: float = Input.get_joy_axis(device_id, JOY_AXIS_LEFT_Y)
+		input_move = Vector2(move_x, move_y)
+		if input_move.length() < deadzone:
+			input_move = Vector2.ZERO
+
+		var aim_x: float = Input.get_joy_axis(device_id, JOY_AXIS_RIGHT_X)
+		var aim_y: float = Input.get_joy_axis(device_id, JOY_AXIS_RIGHT_Y)
+		input_aim = Vector2(aim_x, aim_y)
+		if input_aim.length() < deadzone:
+			input_aim = Vector2.ZERO
 
 	if physicscontrol:
 		if input_move:
@@ -80,7 +96,18 @@ func _physics_process(delta: float) -> void:
 		$CentrePoint.global_rotation = input_move.angle()
 		look_vector = input_move.normalized()
 
-	if Input.is_action_pressed("fire"):
+	var is_firing: bool = false
+	if device_id == -1:
+		is_firing = Input.is_action_pressed("fire")
+	else:
+		# Use RT/R2 or a joypad button (JOY_BUTTON_A is standard)
+		if (
+			Input.get_joy_axis(device_id, JOY_AXIS_TRIGGER_RIGHT) > 0.5
+			or Input.is_joy_button_pressed(device_id, JOY_BUTTON_A)
+		):
+			is_firing = true
+
+	if is_firing:
 		weapon_comp.fire(look_vector)
 
 	move_and_slide()
@@ -139,3 +166,24 @@ func add_life() -> void:
 
 func remove_life() -> void:
 	set_lives(current_lives - 1)
+
+
+func apply_tint() -> void:
+	var color: Color = MultiplayerManager.player_colors[
+		color_index % MultiplayerManager.player_colors.size()
+	]
+	var mesh_node: MeshInstance3D = player_man.get_node_or_null(
+		"Armature/Skeleton3D/man-pedestrian-rival_Rig"
+	)
+	if mesh_node:
+		for i in mesh_node.get_surface_override_material_count():
+			var mat: Material = mesh_node.get_surface_override_material(i)
+			if not mat:
+				var mesh: Mesh = mesh_node.mesh
+				if mesh:
+					mat = mesh.surface_get_material(i)
+
+			if mat and mat is StandardMaterial3D:
+				var new_mat: StandardMaterial3D = mat.duplicate()
+				new_mat.albedo_color = new_mat.albedo_color.lerp(color, 0.4)
+				mesh_node.set_surface_override_material(i, new_mat)

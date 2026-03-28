@@ -2,7 +2,6 @@ class_name SoundBank
 extends Node
 ## A container used to store & group sound events in your scene.
 
-
 ## This bank's unique identifier.
 @export var label: String
 

@@ -2,12 +2,14 @@
 class_name ResourceTablesDockEditor
 extends Control
 
-const TablesPluginSettingsClass := preload("res://addons/resources_spreadsheet_view/settings_grid.gd")
+const TablesPluginSettingsClass := preload(
+	"res://addons/resources_spreadsheet_view/settings_grid.gd"
+)
 
 @export var path_property_name := NodePath("Header/Label")
 
-var sheet : Control
-var selection : Array
+var sheet: Control
+var selection: Array
 
 var _resize_target_height := 0.0
 
@@ -18,26 +20,30 @@ func _ready():
 		parent = parent.get_parent()
 
 	sheet = parent
-	get_node(path_property_name).add_theme_font_override(&"normal", get_theme_font(&"bold", &"EditorFonts"))
+	get_node(path_property_name).add_theme_font_override(
+		&"normal", get_theme_font(&"bold", &"EditorFonts")
+	)
 
 	$"Header".gui_input.connect(_on_header_gui_input)
 	$"Header".mouse_filter = MOUSE_FILTER_STOP
 	$"Header".mouse_default_cursor_shape = CURSOR_VSIZE
 
+
 ## Override to define when to show the dock and, if it can edit the value, how to handle it.
-func try_edit_value(value, type : int, property_hint : String) -> bool:
+func try_edit_value(value, type: int, property_hint: String) -> bool:
 	return true
 
+
 ## Override to define behaviour when stretching the header to change size.
-func resize_drag(to_height : float):
+func resize_drag(to_height: float):
 	return
 
 
-func resize_set_hidden(state : bool):
+func resize_set_hidden(state: bool):
 	get_child(1).visible = !state
 
 
-func _on_header_gui_input(event : InputEvent):
+func _on_header_gui_input(event: InputEvent):
 	if event is InputEventMouseMotion:
 		var pressed := Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT)
 		if pressed:

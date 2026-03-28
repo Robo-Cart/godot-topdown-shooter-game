@@ -43,7 +43,9 @@ func _deliver_hit() -> void:
 			attack.damage = damage
 			attack.attacker = slime
 			attack.knockback_force = 200.0
-			attack.knockback_direction = (player.global_position - slime.global_position).normalized()
+			attack.knockback_direction = (
+				(player.global_position - slime.global_position).normalized()
+			)
 
 			player_hurtbox.damage(attack)
 			_cooldown_timer = damage_cooldown

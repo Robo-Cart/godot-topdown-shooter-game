@@ -6,13 +6,17 @@ extends CharacterBody2D
 var direction: Vector2
 var playback: AnimationNodeStateMachinePlayback
 
-@onready var player: Player
+var player: Node2D:
+	get:
+		if Engine.has_singleton("MultiplayerManager"):
+			return get_node("/root/MultiplayerManager").get_closest_player(global_position)
+		return null
+
 @onready var healthbar: ProgressBar = $HealthBar
 @onready var health_comp: HealthComponent = $HealthComponent
 
 
 func _ready() -> void:
-	player = get_tree().get_first_node_in_group("player")
 	add_to_group("enemy")
 	playback = animation_tree["parameters/playback"]
 	playback.travel("Idle")

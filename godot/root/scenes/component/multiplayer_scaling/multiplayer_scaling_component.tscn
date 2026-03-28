@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://root/scenes/component/multiplayer_scaling/multiplayer_scaling_component.gd" id="1_scale"]
+
+[node name="MultiplayerScalingComponent" type="Node"]
+script = ExtResource("1_scale")

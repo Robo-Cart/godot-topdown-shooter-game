@@ -1,6 +1,5 @@
 extends RefCounted
 
-
 const SOUND_BANK_BUS_SETTING_NAME = "audio/manager/sound/bus"
 const SOUND_BANK_BUS_SETTING_DEFAULT = ""
 const SOUND_BANK_BUS_SETTING_ACTUAL = "Sound"

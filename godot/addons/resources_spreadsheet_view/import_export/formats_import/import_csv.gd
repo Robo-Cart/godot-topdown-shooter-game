@@ -2,7 +2,7 @@ class_name ResourceTablesImportFormatCsv
 extends RefCounted
 
 
-static func can_edit_path(path : String):
+static func can_edit_path(path: String):
 	return path.ends_with(".csv")
 
 
@@ -14,7 +14,7 @@ static func import_as_arrays(import_data) -> Array:
 	var file := FileAccess.open(import_data.edited_path, FileAccess.READ)
 
 	import_data.delimeter = ";"
-	var text_lines : Array[PackedStringArray] = [file.get_line().split(import_data.delimeter)]
+	var text_lines: Array[PackedStringArray] = [file.get_line().split(import_data.delimeter)]
 	var space_after_delimeter := false
 	var line := text_lines[0]
 	if line.size() == 0:
@@ -30,7 +30,7 @@ static func import_as_arrays(import_data) -> Array:
 	if line[1].begins_with(" "):
 		for i in line.size():
 			line[i] = line[i].trim_prefix(" ")
-		
+
 		text_lines[0] = line
 		space_after_delimeter = true
 		import_data.delimeter += " "
