@@ -1,0 +1,23 @@
+# Ignore Godot's massive cache and build folders
+.godot/
+builds/
+exports/
+
+# Ignore binary and media files (The AI can't read audio or pictures)
+*.import
+*.uid
+*.png
+*.jpg
+*.jpeg
+*.svg
+*.wav
+*.ogg
+*.mp3
+*.ttf
+*.otf
+*.tres
+*.res
+
+# Ignore Third-Party Addons to save context space
+# (Comment this out ONLY if you specifically need the AI to debug an addon's source code)
+addons/

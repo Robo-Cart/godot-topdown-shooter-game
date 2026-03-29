@@ -24,3 +24,7 @@ mono_crash.*.json
 
 # Gemini MCP
 .gemini
+
+# Godot Code DB
+.godot_db
+mcp_debug.log
