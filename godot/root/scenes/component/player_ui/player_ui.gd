@@ -3,13 +3,12 @@ extends PanelContainer
 
 ## Player UI component for managing and displaying player stats.
 
+var player: Player
+
 @onready var health_bar: ProgressBar = %HealthBar
 @onready var lives_container: HBoxContainer = %LivesContainer
 @onready var powerups_container: HBoxContainer = %PowerupsContainer
 @onready var player_face: TextureRect = %PlayerFace
-
-var player: Player
-
 
 func _ready() -> void:
 	LogWrapper.debug(self, "PlayerUI ready.")

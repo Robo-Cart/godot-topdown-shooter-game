@@ -275,7 +275,10 @@ func _action_disconnect_menu_button() -> void:
 		return
 
 	var device_id: int = _pausing_player.device_id
-	LogWrapper.debug(self, "Disconnecting player P%d (Dev%d)" % [_pausing_player.color_index + 1, device_id])
+	LogWrapper.debug(
+		self,
+		"Disconnecting player P%d (Dev%d)" % [_pausing_player.color_index + 1, device_id]
+	)
 
 	MultiplayerManager.unregister_local_player(device_id)
 	hud.remove_player_ui(_pausing_player)
