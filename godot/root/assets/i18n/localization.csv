@@ -553,6 +553,7 @@ MENU_LABEL_NOPE,A more casual 'no',Nope,Nan,Nah,Nö,No,Nah,Não,Неа,Μπα,Yo
 MENU_LABEL_OK,As in Windows dialog,OK,OK,Ok,OK,Ok,Ok,Ok,ОК,ΟΚ,TAMAM,OK,OK,OK,OK,OK,OK,OK,OK,OK,확인,OK,OK,OK,ตกลง,Добре,טוב,موافق,Ok
 MENU_LABEL_PAUSE,[Infinitive/tutorial verb] common term,Pause,Pause,Pausa,Pause,Pausa,Pausar,Pausa,Пауза,Παύση,Durdur,Pause,Pause,Pausa,Pauzeren,Pauza,Pysäytä,ポーズ,暂停,暫停,일시 정지,Pauza,Szünet,Pauză,หยุด,Преустановяване,השהה,إيقاف,Pauza
 MENU_LABEL_LEAVE,,Leave,Quitter,Salir,Verlassen,Lasciare,Sair,Sair,Выйти,Αποχώρηση,Çıkış,Forlad,Avslutt,Lämna,Verlaten,Opuścić,Poistu,退出,离开,離開,나가기,Opustit,Elhagyás,Părăsire,ออก,Изход,עזוב,غادر,Napusti
+MENU_LABEL_DISCONNECT,,Disconnect,Déconnecter,Desconectar,Trennen,Disconnetti,Desconectar,Desconectar,Отключить,Αποσύνδεση,Bağlantıyı Kes,Afbryd,Koble fra,Koppla från,Ontkoppelen,Rozłącz,Katkaise yhteys,切断,断开连接,斷開連接,연결 해제,Odpojit,Szétkapcsolás,Deconectare,ตัดการเชื่อมต่อ,Изключване,נתק,قطع الاتصال,Odspoji
 MENU_LABEL_PAUSED,,Paused,En pause,Pausado,Pausiert,In pausa,Pausado,Em Pausa,Приостановлено,Σε παύση,Durduruldu,Pauset,Pauset,Pausat,Gepauzeerd,Pauza,Pysäytetty,ポーズ中,暂停中,暫停中,일시 정지됨,Pozastaveno,Szünetelve,Suspendat,หยุด,Пауза,מושהה,متوقف,Pauzirano
 MENU_LABEL_PLAY,,Play,Jouer,Jugar,Spielen,Gioca,Jogar,Jogar,Играть,Παίξε,Oyna,Spil,Spill,Spela,Spelen,Zagraj,Pelaa,プレイ,开始,開始,플레이,Hrát,Játszás,Joacă,เล่น,Пускане,התחל,لعب,Igraj
 key,description,en,fr,es,de,it,ptBR,pt,ru,el,tr,da,no,sv,nl,pl,fi,ja,zh,zhZH,ko,cs,hu,ro,th,bg,he,ar,bs

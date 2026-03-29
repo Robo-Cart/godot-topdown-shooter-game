@@ -135,6 +135,11 @@ func spawn_local_player(device_id: int) -> void:
 	_register_player.rpc_id(1, my_id, device_id)  # Send to server
 
 
+func unregister_local_player(device_id: int) -> void:
+	var my_id: int = multiplayer.get_unique_id()
+	_unregister_player.rpc_id(1, my_id, device_id)  # Send to server
+
+
 @rpc("any_peer", "call_local", "reliable")
 func _register_player(peer_id: int, device_id: int) -> void:
 	if not multiplayer.is_server():
@@ -144,6 +149,18 @@ func _register_player(peer_id: int, device_id: int) -> void:
 	if not (device_id in players[peer_id]):
 		players[peer_id].append(device_id)
 	_sync_players.rpc(players)
+
+
+@rpc("any_peer", "call_local", "reliable")
+func _unregister_player(peer_id: int, device_id: int) -> void:
+	if not multiplayer.is_server():
+		return
+	if players.has(peer_id):
+		players[peer_id].erase(device_id)
+		# Only erase peer if no local players left AND it's not the server (peer 1)
+		if players[peer_id].is_empty() and peer_id != 1:
+			players.erase(peer_id)
+		_sync_players.rpc(players)
 
 
 @rpc("authority", "call_local", "reliable")

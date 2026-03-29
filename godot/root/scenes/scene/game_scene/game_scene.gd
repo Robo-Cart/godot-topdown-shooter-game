@@ -11,6 +11,7 @@ var takeover_dialog: ConfirmationDialog
 var _transition_rect: ColorRect
 var _first_gamepad_handled: bool = false
 var _takeover_device_id: int = -1
+var _pausing_player: Player = null
 
 @onready var game_content: Node = $GameContent
 @onready var pause_menu: PauseMenu = %PauseMenu
@@ -59,6 +60,7 @@ func _input(event: InputEvent) -> void:
 				else:
 					_action_options_back_menu_button()
 			else:
+				_pausing_player = player_for_device
 				_action_game_pause_menu_button()
 
 
@@ -150,16 +152,29 @@ func _spawn_player(device_id: int) -> void:
 		randf_range(-max_offset_y, max_offset_y)
 	)
 
-	var player_count: int = get_tree().get_nodes_in_group("player").size()
-	new_player.color_index = player_count % MultiplayerManager.player_colors.size()
+	new_player.color_index = _get_next_available_color_index()
 
 	game_content.add_child(new_player)
 	new_player.apply_tint()
+	MultiplayerManager.spawn_local_player(device_id)
 
 	hud.add_player_ui()
 	hud.setup_player_ui(hud.player_ui_container.get_child_count() - 1, new_player)
 
 	LogWrapper.debug(self, _get_player_info(device_id) + "Spawned player for device %d" % device_id)
+
+
+func _get_next_available_color_index() -> int:
+	var players: Array[Node] = get_tree().get_nodes_in_group("player")
+	var used_indices: Array[int] = []
+	for p in players:
+		used_indices.append((p as Player).color_index)
+
+	for i in range(MultiplayerManager.player_colors.size()):
+		if not i in used_indices:
+			return i
+
+	return used_indices.size()  # Fallback
 
 
 func _get_player_info(device_id: int) -> String:
@@ -238,6 +253,7 @@ func _load_game_content_scene() -> void:
 
 func _action_game_pause_menu_button() -> void:
 	game_content.visible = true
+	pause_menu.setup_for_player(_pausing_player)
 	pause_menu.visible = true
 	options_menu.visible = false
 	get_tree().paused = true
@@ -252,6 +268,20 @@ func _action_continue_menu_button() -> void:
 	get_tree().paused = false
 	_after_unpause()
 	LogWrapper.debug(name, "Game unpaused.")
+
+
+func _action_disconnect_menu_button() -> void:
+	if _pausing_player == null or _pausing_player.color_index == 0:
+		return
+
+	var device_id: int = _pausing_player.device_id
+	LogWrapper.debug(self, "Disconnecting player P%d (Dev%d)" % [_pausing_player.color_index + 1, device_id])
+
+	MultiplayerManager.unregister_local_player(device_id)
+	hud.remove_player_ui(_pausing_player)
+	_pausing_player.queue_free()
+
+	_action_continue_menu_button()
 
 
 func _action_options_menu_button() -> void:
@@ -290,6 +320,7 @@ func _connect_signals() -> void:
 		game_content.pause_menu_button.confirmed.connect(_action_game_pause_menu_button)
 
 	pause_menu.continue_menu_button.confirmed.connect(_action_continue_menu_button)
+	pause_menu.disconnect_menu_button.confirmed.connect(_action_disconnect_menu_button)
 	pause_menu.options_menu_button.confirmed.connect(_action_options_menu_button)
 	pause_menu.leave_menu_button.confirmed.connect(_action_leave_menu_button)
 	pause_menu.quit_menu_button.confirmed.connect(_action_quit_menu_button)

@@ -64,7 +64,7 @@ func _get_player_log_prefix() -> String:
 	if steam_id == "Local":
 		# Try to find the actual peer ID for this player's device
 		var peer_id: int = 1
-		for p in MultiplayerManager.players:
+		for p: int in MultiplayerManager.players:
 			if device_id in MultiplayerManager.players[p]:
 				peer_id = p
 				break

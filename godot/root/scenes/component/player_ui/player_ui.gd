@@ -8,15 +8,19 @@ extends PanelContainer
 @onready var powerups_container: HBoxContainer = %PowerupsContainer
 @onready var player_face: TextureRect = %PlayerFace
 
+var player: Player
+
 
 func _ready() -> void:
 	LogWrapper.debug(self, "PlayerUI ready.")
 
 
 ## Connects the UI to a specific Player instance.
-func setup(player: Player) -> void:
-	if not player:
+func setup(new_player: Player) -> void:
+	if not new_player:
 		return
+
+	player = new_player
 
 	# Connect to health changes
 	if player.health_comp:

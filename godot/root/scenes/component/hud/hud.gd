@@ -29,6 +29,16 @@ func setup_player_ui(index: int, player: Player) -> void:
 		ui.setup(player)
 
 
+## Removes a player UI instance from the HUD.
+func remove_player_ui(player: Player) -> void:
+	for child in player_ui_container.get_children():
+		var ui: PlayerUI = child as PlayerUI
+		if ui and ui.player == player:
+			ui.queue_free()
+			break
+	_update_ui_layout()
+
+
 func _update_ui_layout() -> void:
 	var child_count: int = player_ui_container.get_child_count()
 	if child_count == 0:
