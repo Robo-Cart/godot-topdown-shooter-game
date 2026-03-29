@@ -21,12 +21,12 @@ func trigger_varied(p_pitch: float = 1.0, p_volume: float = 0.0) -> void:
 ## A nerfed (does nothing) version of [method PooledAudioStreamPlayer2D.reset_volume]
 func reset_volume() -> void:
 	return
-	
+
 
 ## A nerfed (does nothing) version of [method PooledAudioStreamPlayer2D.reset_pitch]
 func reset_pitch() -> void:
 	return
-	
+
 
 ## A nerfed (does nothing) version of [method PooledAudioStreamPlayer2D.reset_all]
 func reset_all() -> void:

@@ -2,7 +2,6 @@ class_name MusicStemResource
 extends Resource
 ## A container used to store the details of one particular music track's stem.
 
-
 ## This stem's unique identifier within the scope of the track it belongs to.
 @export var name: String = ""
 

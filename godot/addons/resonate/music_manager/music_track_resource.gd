@@ -2,7 +2,6 @@ class_name MusicTrackResource
 extends Resource
 ## A container used to store the details of a music track and all of its corresponding stems.
 
-
 ## This track's unique identifier within the scope of the bank it belongs to.
 @export var name: String = ""
 

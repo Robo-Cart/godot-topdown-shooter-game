@@ -2,12 +2,11 @@ class_name SoundEventResource
 extends Resource
 ## The container used to store the details of a sound event.
 
-
 ## This sound event's unique identifier.
 @export var name: String = ""
 
 ## The bus to use for all sound events in this bank.[br][br]
-## [b]Note:[/b] this will override the bus set in this events sound bank, 
+## [b]Note:[/b] this will override the bus set in this events sound bank,
 ## or your project settings (Audio/Manager/Sound/Bank)
 @export var bus: String = ""
 

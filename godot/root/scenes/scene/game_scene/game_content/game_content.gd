@@ -36,10 +36,14 @@ func load_level_from_path(
 	target_transition_area = _target_transition_area
 	position_offset = _position_offset
 
-	for child in player.get_children():
-		if child is CollisionShape2D:
-			player_characterbody2d_node = child
-			player_characterbody2d_node.set_deferred("disabled", true)
+	var players: Array[Node] = get_tree().get_nodes_in_group("player")
+	var player_col_shapes: Array[CollisionShape2D] = []
+
+	for p in players:
+		for child in p.get_children():
+			if child is CollisionShape2D:
+				player_col_shapes.append(child)
+				child.set_deferred("disabled", true)
 
 	await get_tree().process_frame
 
@@ -65,7 +69,26 @@ func load_level_from_path(
 				# first level load passes a zero offset, others will always have a value
 				if position_offset != Vector2.ZERO:
 					if grandchild.name == target_transition_area:
-						player.global_position = grandchild.global_position + position_offset
+						# Reposition all players near the target transition area with a spread
+						var base_pos: Vector2 = grandchild.global_position + position_offset
+						var players_count: int = players.size()
+
+						# Calculate spread grid (e.g., 3x3 for up to 8-9 players)
+						var cols: int = ceili(sqrt(players_count))
+						var grid_spacing: float = 50.0 # Enough to clear collision shapes
+
+						for i in range(players_count):
+							var row: int = i / cols
+							var col: int = i % cols
+
+							# Center the grid around the base position
+							var row_count: int = ceili(float(players_count) / cols)
+							var offset: Vector2 = Vector2(
+								(col - (cols - 1) / 2.0) * grid_spacing,
+								(row - (row_count - 1) / 2.0) * grid_spacing
+							)
+
+							(players[i] as Node2D).global_position = base_pos + offset
 
 	await get_tree().process_frame
 
@@ -73,7 +96,8 @@ func load_level_from_path(
 
 	get_tree().paused = false
 
-	player_characterbody2d_node.set_deferred("disabled", false)
+	for col in player_col_shapes:
+		col.set_deferred("disabled", false)
 
 	# Wait for the physics engine to tick and clear the "ghost" state
 	# We use two physics frames to guarantee a clean state update

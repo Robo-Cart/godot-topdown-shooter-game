@@ -21,8 +21,15 @@ enum SIDE { NORTH, EAST, SOUTH, WEST }
 @export var snap_to_grid: bool = false:
 	set = _set_snap_to_grid
 
+var player: Player:
+	get:
+		var mm: Node = get_node_or_null("/root/MultiplayerManager")
+		if mm:
+			return mm.get_closest_player(global_position) as Player
+		return get_tree().get_first_node_in_group("player") as Player
+
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D
-@onready var player: Player = get_tree().get_first_node_in_group("player")
+
 
 
 func _set_size(_v: int) -> void:
@@ -65,12 +72,13 @@ func _arm_transition_safely() -> void:
 	body_entered.connect(_player_entered)
 
 
-func get_offset() -> Vector2:
+func get_offset(p: Node2D) -> Vector2:
 	var offset: Vector2 = Vector2.ZERO
-	var player_position: Vector2 = player.global_position
+	var player_position: Vector2 = p.global_position
 
 	# Create a safe spawn distance that clears the area + player radius
-	var safe_distance: float = pixel_size * 2.0
+	# Doubled to 4.0x to accommodate player groups in multiplayer
+	var safe_distance: float = pixel_size * 4.0
 
 	if side == SIDE.WEST or side == SIDE.EAST:
 		offset.y = player_position.y - global_position.y
@@ -87,7 +95,7 @@ func get_offset() -> Vector2:
 
 
 func _player_entered(_player: Node2D) -> void:
-	if _player != player:
+	if not _player.is_in_group("player"):
 		return
 
 	collision_shape.set_deferred("disabled", true)
@@ -98,7 +106,7 @@ func _player_entered(_player: Node2D) -> void:
 	if game_scene and game_scene.has_method("fade_out"):
 		await game_scene.fade_out()
 
-	transition_to_level.emit(level, target_transition_area, get_offset())
+	transition_to_level.emit(level, target_transition_area, get_offset(_player))
 
 	if game_scene and game_scene.has_method("fade_in"):
 		game_scene.fade_in()

@@ -32,7 +32,7 @@ func try_edit_value(value, type, property_hint) -> bool:
 	return true
 
 
-func _create_option_button(index : int):
+func _create_option_button(index: int):
 	var value = sheet.column_hint_strings[sheet.get_selected_column()][index]
 	if index == 0:
 		# Enum array hints have "2/3:" before list.
@@ -42,7 +42,7 @@ func _create_option_button(index : int):
 	if index >= options_container.get_child_count() - _init_nodes_in_options_container:
 		node = Button.new()
 		options_container.add_child(node)
-		var colon_found : int = value.rfind(":")
+		var colon_found: int = value.rfind(":")
 		if colon_found == -1:
 			node.pressed.connect(_on_option_clicked.bind(index))
 
@@ -58,11 +58,13 @@ func _create_option_button(index : int):
 	return node
 
 
-func _add_value(option_value : int):
+func _add_value(option_value: int):
 	_stored_value.append(option_value)
-	var values : Array = sheet.get_edited_cells_values()
+	var values: Array = sheet.get_edited_cells_values()
 	var cur_value
-	var dupe_array : bool = ProjectSettings.get_setting(TablesPluginSettingsClass.PREFIX + "dupe_arrays") 
+	var dupe_array: bool = ProjectSettings.get_setting(
+		TablesPluginSettingsClass.PREFIX + "dupe_arrays"
+	)
 	for i in values.size():
 		cur_value = values[i]
 		if dupe_array:
@@ -74,11 +76,13 @@ func _add_value(option_value : int):
 	sheet.set_edited_cells_values(values)
 
 
-func _remove_value(option_value : int):
+func _remove_value(option_value: int):
 	_stored_value.append(option_value)
-	var values : Array = sheet.get_edited_cells_values()
+	var values: Array = sheet.get_edited_cells_values()
 	var cur_value
-	var dupe_array : bool = ProjectSettings.get_setting(TablesPluginSettingsClass.PREFIX + "dupe_arrays") 
+	var dupe_array: bool = ProjectSettings.get_setting(
+		TablesPluginSettingsClass.PREFIX + "dupe_arrays"
+	)
 	for i in values.size():
 		cur_value = values[i]
 		if dupe_array:
@@ -86,13 +90,13 @@ func _remove_value(option_value : int):
 
 		if cur_value.has(option_value):
 			cur_value.remove_at(cur_value.find(option_value))
-			
+
 		values[i] = cur_value
 
 	sheet.set_edited_cells_values(values)
 
 
-func _on_option_clicked(value : int):
+func _on_option_clicked(value: int):
 	var val = options_container.get_child(1).selected
 	if val == 0:
 		_add_value(value)
@@ -105,7 +109,9 @@ func _on_Remove_pressed():
 	_stored_value.remove_at(_stored_value.size() - 1)
 	var values = sheet.get_edited_cells_values()
 	var cur_value
-	var dupe_array : bool = ProjectSettings.get_setting(TablesPluginSettingsClass.PREFIX + "dupe_arrays") 
+	var dupe_array: bool = ProjectSettings.get_setting(
+		TablesPluginSettingsClass.PREFIX + "dupe_arrays"
+	)
 	for i in values.size():
 		cur_value = values[i]
 		if dupe_array:

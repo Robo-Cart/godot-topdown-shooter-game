@@ -19,6 +19,7 @@ var _action_handler: ActionHandler = ActionHandler.new()
 
 @onready var back_menu_button: MenuButtonClass = %BackMenuButton
 
+
 func _ready() -> void:
 	if not menu_save_file_pck:
 		LogWrapper.debug(self, "Save File UI packed scene not set.")

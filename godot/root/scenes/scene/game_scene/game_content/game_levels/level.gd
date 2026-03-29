@@ -1,6 +1,8 @@
 extends Node2D
 
 const DOOR_CLEARANCE_RADIUS: float = 160.0
+const SCALING_DATA_PATH: String = \
+		"res://root/scenes/component/multiplayer_scaling/multiplayer_scaling_data.gd"
 
 @export var level_data: LevelData
 
@@ -83,9 +85,7 @@ func _process(delta: float) -> void:
 			if not boss_still_alive:
 				for enemy: Node2D in _last_boss_wave_enemies:
 					if is_instance_valid(enemy) and not enemy.is_queued_for_deletion():
-						var health_comp: HealthComponent = (
-							enemy.get_node_or_null("HealthComponent")
-						)
+						var health_comp: HealthComponent = enemy.get_node_or_null("HealthComponent")
 						if not health_comp:
 							health_comp = (
 								enemy.find_child("*HealthComponent*", true, false)
@@ -178,9 +178,25 @@ func _setup_initial_doors() -> void:
 
 
 func _build_spawn_queue() -> void:
+	var player_count: int = 1
+	if Engine.has_singleton("MultiplayerManager"):
+		var mm: Node = get_node("/root/MultiplayerManager")
+		if mm and mm.has_method("get_total_player_count"):
+			player_count = mm.get_total_player_count()
+
+	var p_index: int = clamp(player_count - 1, 0, 7)
+	var scaling_data_script: GDScript = load(SCALING_DATA_PATH)
+	var scaling_data: MultiplayerScalingData = scaling_data_script.new()
+	var wave_mult: float = scaling_data.wave_size_mult[p_index]
+	var powerup_mult: float = scaling_data.powerup_spawn_mult[p_index]
+
 	# --- 1. Process Enemy Waves ---
 	for wave: EnemyWaveConfig in level_data.enemy_wave_config:
-		var num_enemies: int = wave.number_of_enemies
+		var num_enemies: int = (
+			int(wave.number_of_enemies * wave_mult)
+			if not wave.is_boss_wave
+			else wave.number_of_enemies
+		)
 		var duration: float = wave.seconds_to_spawn_over
 		var num_spawn_points: int = wave.spawn_points.size()
 
@@ -217,33 +233,35 @@ func _build_spawn_queue() -> void:
 
 	# --- 2. Process Powerup Waves ---
 	for powerup: PowerupWaveConfig in level_data.powerup_wave_config:
-		var exact_spawn_time: float = powerup.time
+		var num_powerups: int = int(1.0 * powerup_mult)
+		for p_i: int in range(num_powerups):
+			var exact_spawn_time: float = powerup.time + (p_i * 0.5)
 
-		if powerup.random_factor > 0:
-			var deviation: float = randf_range(
-				-float(powerup.random_factor), float(powerup.random_factor)
+			if powerup.random_factor > 0:
+				var deviation: float = randf_range(
+					-float(powerup.random_factor), float(powerup.random_factor)
+				)
+				exact_spawn_time = max(0.0, exact_spawn_time + deviation)
+
+			var chosen_location: SpawnConfig.Location = SpawnConfig.Location.RANDOM_INNER
+
+			if powerup.spawn_points.size() > 0:
+				chosen_location = powerup.spawn_points.pick_random()
+
+			if not _cached_scenes.has(powerup.powerup_scene_path):
+				ResourceLoader.load_threaded_request(powerup.powerup_scene_path)
+				_cached_scenes[powerup.powerup_scene_path] = true
+
+			_spawn_queue.append(
+				{
+					"time": exact_spawn_time,
+					"category": "powerup",
+					"powerup_name": powerup.display_name,
+					"scene_path": powerup.powerup_scene_path,
+					"location": chosen_location,
+					"wave_stamp": powerup.time_stamp
+				}
 			)
-			exact_spawn_time = max(0.0, exact_spawn_time + deviation)
-
-		var chosen_location: SpawnConfig.Location = SpawnConfig.Location.RANDOM_INNER
-
-		if powerup.spawn_points.size() > 0:
-			chosen_location = powerup.spawn_points.pick_random()
-
-		if not _cached_scenes.has(powerup.powerup_scene_path):
-			ResourceLoader.load_threaded_request(powerup.powerup_scene_path)
-			_cached_scenes[powerup.powerup_scene_path] = true
-
-		_spawn_queue.append(
-			{
-				"time": exact_spawn_time,
-				"category": "powerup",
-				"powerup_name": powerup.display_name,
-				"scene_path": powerup.powerup_scene_path,
-				"location": chosen_location,
-				"wave_stamp": powerup.time_stamp
-			}
-		)
 
 	# --- 3. Sort the Unified Timeline ---
 	_spawn_queue.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return a.time < b.time)
@@ -540,6 +558,17 @@ func _spawn_enemy(
 		var door: ObjectDoor = result[1]
 
 		enemy_instance.global_position = spawn_pos
+
+		var ScalerScene: PackedScene = preload(
+			"res://root/scenes/component/multiplayer_scaling/multiplayer_scaling_component.tscn"
+		)
+		var scaler_data_resource: GDScript = load(SCALING_DATA_PATH)
+		var scaler: MultiplayerScalingComponent = (
+			ScalerScene.instantiate() as MultiplayerScalingComponent
+		)
+		scaler.scaling_data = scaler_data_resource.new()
+		scaler.is_boss = is_boss_wave
+		enemy_instance.add_child(scaler)
 
 		add_child(enemy_instance)
 		_spawned_enemies_tracking.append(enemy_instance)

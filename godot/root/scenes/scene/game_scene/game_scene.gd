@@ -6,7 +6,12 @@ extends Node
 @export var scene_manager_options_id: String = "fade_play"
 
 var is_transitioning: bool = false
-var transition_rect: ColorRect
+var takeover_dialog: ConfirmationDialog
+
+var _transition_rect: ColorRect
+var _first_gamepad_handled: bool = false
+var _takeover_device_id: int = -1
+var _pausing_player: Player = null
 
 @onready var game_content: Node = $GameContent
 @onready var pause_menu: PauseMenu = %PauseMenu
@@ -16,24 +21,53 @@ var transition_rect: ColorRect
 
 
 # Esc key shortcut toggles pause menu or exits from options via back button
-func _input(_event: InputEvent) -> void:
-
+func _input(event: InputEvent) -> void:
 	if is_transitioning:
 		return
 
-	if Input.is_action_just_pressed("game_pause"):
-		if get_tree().paused:
-			if pause_menu.visible:
-				_action_continue_menu_button()
+	var device_id: int = -1
+	if event is InputEventJoypadButton or event is InputEventJoypadMotion:
+		device_id = event.device
+
+	# Handle Pause (Start button on assigned pads or Escape on keyboard)
+	if event.is_action_pressed("game_pause") or (
+		event is InputEventJoypadButton
+		and event.button_index == JOY_BUTTON_START
+		and event.pressed
+	):
+		var players: Array[Node] = get_tree().get_nodes_in_group("player")
+		var player_for_device: Player = null
+		for p in players:
+			if (p as Player).device_id == device_id:
+				player_for_device = p as Player
+				break
+
+		# If this is a new gamepad
+		if device_id != -1 and player_for_device == null:
+			if not _first_gamepad_handled:
+				_takeover_device_id = device_id
+				get_tree().paused = true
+				takeover_dialog.popup_centered()
 			else:
-				_action_options_back_menu_button()
-		else:
-			_action_game_pause_menu_button()
+				_spawn_player(device_id)
+			return
+
+		# Toggle pause only if the device is assigned to a player or is keyboard
+		if device_id == -1 or player_for_device != null:
+			if get_tree().paused:
+				if pause_menu.visible:
+					_action_continue_menu_button()
+				else:
+					_action_options_back_menu_button()
+			else:
+				_pausing_player = player_for_device
+				_action_game_pause_menu_button()
 
 
 func _ready() -> void:
 	add_to_group("game_scene")
 	_setup_transition_screen()
+	_setup_takeover_dialog()
 	_load_game_content_scene()
 
 	ui_builder.build()
@@ -42,6 +76,40 @@ func _ready() -> void:
 	_setup_hud()
 
 	LogWrapper.debug(self, "Ready.")
+
+
+func _setup_takeover_dialog() -> void:
+	takeover_dialog = ConfirmationDialog.new()
+	takeover_dialog.title = "Gamepad Detected"
+	takeover_dialog.dialog_text = (
+		"Would you like this gamepad to take over Player 1 (Keyboard) or Join as a new Player?"
+	)
+	takeover_dialog.ok_button_text = "Take Over P1"
+	takeover_dialog.cancel_button_text = "Join as P2"
+	takeover_dialog.confirmed.connect(_on_takeover_confirmed)
+	takeover_dialog.canceled.connect(_on_takeover_join_new)
+	add_child(takeover_dialog)
+
+
+func _on_takeover_confirmed() -> void:
+	var players: Array[Node] = get_tree().get_nodes_in_group("player")
+	for p in players:
+		var player: Player = p as Player
+		if player.device_id == -1:
+			player.device_id = _takeover_device_id
+			LogWrapper.debug(
+				self,
+				_get_player_info(_takeover_device_id) + "Gamepad %d took over Player 1" % _takeover_device_id
+			)
+			break
+	_first_gamepad_handled = true
+	get_tree().paused = false
+
+
+func _on_takeover_join_new() -> void:
+	_spawn_player(_takeover_device_id)
+	_first_gamepad_handled = true
+	get_tree().paused = false
 
 
 func _setup_hud() -> void:
@@ -55,19 +123,82 @@ func _setup_hud() -> void:
 		player = get_tree().get_nodes_in_group("player")[0]
 
 	if player:
+		player.device_id = -1
+		player.color_index = 0
+		player.apply_tint()
+		hud.add_player_ui()
 		hud.setup_player_ui(0, player)
+
+
+func _spawn_player(device_id: int) -> void:
+	var player_scene: PackedScene = load(
+		"res://root/scenes/scene/game_scene/game_content/game_entities/player/player.tscn"
+	)
+	var new_player: Player = player_scene.instantiate() as Player
+	new_player.device_id = device_id
+
+	# Spawn in an area close to the centre of the 2d camera viewport
+	var viewport_rect: Rect2 = get_viewport().get_visible_rect()
+	var camera: Camera2D = get_viewport().get_camera_2d()
+	var spawn_center: Vector2 = viewport_rect.size / 2.0
+	if camera:
+		spawn_center = camera.get_screen_center_position()
+
+	var max_offset_x: float = viewport_rect.size.x * 0.25
+	var max_offset_y: float = viewport_rect.size.y * 0.25
+
+	new_player.global_position = spawn_center + Vector2(
+		randf_range(-max_offset_x, max_offset_x),
+		randf_range(-max_offset_y, max_offset_y)
+	)
+
+	new_player.color_index = _get_next_available_color_index()
+
+	game_content.add_child(new_player)
+	new_player.apply_tint()
+	MultiplayerManager.spawn_local_player(device_id)
+
+	hud.add_player_ui()
+	hud.setup_player_ui(hud.player_ui_container.get_child_count() - 1, new_player)
+
+	LogWrapper.debug(self, _get_player_info(device_id) + "Spawned player for device %d" % device_id)
+
+
+func _get_next_available_color_index() -> int:
+	var players: Array[Node] = get_tree().get_nodes_in_group("player")
+	var used_indices: Array[int] = []
+	for p in players:
+		used_indices.append((p as Player).color_index)
+
+	for i in range(MultiplayerManager.player_colors.size()):
+		if not i in used_indices:
+			return i
+
+	return used_indices.size()  # Fallback
+
+
+func _get_player_info(device_id: int) -> String:
+	var steam_id: String = "Local"
+	if Engine.has_singleton("Steam"):
+		var steam_singleton: Object = Engine.get_singleton("Steam")
+		var s_id: int = steam_singleton.getSteamID()
+		if s_id > 0:
+			steam_id = "Steam%d" % s_id
+
+	var peer_info: String = "Host" if multiplayer.is_server() else "Peer"
+	return "[Dev%d|%s|%s] " % [device_id, steam_id, peer_info]
 
 
 func _setup_transition_screen() -> void:
 	var canvas: CanvasLayer = CanvasLayer.new()
 	canvas.layer = 100
 
-	transition_rect = ColorRect.new()
-	transition_rect.color = Color(0, 0, 0, 0)
-	transition_rect.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	transition_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_transition_rect = ColorRect.new()
+	_transition_rect.color = Color(0, 0, 0, 0)
+	_transition_rect.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_transition_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
 
-	canvas.add_child(transition_rect)
+	canvas.add_child(_transition_rect)
 	add_child(canvas)
 
 
@@ -76,13 +207,13 @@ func fade_out() -> void:
 	get_tree().paused = true
 
 	var tween: Tween = create_tween()
-	tween.tween_property(transition_rect, "color:a", 1.0, 0.4)
+	tween.tween_property(_transition_rect, "color:a", 1.0, 0.4)
 	await tween.finished
 
 
 func fade_in() -> void:
 	var tween: Tween = create_tween()
-	tween.tween_property(transition_rect, "color:a", 0.0, 0.4)
+	tween.tween_property(_transition_rect, "color:a", 0.0, 0.4)
 	await tween.finished
 
 	get_tree().paused = false
@@ -122,6 +253,7 @@ func _load_game_content_scene() -> void:
 
 func _action_game_pause_menu_button() -> void:
 	game_content.visible = true
+	pause_menu.setup_for_player(_pausing_player)
 	pause_menu.visible = true
 	options_menu.visible = false
 	get_tree().paused = true
@@ -136,6 +268,23 @@ func _action_continue_menu_button() -> void:
 	get_tree().paused = false
 	_after_unpause()
 	LogWrapper.debug(name, "Game unpaused.")
+
+
+func _action_disconnect_menu_button() -> void:
+	if _pausing_player == null or _pausing_player.color_index == 0:
+		return
+
+	var device_id: int = _pausing_player.device_id
+	LogWrapper.debug(
+		self,
+		"Disconnecting player P%d (Dev%d)" % [_pausing_player.color_index + 1, device_id]
+	)
+
+	MultiplayerManager.unregister_local_player(device_id)
+	hud.remove_player_ui(_pausing_player)
+	_pausing_player.queue_free()
+
+	_action_continue_menu_button()
 
 
 func _action_options_menu_button() -> void:
@@ -174,6 +323,7 @@ func _connect_signals() -> void:
 		game_content.pause_menu_button.confirmed.connect(_action_game_pause_menu_button)
 
 	pause_menu.continue_menu_button.confirmed.connect(_action_continue_menu_button)
+	pause_menu.disconnect_menu_button.confirmed.connect(_action_disconnect_menu_button)
 	pause_menu.options_menu_button.confirmed.connect(_action_options_menu_button)
 	pause_menu.leave_menu_button.confirmed.connect(_action_leave_menu_button)
 	pause_menu.quit_menu_button.confirmed.connect(_action_quit_menu_button)

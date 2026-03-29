@@ -14,8 +14,9 @@ const BLACK: Color = Color(0, 0, 0)
 @onready var _current_scene: String = ""
 @onready var _first_time: bool = true
 @onready var _patterns: Dictionary = {}
-@onready var _reserved_keys: Array = ["back", "null", "ignore", "refresh",
-	"reload", "restart", "exit", "quit"]
+@onready var _reserved_keys: Array = [
+	"back", "null", "ignore", "refresh", "reload", "restart", "exit", "quit"
+]
 var _load_scene: String = ""
 var _load_progress: Array = []
 var _recorded_scene: String = ""
@@ -28,6 +29,7 @@ signal fade_out_started
 signal fade_in_finished
 signal fade_out_finished
 
+
 class Options:
 	# based checked seconds
 	var fade_speed: float = 1
@@ -35,11 +37,13 @@ class Options:
 	var smoothness: float = 0.1
 	var inverted: bool = false
 
+
 class GeneralOptions:
 	var color: Color = Color(0, 0, 0)
 	var timeout: float = 0
 	var clickable: bool = true
 	var add_to_back: bool = true
+
 
 func _current_scene_is_ignored(scene_file_path: String) -> bool:
 	for ignore_path in Scenes.scenes._ignore_list:
@@ -47,14 +51,21 @@ func _current_scene_is_ignored(scene_file_path: String) -> bool:
 			return true
 	return false
 
+
 # sets current scene to starting point (used for `back` functionality)
 func _set_current_scene() -> void:
 	var scene_file_path: String = get_tree().current_scene.scene_file_path
 	_current_scene = _get_scene_key_by_value(scene_file_path)
 
-	assert (!(_current_scene == "" and !_current_scene_is_ignored(scene_file_path)), "Scene Manager Error: loaded scene is not defined in scene manager tool, to fix this, on Scene Manager UI panel, just once click on refresh and then save buttons respectively.")
+	assert(
+		!(_current_scene == "" and !_current_scene_is_ignored(scene_file_path)),
+		"Scene Manager Error: loaded scene is not defined in scene manager tool, to fix this, on Scene Manager UI panel, just once click on refresh and then save buttons respectively."
+	)
 	if _current_scene == "":
-		push_warning("loaded scene is ignored by scene manager, it means that you can not go back to this scene by 'back' key word.")
+		push_warning(
+			"loaded scene is ignored by scene manager, it means that you can not go back to this scene by 'back' key word."
+		)
+
 
 # gets patterns from `addons/scene_manager/shader_patterns`
 func _get_patterns() -> void:
@@ -70,17 +81,19 @@ func _get_patterns() -> void:
 			elif file_folder.get_extension() == "import":
 				file_folder = file_folder.replace(".import", "")
 			if file_folder.get_extension() == "png":
-				var key = file_folder.replace("."+file_folder.get_extension(), "")
+				var key = file_folder.replace("." + file_folder.get_extension(), "")
 				if !(key in _patterns.keys()):
 					_patterns[key] = load(root_path + file_folder)
 
 		dir.list_dir_end()
+
 
 # set current scene and get patterns from `addons/scene_manager/shader_patterns` folder
 func _ready() -> void:
 	set_process(false)
 	_set_current_scene()
 	_get_patterns()
+
 
 # `speed` unit is in seconds
 func _fade_in(speed: float) -> bool:
@@ -90,6 +103,7 @@ func _fade_in(speed: float) -> bool:
 	_animation_player.play(FADE, -1, 1 / speed, false)
 	return true
 
+
 # `speed` unit is in seconds
 func _fade_out(speed: float) -> bool:
 	if speed == 0:
@@ -98,13 +112,16 @@ func _fade_out(speed: float) -> bool:
 	_animation_player.play(FADE, -1, -1 / speed, true)
 	return true
 
+
 # activates `in_transition` mode
 func _set_in_transition() -> void:
 	_in_transition = true
 
+
 # deactivates `in_transition` mode
 func _set_out_transition() -> void:
 	_in_transition = false
+
 
 # adds current scene to `_stack`
 func _append_stack(key: String) -> void:
@@ -119,12 +136,14 @@ func _append_stack(key: String) -> void:
 			_stack.append(_current_scene)
 	_current_scene = key
 
+
 # pops most recent added scene to `_stack`
 func _pop_stack() -> String:
 	var pop = _stack.pop_back()
 	if pop:
 		_current_scene = pop
 	return _current_scene
+
 
 # changes scene to the previous scene
 func _back() -> bool:
@@ -133,6 +152,7 @@ func _back() -> bool:
 		get_tree().change_scene_to_file(Scenes.scenes[pop]["value"])
 		return true
 	return false
+
 
 # returns the scene key of the passed scene value (scene address)
 func _get_scene_key_by_value(path: String) -> String:
@@ -144,10 +164,12 @@ func _get_scene_key_by_value(path: String) -> String:
 			found_key = key
 	return found_key
 
+
 # restart the same scene
 func _refresh() -> bool:
 	get_tree().change_scene_to_file(Scenes.scenes[_current_scene]["value"])
 	return true
+
 
 # checks different states of scene and make actual transitions happen
 func _change_scene(scene, add_to_back: bool) -> bool:
@@ -162,7 +184,7 @@ func _change_scene(scene, add_to_back: bool) -> bool:
 		get_tree().get_current_scene().free()
 		root.add_child(scene_instance)
 		get_tree().set_current_scene(scene_instance)
-		if (_load_scene == ""):
+		if _load_scene == "":
 			assert(false, "Scene Manager Error: please use this addon as described")
 		var path: String = _load_scene
 		var found_key: String = _get_scene_key_by_value(path)
@@ -202,12 +224,14 @@ func _change_scene(scene, add_to_back: bool) -> bool:
 		return true
 	return false
 
+
 # makes menu clickable or unclickable during transitions
 func _set_clickable(clickable: bool) -> void:
 	if clickable:
 		_fade_color_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	else:
 		_fade_color_rect.mouse_filter = Control.MOUSE_FILTER_STOP
+
 
 # sets color if timeout exists
 func _timeout(timeout: float) -> bool:
@@ -216,20 +240,30 @@ func _timeout(timeout: float) -> bool:
 		return true
 	return false
 
+
 # sets properties for transitions
 func _set_pattern(options: Options, general_options: GeneralOptions) -> void:
 	if !(options.fade_pattern in _patterns):
 		options.fade_pattern = "fade"
 	if options.fade_pattern == "fade":
 		_fade_color_rect.material.set_shader_parameter("linear_fade", true)
-		_fade_color_rect.material.set_shader_parameter("color", Vector3(general_options.color.r, general_options.color.g, general_options.color.b))
+		_fade_color_rect.material.set_shader_parameter(
+			"color",
+			Vector3(general_options.color.r, general_options.color.g, general_options.color.b)
+		)
 		_fade_color_rect.material.set_shader_parameter("custom_texture", null)
 	else:
 		_fade_color_rect.material.set_shader_parameter("linear_fade", false)
-		_fade_color_rect.material.set_shader_parameter("custom_texture", _patterns[options.fade_pattern])
+		_fade_color_rect.material.set_shader_parameter(
+			"custom_texture", _patterns[options.fade_pattern]
+		)
 		_fade_color_rect.material.set_shader_parameter("inverted", options.inverted)
 		_fade_color_rect.material.set_shader_parameter("smoothness", options.smoothness)
-		_fade_color_rect.material.set_shader_parameter("color", Vector3(general_options.color.r, general_options.color.g, general_options.color.b))
+		_fade_color_rect.material.set_shader_parameter(
+			"color",
+			Vector3(general_options.color.r, general_options.color.g, general_options.color.b)
+		)
+
 
 # used for interactive change scene
 func _process(_delta: float):
@@ -249,6 +283,7 @@ func _process(_delta: float):
 	else:
 		assert(false, "Scene Manager Error: for some reason, loading failed, I don't know why")
 
+
 # limits how much deep scene manager is allowed to record previous scenes which
 # affects in changing scene to `back`(previous scene) functionality
 #
@@ -266,13 +301,20 @@ func set_back_limit(input: int) -> void:
 			for i in range(len(_stack) - input):
 				_stack.pop_front()
 
+
 # resets the `_current_scene` and clears `_stack`
 func reset_scene_manager() -> void:
 	_set_current_scene()
 	_stack.clear()
 
+
 # creates options for fade_out or fade_in transition
-func create_options(fade_speed: float = 1.0, fade_pattern: String = "fade", smoothness: float = 0.1, inverted: bool = false) -> Options:
+func create_options(
+	fade_speed: float = 1.0,
+	fade_pattern: String = "fade",
+	smoothness: float = 0.1,
+	inverted: bool = false
+) -> Options:
 	var options: Options = Options.new()
 	options.fade_speed = fade_speed
 	options.fade_pattern = fade_pattern
@@ -280,10 +322,16 @@ func create_options(fade_speed: float = 1.0, fade_pattern: String = "fade", smoo
 	options.inverted = inverted
 	return options
 
+
 # creates options for common properties in transition
 # add_to_back means that you can go back to the scene if you
 # change scene to `back` scene
-func create_general_options(color: Color = Color(0, 0, 0), timeout: float = 0.0, clickable: bool = true, add_to_back: bool = true) -> GeneralOptions:
+func create_general_options(
+	color: Color = Color(0, 0, 0),
+	timeout: float = 0.0,
+	clickable: bool = true,
+	add_to_back: bool = true
+) -> GeneralOptions:
 	var options: GeneralOptions = GeneralOptions.new()
 	options.color = color
 	options.timeout = timeout
@@ -291,31 +339,51 @@ func create_general_options(color: Color = Color(0, 0, 0), timeout: float = 0.0,
 	options.add_to_back = add_to_back
 	return options
 
+
 # validates passed scene key
 func validate_scene(key: String) -> void:
-	assert((key in _reserved_keys || key == "" || Scenes.scenes.has(key) == true) && !key.begins_with("_"), "Scene Manager Error: `%s` key is not recognized, please double check. You may have the scene in your File System but Scene Manager has no idea, clicking refresh and then save buttons respectively may fix the problem."% key)
+	assert(
+		(
+			(key in _reserved_keys || key == "" || Scenes.scenes.has(key) == true)
+			&& !key.begins_with("_")
+		),
+		(
+			"Scene Manager Error: `%s` key is not recognized, please double check. You may have the scene in your File System but Scene Manager has no idea, clicking refresh and then save buttons respectively may fix the problem."
+			% key
+		)
+	)
+
 
 # validates passed scene key
 func safe_validate_scene(key: String) -> bool:
-	return (key in _reserved_keys || key == "" || Scenes.scenes.has(key) == true) && !key.begins_with("_")
+	return (
+		(key in _reserved_keys || key == "" || Scenes.scenes.has(key) == true)
+		&& !key.begins_with("_")
+	)
+
 
 # validates passed pattern key
 func validate_pattern(key: String) -> void:
-	var errorPart1 := "Scene Manager Error: `%s` key for shader pattern is not recognizable, please double check.\n"% key
+	var errorPart1 := (
+		"Scene Manager Error: `%s` key for shader pattern is not recognizable, please double check.\n"
+		% key
+	)
 	var keys := _patterns.keys()
 	var stringKeys := ""
 
-	for i in range(0,keys.size()):
+	for i in range(0, keys.size()):
 		if i == 0:
-			stringKeys = "\"%s\"" % keys[0]
+			stringKeys = '"%s"' % keys[0]
 			continue
-		stringKeys += ", \"%s\"" % keys[i]
-	var errorPart2 := "Acceptable keys are \"%s\" , \"fade\"."%stringKeys
-	assert(key in _patterns || key == "fade" || key == "",errorPart1 + errorPart2)
+		stringKeys += ', "%s"' % keys[i]
+	var errorPart2 := 'Acceptable keys are "%s" , "fade".' % stringKeys
+	assert(key in _patterns || key == "fade" || key == "", errorPart1 + errorPart2)
+
 
 # validates passed pattern key
 func safe_validate_pattern(key: String) -> bool:
 	return key in _patterns || key == "fade" || key == ""
+
 
 # makes a fade_in transition for the first loaded scene in the game
 func show_first_scene(fade_in_options: Options, general_options: GeneralOptions) -> void:
@@ -332,11 +400,12 @@ func show_first_scene(fade_in_options: Options, general_options: GeneralOptions)
 		_set_clickable(true)
 		_set_out_transition()
 
+
 # returns scene instance of passed scene key (blocking)
 #
-# Note: you can activate `use_sub_threads` but just know that In the newest 
+# Note: you can activate `use_sub_threads` but just know that In the newest
 # versions of Godot there seems to be a bug that can cause a threadlock in
-# the resource loader that will result in infinite loading of the scene 
+# the resource loader that will result in infinite loading of the scene
 # without any error.
 #
 # Related Github Issues About `use_sub_threads`:
@@ -346,11 +415,12 @@ func show_first_scene(fade_in_options: Options, general_options: GeneralOptions)
 func create_scene_instance(key: String, use_sub_threads = false) -> Node:
 	return get_scene(key, use_sub_threads).instantiate()
 
+
 # returns PackedScene of passed scene key (blocking)
 #
-# Note: you can activate `use_sub_threads` but just know that In the newest 
+# Note: you can activate `use_sub_threads` but just know that In the newest
 # versions of Godot there seems to be a bug that can cause a threadlock in
-# the resource loader that will result in infinite loading of the scene 
+# the resource loader that will result in infinite loading of the scene
 # without any error.
 #
 # Related Github Issues About `use_sub_threads`:
@@ -360,12 +430,21 @@ func create_scene_instance(key: String, use_sub_threads = false) -> Node:
 func get_scene(key: String, use_sub_threads = false) -> PackedScene:
 	validate_scene(key)
 	var address = Scenes.scenes[key]["value"]
-	ResourceLoader.load_threaded_request(address, "", use_sub_threads, ResourceLoader.CACHE_MODE_REUSE)
+	ResourceLoader.load_threaded_request(
+		address, "", use_sub_threads, ResourceLoader.CACHE_MODE_REUSE
+	)
 	return ResourceLoader.load_threaded_get(address)
 
+
 # changes current scene to the next scene
-func change_scene(scene, fade_out_options: Options, fade_in_options: Options, general_options: GeneralOptions) -> void:
-	if (scene is PackedScene || scene is Node || (typeof(scene) == TYPE_STRING && safe_validate_scene(scene) && !_in_transition)):
+func change_scene(
+	scene, fade_out_options: Options, fade_in_options: Options, general_options: GeneralOptions
+) -> void:
+	if (
+		scene is PackedScene
+		|| scene is Node
+		|| (typeof(scene) == TYPE_STRING && safe_validate_scene(scene) && !_in_transition)
+	):
 		_first_time = false
 		_set_in_transition()
 		_set_clickable(general_options.clickable)
@@ -387,9 +466,14 @@ func change_scene(scene, fade_out_options: Options, fade_in_options: Options, ge
 		_set_clickable(true)
 		_set_out_transition()
 
+
 # Change scene with no effect
 func no_effect_change_scene(scene, hold_timeout: float = 0.0, add_to_back: bool = true):
-	if (scene is PackedScene || scene is Node || (typeof(scene) == TYPE_STRING && safe_validate_scene(scene) && !_in_transition)):
+	if (
+		scene is PackedScene
+		|| scene is Node
+		|| (typeof(scene) == TYPE_STRING && safe_validate_scene(scene) && !_in_transition)
+	):
 		_first_time = false
 		_set_in_transition()
 		await get_tree().create_timer(hold_timeout).timeout
@@ -397,6 +481,7 @@ func no_effect_change_scene(scene, hold_timeout: float = 0.0, add_to_back: bool 
 			if !(scene is Node):
 				await get_tree().node_added
 		_set_out_transition()
+
 
 # imports loaded scene into the scene tree but doesn't change the scene
 # maily used when your new loaded scene has a loading phase when added to scene tree
@@ -415,10 +500,13 @@ func add_loaded_scene_to_scene_tree() -> void:
 			root.move_child(scene, root.get_child_count() - 2)
 			_load_scene = ""
 
+
 # when you added the loaded scene to the scene tree by `add_loaded_scene_to_scene_tree`
 # function, you call this function after you are sure that the added scene to scene tree
 # is completely ready and functional to change the active scene
-func change_scene_to_existing_scene_in_scene_tree(fade_out_options: Options, fade_in_options: Options, general_options: GeneralOptions) -> void:
+func change_scene_to_existing_scene_in_scene_tree(
+	fade_out_options: Options, fade_in_options: Options, general_options: GeneralOptions
+) -> void:
 	_set_in_transition()
 	_set_clickable(general_options.clickable)
 	_set_pattern(fade_out_options, general_options)
@@ -449,13 +537,14 @@ func change_scene_to_existing_scene_in_scene_tree(fade_out_options: Options, fad
 	_set_clickable(true)
 	_set_out_transition()
 
+
 # loads scene interactive
 # connect to `load_percent_changed(value: int)` and `load_finished` signals
 # to listen to updates on your scene loading status
 #
-# Note: you can activate `use_sub_threads` but just know that In the newest 
+# Note: you can activate `use_sub_threads` but just know that In the newest
 # versions of Godot there seems to be a bug that can cause a threadlock in
-# the resource loader that will result in infinite loading of the scene 
+# the resource loader that will result in infinite loading of the scene
 # without any error.
 #
 # Related Github Issues About `use_sub_threads`:
@@ -466,7 +555,10 @@ func load_scene_interactive(key: String, use_sub_threads = false) -> void:
 	if safe_validate_scene(key):
 		set_process(true)
 		_load_scene = Scenes.scenes[key]["value"]
-		ResourceLoader.load_threaded_request(_load_scene, "", use_sub_threads, ResourceLoader.CACHE_MODE_IGNORE)
+		ResourceLoader.load_threaded_request(
+			_load_scene, "", use_sub_threads, ResourceLoader.CACHE_MODE_IGNORE
+		)
+
 
 # returns loaded scene
 #
@@ -477,16 +569,21 @@ func get_loaded_scene() -> PackedScene:
 		return ResourceLoader.load_threaded_get(_load_scene) as PackedScene
 	return null
 
+
 # changes scene to loaded scene
-func change_scene_to_loaded_scene(fade_out_options: Options, fade_in_options: Options, general_options: GeneralOptions) -> void:
+func change_scene_to_loaded_scene(
+	fade_out_options: Options, fade_in_options: Options, general_options: GeneralOptions
+) -> void:
 	if _load_scene != "":
 		var scene = ResourceLoader.load_threaded_get(_load_scene) as PackedScene
 		if scene:
 			change_scene(scene, fade_out_options, fade_in_options, general_options)
 
+
 # returns previous scene (scene before current scene)
 func get_previous_scene() -> String:
 	return _stack[len(_stack) - 1]
+
 
 # returns a specific previous scene at an exact index position
 func get_previous_scene_at(index: int) -> String:
@@ -494,13 +591,16 @@ func get_previous_scene_at(index: int) -> String:
 		return _stack[index]
 	return ""
 
+
 # pops from the back stack and returns previous scene (scene before current scene)
 func pop_previous_scene() -> String:
 	return _pop_stack()
 
+
 # returns how many scenes there are in list of previous scenes.
 func previous_scenes_length() -> int:
 	return len(_stack)
+
 
 # records a scene key to be used for loading scenes to know where to go after getting loaded
 # into loading scene or just for next scene to know where to go next
@@ -508,9 +608,11 @@ func set_recorded_scene(key: String) -> void:
 	validate_scene(key)
 	_recorded_scene = key
 
+
 # returns recorded scene
 func get_recorded_scene() -> String:
 	return _recorded_scene
+
 
 # pause (fadeout). You can resume afterwards.
 func pause(fade_out_options: Options, general_options: GeneralOptions) -> void:
@@ -520,6 +622,7 @@ func pause(fade_out_options: Options, general_options: GeneralOptions) -> void:
 	if _fade_out(fade_out_options.fade_speed):
 		await _animation_player.animation_finished
 		fade_out_finished.emit()
+
 
 ## resume (fadein) after pause
 func resume(fade_in_options: Options, general_options: GeneralOptions) -> void:

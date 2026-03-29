@@ -3,17 +3,18 @@ extends "res://addons/resources_spreadsheet_view/typed_cells/cell_editor_array.g
 
 func can_edit_value(value, type, property_hint, column_index) -> bool:
 	if (
-		type != TYPE_PACKED_INT32_ARRAY
-		and type != TYPE_PACKED_INT64_ARRAY
-		and type != TYPE_ARRAY
-	) or property_hint != PROPERTY_HINT_TYPE_STRING:
+		(type != TYPE_PACKED_INT32_ARRAY and type != TYPE_PACKED_INT64_ARRAY and type != TYPE_ARRAY)
+		or property_hint != PROPERTY_HINT_TYPE_STRING
+	):
 		return false
-	
+
 	return hint_strings_array[column_index][0].begins_with("2/2:")
 
 
-func _write_value_to_child(value, key, hint_arr : PackedStringArray, child : Label, color_tint : float):
-	var value_str : String
+func _write_value_to_child(
+	value, key, hint_arr: PackedStringArray, child: Label, color_tint: float
+):
+	var value_str: String
 	var key_found := -1
 	for i in hint_arr.size():
 		var colon_found := hint_arr[i].rfind(":")

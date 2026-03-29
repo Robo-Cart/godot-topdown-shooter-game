@@ -81,17 +81,28 @@ theme_override_constants/separation = 16
 unique_name_in_owner = true
 layout_mode = 2
 focus_neighbor_top = NodePath(".")
-focus_neighbor_bottom = NodePath("../OptionsMenuButton")
+focus_neighbor_bottom = NodePath("../DisconnectMenuButton")
 theme_override_font_sizes/font_size = 24
 text = "    Continue    "
 label = "MENU_LABEL_CONTINUE"
 padding_spaces = 4
 
-[node name="OptionsMenuButton" parent="MainMenuMarginContainer/MainMenuVBoxContainer/MainMenuButtonsVBoxContainer" instance=ExtResource("1_krneb")]
+[node name="DisconnectMenuButton" parent="MainMenuMarginContainer/MainMenuVBoxContainer/MainMenuButtonsVBoxContainer" instance=ExtResource("1_krneb")]
 unique_name_in_owner = true
 layout_mode = 2
 focus_neighbor_top = NodePath("../ContinueMenuButton")
+focus_neighbor_bottom = NodePath("../OptionsMenuButton")
+theme_override_font_sizes/font_size = 24
+text = "    Disconnect    "
+label = "MENU_LABEL_DISCONNECT"
+padding_spaces = 4
+
+[node name="OptionsMenuButton" parent="MainMenuMarginContainer/MainMenuVBoxContainer/MainMenuButtonsVBoxContainer" instance=ExtResource("1_krneb")]
+unique_name_in_owner = true
+layout_mode = 2
+focus_neighbor_top = NodePath("../DisconnectMenuButton")
 focus_neighbor_bottom = NodePath("../LeaveMenuButton")
+
 theme_override_font_sizes/font_size = 24
 text = "    Options    "
 label = "MENU_OPTIONS"

@@ -1,12 +1,14 @@
 @tool
 extends EditorPlugin
 
-var editor_view : Control
-var undo_redo : EditorUndoRedoManager
+var editor_view: Control
+var undo_redo: EditorUndoRedoManager
 
 
 func _enter_tree() -> void:
-	editor_view = load(get_script().resource_path.get_base_dir() + "/editor_view.tscn").instantiate()
+	editor_view = (
+		load(get_script().resource_path.get_base_dir() + "/editor_view.tscn").instantiate()
+	)
 	editor_view.editor_interface = get_editor_interface()
 	if editor_view.editor_interface == null:
 		# 4.2: now a singleton
@@ -40,4 +42,6 @@ func _has_main_screen():
 
 func _get_plugin_icon():
 	# Until I add an actual icon, this'll do.
-	return get_editor_interface().get_base_control().get_theme_icon("VisualShaderNodeComment", "EditorIcons")
+	return get_editor_interface().get_base_control().get_theme_icon(
+		"VisualShaderNodeComment", "EditorIcons"
+	)

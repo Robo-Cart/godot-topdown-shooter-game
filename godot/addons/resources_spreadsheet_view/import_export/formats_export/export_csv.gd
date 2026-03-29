@@ -2,11 +2,13 @@ class_name ResourceTablesExportFormatCsv
 extends RefCounted
 
 
-static func can_edit_path(path : String):
+static func can_edit_path(path: String):
 	return path.ends_with(".csv")
 
 
-static func export_to_file(entries_array : Array, column_names : Array, into_path : String, import_data : ResourceTablesImport):
+static func export_to_file(
+	entries_array: Array, column_names: Array, into_path: String, import_data: ResourceTablesImport
+):
 	var file := FileAccess.open(into_path, FileAccess.WRITE)
 
 	var line := PackedStringArray()
@@ -20,12 +22,12 @@ static func export_to_file(entries_array : Array, column_names : Array, into_pat
 			line[j] = column_names[j]
 			if space_after_delimiter and j != 0:
 				line[j] = " " + line[j]
-		
+
 		file.store_csv_line(line, import_data.delimeter[0])
 
 	for i in entries_array.size():
 		for j in column_names.size():
-			line[j] = import_data.property_to_string((entries_array[i].get(column_names[j])), j)
+			line[j] = import_data.property_to_string(entries_array[i].get(column_names[j]), j)
 			if space_after_delimiter and j != 0:
 				line[j] = " " + line[j]
 

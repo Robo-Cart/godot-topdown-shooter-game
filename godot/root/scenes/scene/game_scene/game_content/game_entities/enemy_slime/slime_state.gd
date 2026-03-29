@@ -1,14 +1,16 @@
 class_name SlimeState
 extends State
 
-var player: Node2D
+var player: Node2D:
+	get:
+		if slime:
+			return MultiplayerManager.get_closest_player(slime.global_position)
+		return null
 
 @onready var slime: EnemySlime = owner as EnemySlime
 
 
 func _ready() -> void:
-	player = get_tree().get_first_node_in_group("player")
-
 	if slime:
 		var health_comp: HealthComponent = slime.get_node_or_null("HealthComponent")
 		if health_comp:

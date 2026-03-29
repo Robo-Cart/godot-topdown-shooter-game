@@ -55,6 +55,7 @@ stretch = true
 stretch_shrink = 4
 
 [node name="SubViewport" type="SubViewport" parent="SubViewportContainer" unique_id=1549031253]
+own_world_3d = true
 transparent_bg = true
 handle_input_locally = false
 audio_listener_enable_2d = true
@@ -68,6 +69,9 @@ fov = 57.1
 size = 3.0
 
 [node name="Player_Man_3D" parent="SubViewportContainer/SubViewport" unique_id=1570705270 instance=ExtResource("3_357pk")]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="SubViewportContainer/SubViewport" unique_id=1570705271]
+transform = Transform3D(1, 0, 0, 0, 0.17536677, 0.98450315, 0, -0.98450315, 0.17536677, 0, 4.533, 0)
 
 [node name="CentrePoint" type="Node2D" parent="." unique_id=1507880759]
 position = Vector2(6.451613, 6.4516134)

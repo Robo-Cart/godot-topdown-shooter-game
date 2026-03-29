@@ -1,0 +1,40 @@
+# ==========================================
+# 1. Godot 4 Core (The massive AI killers)
+# ==========================================
+.godot/
+*.import
+*.uid
+export_presets.cfg
+
+# ==========================================
+# 2. TakinGodotTemplate Specifics
+# ==========================================
+.github/
+addons/
+# Note: If you actively need the AI to modify a specific plugin, 
+# you can comment out 'addons/' temporarily, but keep it ignored for daily coding.
+
+# ==========================================
+# 3. Media & Assets (AI cannot read these)
+# ==========================================
+*.png
+*.jpg
+*.jpeg
+*.svg
+*.webp
+*.ogg
+*.wav
+*.mp3
+*.ttf
+*.otf
+*.tres
+*.res
+
+# ==========================================
+# 4. Export & Build Folders
+# ==========================================
+exports/
+builds/
+dist/
+web/
+windows/

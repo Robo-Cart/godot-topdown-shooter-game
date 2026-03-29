@@ -5,10 +5,10 @@ extends Control
 @onready var node_options := $"Class"
 @onready var node_subclasses_check := $"Subclasses"
 
-var found_builtins : Array[String] = []
-var found_scripts : Array[Script] = []
+var found_builtins: Array[String] = []
+var found_scripts: Array[Script] = []
 var selected_builtin := &""
-var selected_script : Script
+var selected_script: Script
 var selected_is_valid := false
 var include_subclasses := true
 
@@ -18,7 +18,7 @@ func _ready():
 	node_subclasses_check.toggled.connect(_on_subclasses_toggled)
 
 
-func fill(resources : Array):
+func fill(resources: Array):
 	node_options.clear()
 	found_scripts.clear()
 	found_builtins.clear()
@@ -70,7 +70,7 @@ func clear():
 	selected_is_valid = false
 
 
-func filter(resource : Resource) -> bool:
+func filter(resource: Resource) -> bool:
 	if not selected_is_valid:
 		return true
 
@@ -86,7 +86,7 @@ func filter(resource : Resource) -> bool:
 
 	if selected_script != null and resource.get_script() != selected_script:
 		if include_subclasses:
-			var cur_class : Script = resource.get_script()
+			var cur_class: Script = resource.get_script()
 			while cur_class != null:
 				cur_class = cur_class.get_base_script()
 				if cur_class == selected_script:
@@ -94,11 +94,10 @@ func filter(resource : Resource) -> bool:
 
 		return false
 
-
 	return true
 
 
-func _on_item_selected(index : int):
+func _on_item_selected(index: int):
 	if index == 0:
 		selected_builtin = &""
 		selected_script = null
@@ -118,6 +117,6 @@ func _on_item_selected(index : int):
 	editor_view.refresh()
 
 
-func _on_subclasses_toggled(state : bool):
+func _on_subclasses_toggled(state: bool):
 	include_subclasses = state
 	editor_view.refresh()

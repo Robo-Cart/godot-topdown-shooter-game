@@ -3,29 +3,44 @@ extends PanelContainer
 
 ## Player UI component for managing and displaying player stats.
 
+var player: Player
+
 @onready var health_bar: ProgressBar = %HealthBar
 @onready var lives_container: HBoxContainer = %LivesContainer
 @onready var powerups_container: HBoxContainer = %PowerupsContainer
 @onready var player_face: TextureRect = %PlayerFace
-
 
 func _ready() -> void:
 	LogWrapper.debug(self, "PlayerUI ready.")
 
 
 ## Connects the UI to a specific Player instance.
-func setup(player: Player) -> void:
-	if not player:
+func setup(new_player: Player) -> void:
+	if not new_player:
 		return
+
+	player = new_player
 
 	# Connect to health changes
 	if player.health_comp:
-		player.health_comp.health_changed.connect(_on_player_health_changed)
+		if not player.health_comp.health_changed.is_connected(_on_player_health_changed):
+			player.health_comp.health_changed.connect(_on_player_health_changed)
 		_update_health_ui(player.health_comp.current_health, player.health_comp.max_health)
 
 	# Connect to life changes
-	player.lives_changed.connect(_on_player_lives_changed)
+	if not player.lives_changed.is_connected(_on_player_lives_changed):
+		player.lives_changed.connect(_on_player_lives_changed)
 	_update_lives_ui(player.current_lives, player.max_lives)
+
+	# Update background color for players other than the first player
+	if player.color_index > 0:
+		var color: Color = MultiplayerManager.player_colors[
+			player.color_index % MultiplayerManager.player_colors.size()
+		]
+		var stylebox: StyleBoxFlat = get_theme_stylebox("panel").duplicate()
+		stylebox.bg_color = color
+		stylebox.bg_color.a = 0.35  # Keep it semi-transparent for legibility
+		add_theme_stylebox_override("panel", stylebox)
 
 
 func _on_player_health_changed(current_health: int, max_health: int) -> void:

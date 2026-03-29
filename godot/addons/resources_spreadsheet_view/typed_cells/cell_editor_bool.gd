@@ -5,7 +5,7 @@ func can_edit_value(value, type, property_hint, column_index) -> bool:
 	return type == TYPE_BOOL
 
 
-func set_value(node : Control, value):
+func set_value(node: Control, value):
 	if value is bool:
 		_set_value_internal(node, value)
 
@@ -22,7 +22,7 @@ func to_text(value) -> String:
 	return "ON" if value else "off"
 
 
-func from_text(text : String):
+func from_text(text: String):
 	if text.begins_with("O"):
 		return text == "ON"
 

@@ -5,16 +5,16 @@ func can_edit_value(value, type, property_hint, column_index) -> bool:
 	return type == TYPE_INT and property_hint == PROPERTY_HINT_ENUM
 
 
-func set_value(node : Control, value):
+func set_value(node: Control, value):
 	if value == null:
 		# Sometimes, when creating new property, becomes null
 		value = 0
 
-	var value_str : String
+	var value_str: String
 	var key_found := -1
-	var hint_arr : Array = hint_strings_array[node.get_index() % hint_strings_array.size()]
+	var hint_arr: Array = hint_strings_array[node.get_index() % hint_strings_array.size()]
 	for i in hint_arr.size():
-		var colon_found : int = hint_arr[i].rfind(":")
+		var colon_found: int = hint_arr[i].rfind(":")
 		if colon_found == -1:
 			key_found = value
 			break

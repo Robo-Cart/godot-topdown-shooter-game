@@ -28,7 +28,7 @@ func physics_process_state(_delta: float) -> void:
 		if enemy == slime or not is_instance_valid(enemy) or not enemy is Node2D:
 			continue
 		var dist_sq: float = slime.global_position.distance_squared_to(enemy.global_position)
-		if dist_sq < 400.0: # 20 pixel detection radius
+		if dist_sq < 400.0:  # 20 pixel detection radius
 			var diff: Vector2 = slime.global_position - enemy.global_position
 			separation += diff.normalized() * (1.0 - sqrt(dist_sq) / 20.0)
 

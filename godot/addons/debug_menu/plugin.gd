@@ -1,10 +1,13 @@
 @tool
 extends EditorPlugin
 
+
 func _enter_tree() -> void:
 	add_autoload_singleton("DebugMenu", "res://addons/debug_menu/debug_menu.tscn")
 
 	# FIXME: This appears to do nothing.
+
+
 #	if not ProjectSettings.has_setting("application/config/version"):
 #		ProjectSettings.set_setting("application/config/version", "1.0.0")
 #

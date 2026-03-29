@@ -18,14 +18,15 @@ func load_paths(paths):
 	selected = 0
 
 
-func add_path_to_recent(path : String, is_loading : bool = false):
-	if path in recent_paths: return
+func add_path_to_recent(path: String, is_loading: bool = false):
+	if path in recent_paths:
+		return
 
 	var idx_in_array := recent_paths.find(path)
 	if idx_in_array != -1:
 		remove_item(idx_in_array)
 		recent_paths.remove_at(idx_in_array)
-	
+
 	recent_paths.append(path)
 	add_item(path)
 	select(get_item_count() - 1)
@@ -37,7 +38,7 @@ func add_path_to_recent(path : String, is_loading : bool = false):
 func remove_selected_path_from_recent():
 	if get_item_count() == 0:
 		return
-	
+
 	var idx_in_array := selected
 	recent_paths.remove_at(idx_in_array)
 	remove_item(idx_in_array)
@@ -48,7 +49,7 @@ func remove_selected_path_from_recent():
 		editor_view.save_data()
 
 
-func _on_item_selected(index : int):
+func _on_item_selected(index: int):
 	editor_view.current_path = recent_paths[index]
 	editor_view.node_folder_path.text = recent_paths[index]
 	editor_view.refresh()
