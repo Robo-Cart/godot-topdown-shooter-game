@@ -66,11 +66,10 @@ func _load_level(
 	await get_tree().process_frame
 
 	# Move the player to the target transition area and apply the offset
-	for child in level_content_node.get_children():
-		for grandchild in child.get_children():
-			if grandchild.is_in_group("level_transition_area"):
-				# first level load passes a zero offset, others will always have a value
-				if position_offset != Vector2.ZERO:
+	if position_offset != Vector2.ZERO:
+		for child in level_content_node.get_children():
+			for grandchild in child.get_children():
+				if grandchild.is_in_group("level_transition_area"):
 					if grandchild.name == target_transition_area:
 						# Reposition all players near the target transition area with a spread
 						var base_pos: Vector2 = grandchild.global_position + position_offset
@@ -92,6 +91,21 @@ func _load_level(
 							)
 
 							(players[i] as Node2D).global_position = base_pos + offset
+	elif Data.game.current_level_index == 0:
+		# Reposition all players within 25% of screen width from camera center
+		var viewport_rect: Rect2 = get_viewport().get_visible_rect()
+		var camera: Camera2D = get_viewport().get_camera_2d()
+		var spawn_center: Vector2 = viewport_rect.size / 2.0
+		if camera:
+			spawn_center = camera.get_screen_center_position()
+
+		var max_offset: float = viewport_rect.size.x * 0.25
+
+		for p in players:
+			(p as Node2D).global_position = spawn_center + Vector2(
+				randf_range(-max_offset, max_offset),
+				randf_range(-max_offset, max_offset)
+			)
 
 	await get_tree().process_frame
 

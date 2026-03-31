@@ -5,6 +5,34 @@ extends CanvasLayer
 
 @onready var player_ui_container: HBoxContainer = %PlayerUIContainer
 
+var countdown_label: Label
+
+
+func _ready() -> void:
+	countdown_label = Label.new()
+	countdown_label.name = "CountdownLabel"
+	countdown_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	countdown_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	countdown_label.set_anchors_and_offsets_preset(Control.PRESET_CENTER)
+	countdown_label.add_theme_font_size_override("font_size", 128)
+	countdown_label.visible = false
+	add_child(countdown_label)
+
+
+func show_countdown(seconds: int) -> void:
+	player_ui_container.visible = false
+	countdown_label.text = str(seconds)
+	countdown_label.visible = true
+
+
+func update_countdown(seconds: int) -> void:
+	countdown_label.text = str(seconds)
+
+
+func hide_countdown() -> void:
+	countdown_label.visible = false
+	player_ui_container.visible = true
+
 
 ## Gets the player UI instance for a specific player index.
 func get_player_ui(index: int) -> PlayerUI:

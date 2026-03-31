@@ -62,6 +62,7 @@ func _on_died() -> void:
 		health_comp.health_changed.emit(health_comp.current_health, health_comp.max_health)
 	else:
 		LogWrapper.debug(self, _get_player_log_prefix() + "GAME OVER - No lives left.")
+		queue_free()
 
 
 func _physics_process(delta: float) -> void:
