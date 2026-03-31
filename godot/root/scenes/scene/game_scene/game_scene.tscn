@@ -30,7 +30,7 @@ z_as_relative = false
 [node name="UiBuilder" parent="." unique_id=1154226004 instance=ExtResource("5_4r42l")]
 unique_name_in_owner = true
 
-[node name="HUD" parent="." instance=ExtResource("7_hud")]
+[node name="HUD" parent="." unique_id=1418238277 instance=ExtResource("7_hud")]
 unique_name_in_owner = true
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1305643184]

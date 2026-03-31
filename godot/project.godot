@@ -53,6 +53,7 @@ TranslationServerWrapper="*res://root/autoload/wrapper/translation_server_wrappe
 SceneManagerWrapper="*res://root/autoload/wrapper/scene_manager_wrapper/scene_manager_wrapper.tscn"
 AudioManagerWrapper="*res://root/autoload/wrapper/audio_manager_wrapper/audio_manager_wrapper.tscn"
 SignalBus="*res://root/autoload/signal_bus/signal_bus.tscn"
+ZoneManager="*res://root/autoload/zone_manager/zone_manager.tscn"
 Data="*res://root/autoload/data/data.tscn"
 Overlay="*res://root/autoload/overlay/overlay.tscn"
 Configuration="*res://root/autoload/configuration/configuration.tscn"

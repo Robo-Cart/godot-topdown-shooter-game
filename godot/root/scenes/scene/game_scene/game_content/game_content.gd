@@ -13,21 +13,29 @@ var is_transitioning: bool = false
 
 func _ready() -> void:
 	LogWrapper.debug(self, "Scene ready.")
-	# Load first level manually
+	SignalBus.level_transition_triggered.connect(_on_level_transition_triggered)
+	# Load current level based on ZoneManager state
 	await get_tree().process_frame
-	load_level_from_path(
-		"res://root/scenes/scene/game_scene/game_content/game_levels/level_001.tscn",
-		"LevelTransition",
-		Vector2.ZERO
-	)
+	load_current_level()
 
 
-func load_level_from_path(
-	scene_path: String, _target_transition_area: String, _position_offset: Vector2
+func load_current_level(
+	_target_transition_area: String = "LevelTransition", _position_offset: Vector2 = Vector2.ZERO
 ) -> void:
-	# Safety check in case the path is empty, OR if we are already transitioning
-	if scene_path == "" or is_transitioning:
-		LogWrapper.debug(self, "No next level path provided or is already transitioning.")
+	var level_scene: PackedScene = ZoneManager.get_current_level_scene()
+	if not level_scene:
+		LogWrapper.error(self, "No level scene found in current zone!")
+		return
+
+	_load_level(level_scene, _target_transition_area, _position_offset)
+
+
+func _load_level(
+	level_scene: PackedScene, _target_transition_area: String, _position_offset: Vector2
+) -> void:
+	# Safety check in case we are already transitioning
+	if is_transitioning:
+		LogWrapper.debug(self, "Already transitioning.")
 		return
 
 	is_transitioning = true
@@ -52,20 +60,15 @@ func load_level_from_path(
 
 	await get_tree().process_frame
 
-	var new_scene_resource: Resource = load(scene_path)
-	var new_level: Node2D = new_scene_resource.instantiate()
-
+	var new_level: Node2D = level_scene.instantiate()
 	level_content_node.add_child(new_level)
 
 	await get_tree().process_frame
 
-	# LevelTransition nodes must be a child of the top level node in a level
-	# Loop through these to connect level transition signals
-	# Also move the player to the target transition area and apply the offset
+	# Move the player to the target transition area and apply the offset
 	for child in level_content_node.get_children():
 		for grandchild in child.get_children():
 			if grandchild.is_in_group("level_transition_area"):
-				grandchild.transition_to_level.connect(_on_level_completed)
 				# first level load passes a zero offset, others will always have a value
 				if position_offset != Vector2.ZERO:
 					if grandchild.name == target_transition_area:
@@ -92,7 +95,7 @@ func load_level_from_path(
 
 	await get_tree().process_frame
 
-	LogWrapper.debug(self, "Next level loaded: " + scene_path)
+	LogWrapper.debug(self, "Next level loaded from ZoneManager.")
 
 	get_tree().paused = false
 
@@ -107,8 +110,10 @@ func load_level_from_path(
 	is_transitioning = false
 
 
-func _on_level_completed(
-	next_level_path: String, _target_transition_area: String, _position_offset: Vector2
+func _on_level_transition_triggered(
+	_target_transition_area: String, _position_offset: Vector2
 ) -> void:
-	# Loop back around and load the new path
-	load_level_from_path(next_level_path, _target_transition_area, _position_offset)
+	if ZoneManager.advance_to_next_level():
+		load_current_level(_target_transition_area, _position_offset)
+	else:
+		LogWrapper.debug(self, "Zone completed!")
