@@ -1,7 +1,7 @@
 [gd_scene format=4 uid="uid://2f3qn8v0yjsb"]
 
-[ext_resource type="Script" uid="uid://7kk3o001ovb5" path="res://root/scenes/scene/game_scene/game_content/game_levels/level.gd" id="1_r0kat"]
-[ext_resource type="Resource" uid="uid://b14ummy131opn" path="res://root/autoload/level_data/levels/002/level_data_002.tres" id="2_ulo4i"]
+[ext_resource type="Script" uid="uid://ltnjwmtcctdy" path="res://root/scenes/scene/game_scene/game_content/game_levels/level_variant.gd" id="1_variant"]
+[ext_resource type="PackedScene" uid="uid://dmjeuepwgi6ul" path="res://root/scenes/scene/game_scene/game_content/game_levels/scifi_zone/scifi_zone_base.tscn" id="2_base"]
 [ext_resource type="Texture2D" uid="uid://dgex4bfvffq6y" path="res://root/assets/image/game/sprites/WorldObjects/ansimuz-top-down-tech-lab-01-spritesheet.png" id="3_wgfgc"]
 [ext_resource type="Texture2D" uid="uid://lqx3odpcyesg" path="res://root/assets/image/game/sprites/WorldObjects/ansimuz-top-down-tech-lab-02-spritesheet.png" id="4_0pxhs"]
 [ext_resource type="Texture2D" uid="uid://dpbrd3gr2j7e5" path="res://root/assets/image/game/sprites/WorldObjects/ansimuz-top-down-tech-lab-03-extension-spritesheet.png" id="5_gt5bu"]
@@ -27,7 +27,7 @@ texture = ExtResource("3_wgfgc")
 11:1/0 = 0
 11:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 12:1/0 = 0
-12:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+12:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, -8)
 13:1/0 = 0
 13:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 1:2/0 = 0
@@ -694,8 +694,8 @@ sources/1 = SubResource("TileSetAtlasSource_4p07s")
 sources/2 = SubResource("TileSetAtlasSource_5057w")
 
 [node name="Level" type="Node2D" unique_id=287349216]
-script = ExtResource("1_r0kat")
-level_data = ExtResource("2_ulo4i")
+script = ExtResource("1_variant")
+editor_preview_base = ExtResource("2_base")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=719361270]
 scale = Vector2(1.8, 1.8)

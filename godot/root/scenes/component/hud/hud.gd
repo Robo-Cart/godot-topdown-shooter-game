@@ -3,9 +3,9 @@ extends CanvasLayer
 
 ## Global HUD for managing multiple player UI instances.
 
-@onready var player_ui_container: HBoxContainer = %PlayerUIContainer
-
 var countdown_label: Label
+
+@onready var player_ui_container: HBoxContainer = %PlayerUIContainer
 
 
 func _ready() -> void:

@@ -38,18 +38,18 @@ func get_current_level_scene() -> PackedScene:
 	return load(GENERIC_LEVEL_TEMPLATE_PATH)
 
 
-## Advances to the next level. Returns true if successful, 
+## Advances to the next level. Returns true if successful,
 ## or false if the zone is completed.
 func advance_to_next_level() -> bool:
 	var zone: ZoneData = get_current_zone()
 	if not zone:
 		return false
-	
+
 	var next_index: int = Data.game.current_level_index + 1
 	if next_index < zone.get_level_count():
 		Data.game.current_level_index = next_index
 		return true
-	
+
 	SignalBus.zone_completed.emit(zone.zone_name)
 	return false
 
