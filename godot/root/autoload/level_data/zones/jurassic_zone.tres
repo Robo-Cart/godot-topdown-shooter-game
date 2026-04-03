@@ -1,11 +1,11 @@
-[gd_resource type="Resource" script_class="ZoneData" load_steps=4 format=3 uid="uid://c6j2k8vuddx8o"]
+[gd_resource type="Resource" script_class="ZoneData" format=3 uid="uid://c6j2k8vuddx8o"]
 
+[ext_resource type="Script" uid="uid://5kaliud6km2p" path="res://root/autoload/level_data/level_data.gd" id="1_bgwdm"]
 [ext_resource type="Script" uid="uid://dh0jhayciru88" path="res://root/autoload/level_data/zone_data.gd" id="1_script"]
-[ext_resource type="PackedScene" uid="uid://jx28vruddx8o" path="res://root/scenes/scene/game_scene/game_content/game_levels/level_001.tscn" id="2_lvl1"]
-[ext_resource type="PackedScene" uid="uid://2f3qn8v0yjsb" path="res://root/scenes/scene/game_scene/game_content/game_levels/level_002.tscn" id="3_lvl2"]
+[ext_resource type="Resource" uid="uid://bpa63g7xjurmg" path="res://root/autoload/level_data/levels/001/level_data_001.tres" id="2_data1"]
+[ext_resource type="Resource" uid="uid://b14ummy131opn" path="res://root/autoload/level_data/levels/002/level_data_002.tres" id="3_data2"]
 
 [resource]
 script = ExtResource("1_script")
 zone_name = "Jurassic"
-levels = Array[PackedScene]([ExtResource("2_lvl1"), ExtResource("3_lvl2")])
-zone_difficulty = 1
+levels = Array[ExtResource("1_bgwdm")]([ExtResource("2_data1"), ExtResource("3_data2")])

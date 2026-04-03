@@ -1,11 +1,14 @@
-[gd_resource type="Resource" script_class="ZoneData" load_steps=4 format=3 uid="uid://d6j2k8vuddx8q"]
+[gd_resource type="Resource" script_class="ZoneData" format=3 uid="uid://b46y6ylr53hy"]
 
+[ext_resource type="PackedScene" uid="uid://2f3qn8v0yjsb" path="res://root/scenes/scene/game_scene/game_content/game_levels/scifi_zone/scifi_zone_generic_variant_01.tscn" id="1_3bbfg"]
 [ext_resource type="Script" uid="uid://dh0jhayciru88" path="res://root/autoload/level_data/zone_data.gd" id="1_script"]
-[ext_resource type="PackedScene" uid="uid://ca3iddhfxnsao" path="res://root/scenes/scene/game_scene/game_content/game_levels/level_004.tscn" id="2_lvl4"]
-[ext_resource type="PackedScene" uid="uid://dfcholca856nv" path="res://root/scenes/scene/game_scene/game_content/game_levels/level_005.tscn" id="3_lvl5"]
+[ext_resource type="Script" uid="uid://5kaliud6km2p" path="res://root/autoload/level_data/level_data.gd" id="2_4ye7g"]
+[ext_resource type="Resource" uid="uid://bfsvfcc5je7nc" path="res://root/autoload/level_data/levels/004/level_data_004.tres" id="2_data4"]
+[ext_resource type="Resource" uid="uid://b106ewnoouo62" path="res://root/autoload/level_data/levels/005/level_data_005.tres" id="3_data5"]
 
 [resource]
 script = ExtResource("1_script")
 zone_name = "SciFi"
-levels = Array[PackedScene]([ExtResource("2_lvl4"), ExtResource("3_lvl5")])
+base_tilemap = ExtResource("1_3bbfg")
+levels = Array[ExtResource("2_4ye7g")]([ExtResource("2_data4"), ExtResource("3_data5")])
 zone_difficulty = 3

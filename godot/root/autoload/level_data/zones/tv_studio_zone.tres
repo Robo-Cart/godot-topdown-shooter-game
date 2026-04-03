@@ -1,10 +1,10 @@
 [gd_resource type="Resource" script_class="ZoneData" load_steps=3 format=3 uid="uid://b6j2k8vuddx8p"]
 
 [ext_resource type="Script" uid="uid://dh0jhayciru88" path="res://root/autoload/level_data/zone_data.gd" id="1_script"]
-[ext_resource type="PackedScene" uid="uid://b1hebadnosmmc" path="res://root/scenes/scene/game_scene/game_content/game_levels/level_003.tscn" id="2_lvl3"]
+[ext_resource type="Resource" uid="uid://c8fq001rmakho" path="res://root/autoload/level_data/levels/003/level_data_003.tres" id="2_data3"]
 
 [resource]
 script = ExtResource("1_script")
 zone_name = "TV_Studio"
-levels = Array[PackedScene]([ExtResource("2_lvl3")])
+levels = Array[Resource]([ExtResource("2_data3")])
 zone_difficulty = 2
