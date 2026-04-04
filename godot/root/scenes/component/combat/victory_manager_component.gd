@@ -40,9 +40,12 @@ func _on_enemy_spawned(enemy: Node2D) -> void:
 
 func _cleanup_spawned_enemies() -> void:
 	if Engine.get_process_frames() % 60 == 0:
-		_spawned_enemies_tracking = _spawned_enemies_tracking.filter(
-			func(enemy: Node2D) -> bool: return is_instance_valid(enemy)
+		# Use untyped lambda parameter to safely handle freed instances
+		# and .assign() to update the typed array from the filter result.
+		var filtered: Array = _spawned_enemies_tracking.filter(
+			func(enemy: Variant) -> bool: return is_instance_valid(enemy)
 		)
+		_spawned_enemies_tracking.assign(filtered)
 
 
 func _check_acceleration(delta: float) -> void:

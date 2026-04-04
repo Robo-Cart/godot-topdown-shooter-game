@@ -8,6 +8,9 @@
 [ext_resource type="PackedScene" uid="uid://cstn5oflnkg3x" path="res://root/scenes/scene/game_scene/game_content/game_entities/object_door/object_door.tscn" id="6_moskf"]
 [ext_resource type="PackedScene" uid="uid://dljv1vlu75c78" path="res://root/scenes/scene/game_scene/game_content/game_entities/object_level_transition_area/level_transition.tscn" id="7_c8h57"]
 [ext_resource type="PackedScene" uid="uid://bkbrd2ibjvjvk" path="res://root/scenes/scene/game_scene/game_content/game_entities/object_enemy_wave_spawner/enemy_wave_spawner.tscn" id="8_px0ya"]
+[ext_resource type="Script" uid="uid://dfnvm3p8p8j6q" path="res://root/scenes/component/combat/wave_manager_component.gd" id="9_0pxhs"]
+[ext_resource type="Script" uid="uid://dxsiftjfpjfdx" path="res://root/scenes/component/combat/victory_manager_component.gd" id="10_gt5bu"]
+[ext_resource type="Script" uid="uid://jj4ckns5ook2" path="res://root/scenes/component/builder/environment_manager_component.gd" id="11_1781u"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_7kvye"]
 texture = ExtResource("3_mmswy")
@@ -786,3 +789,12 @@ location = 5
 [node name="EnemyWaveSpawner13" parent="." unique_id=531017672 instance=ExtResource("8_px0ya")]
 position = Vector2(988, 168)
 location = 5
+
+[node name="WaveManagerComponent" type="Node" parent="." unique_id=742468213]
+script = ExtResource("9_0pxhs")
+
+[node name="VictoryManagerComponent" type="Node" parent="." unique_id=1914394522]
+script = ExtResource("10_gt5bu")
+
+[node name="EnvironmentManagerComponent" type="Node" parent="." unique_id=75216789]
+script = ExtResource("11_1781u")
