@@ -28,8 +28,8 @@ func _ready() -> void:
 	if Engine.is_editor_hint():
 		_update_preview()
 	else:
-		# Safety: Ensure no preview nodes ever exist at runtime
-		for child: Node in get_children():
+		# Safety: Ensure no editor preview nodes exist at runtime
+		for child in get_children():
 			if child.name == "_EditorPreviewBase":
 				child.queue_free()
 
@@ -46,8 +46,8 @@ func _update_preview() -> void:
 		_preview_node.queue_free()
 		_preview_node = null
 
-	# 2. Instantiate new preview if available and toggled on
-	if show_preview and editor_preview_base:
+	# 2. Instantiate new preview ONLY in editor
+	if Engine.is_editor_hint() and show_preview and editor_preview_base:
 		var instance: Node = editor_preview_base.instantiate()
 		instance.name = "_EditorPreviewBase"
 
@@ -58,5 +58,3 @@ func _update_preview() -> void:
 		move_child(instance, 0)
 
 		_preview_node = instance
-
-		LogWrapper.debug(self, "Editor preview base instantiated.")

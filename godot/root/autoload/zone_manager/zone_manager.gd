@@ -3,9 +3,6 @@ extends Node
 ## Manages zones and level progression.
 ## Dynamically loads levels based on ZoneData and LevelData resources.
 
-const GENERIC_LEVEL_TEMPLATE_PATH: String = \
-		"res://root/scenes/scene/game_scene/game_content/game_levels/generic_level_template.tscn"
-
 @export var zones: Array[ZoneData]
 
 
@@ -29,13 +26,14 @@ func get_current_level_data() -> LevelData:
 	return zone.get_level_data(Data.game.current_level_index)
 
 
-## Returns the level template scene path to be instantiated.
+## Returns the level scene (Base Tilemap) to be instantiated.
 func get_current_level_scene() -> PackedScene:
-	# Now returns the generic template which will assemble itself in its _ready()
-	if not ResourceLoader.exists(GENERIC_LEVEL_TEMPLATE_PATH):
-		LogWrapper.error(self, "Generic Level Template not found at %s!" % GENERIC_LEVEL_TEMPLATE_PATH)
+	var zone: ZoneData = get_current_zone()
+	if not zone:
 		return null
-	return load(GENERIC_LEVEL_TEMPLATE_PATH)
+
+	# We now load the Base Tilemap directly as the root of the level
+	return zone.base_tilemap
 
 
 ## Advances to the next level. Returns true if successful,
