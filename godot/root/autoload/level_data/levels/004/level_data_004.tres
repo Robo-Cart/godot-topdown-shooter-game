@@ -1,6 +1,7 @@
 [gd_resource type="Resource" script_class="LevelData" format=3 uid="uid://bfsvfcc5je7nc"]
 
 [ext_resource type="Script" uid="uid://cytoc3vvi02bv" path="res://root/autoload/level_data/enemy_wave_config.gd" id="1_xvg5i"]
+[ext_resource type="PackedScene" uid="uid://2f3qn8v0yjsb" path="res://root/scenes/scene/game_scene/game_content/game_levels/scifi_zone/scifi_zone_generic_variant_01.tscn" id="2_jfvn3"]
 [ext_resource type="Script" uid="uid://wx0so0300s53" path="res://root/autoload/level_data/powerup_wave_config.gd" id="2_uw5f3"]
 [ext_resource type="Script" uid="uid://5kaliud6km2p" path="res://root/autoload/level_data/level_data.gd" id="3_23yj6"]
 
@@ -43,4 +44,5 @@ script = ExtResource("3_23yj6")
 level_name = "First Level"
 enemy_wave_config = Array[ExtResource("1_xvg5i")]([SubResource("Resource_d17ne"), SubResource("Resource_udwe2"), SubResource("Resource_0eqoh")])
 powerup_wave_config = Array[ExtResource("2_uw5f3")]([SubResource("Resource_0cija")])
+modifier_scene = ExtResource("2_jfvn3")
 metadata/_custom_type_script = "uid://5kaliud6km2p"
