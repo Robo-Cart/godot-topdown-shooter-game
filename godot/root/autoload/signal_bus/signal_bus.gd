@@ -9,4 +9,9 @@ signal language_changed(locale: String)
 signal number_format_changed(number_format: NumberUtils.NumberFormat)
 
 # Game
+signal level_transition_triggered(target_transition_area: String, position_offset: Vector2)
+signal zone_completed(zone_name: String)
 signal clicks_per_second_updated(cps: int)
+signal game_over
+
+var is_game_over: bool = false

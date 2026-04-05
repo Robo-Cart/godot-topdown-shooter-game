@@ -29,6 +29,10 @@ var _victory_triggered: bool = false
 
 
 func _ready() -> void:
+	# Fetch LevelData from ZoneManager if not pre-assigned
+	if not level_data:
+		level_data = ZoneManager.get_current_level_data()
+
 	if not level_data:
 		LogWrapper.debug(self, "CRITICAL ERROR: No LevelData assigned to Level!")
 		set_process(false)
@@ -42,8 +46,38 @@ func _ready() -> void:
 		)
 	)
 
+	_assemble_environment()
 	_build_spawn_queue()
 	_setup_initial_doors()
+
+
+func _assemble_environment() -> void:
+	var zone: ZoneData = ZoneManager.get_current_zone()
+	if not zone:
+		LogWrapper.error(self, "No ZoneData found during level assembly!")
+		return
+
+	# 1. Base Layer (Zone Default or Level Override)
+	var base_scene: PackedScene = level_data.base_tilemap_override
+	if not base_scene:
+		base_scene = zone.base_tilemap
+
+	if base_scene:
+		var base_node: Node = base_scene.instantiate()
+		add_child(base_node)
+		# Move to bottom to ensure it's behind modifiers
+		move_child(base_node, 0)
+		LogWrapper.debug(self, "Base tilemap assembled from zone '%s'." % zone.zone_name)
+	else:
+		LogWrapper.warn(self, "No base tilemap assigned for zone or level!")
+
+	# 2. Modifiers Layer (Decals, unique props, extra layout)
+	if level_data.modifier_scene:
+		var modifier_node: Node = level_data.modifier_scene.instantiate()
+		add_child(modifier_node)
+		# Position above the base layer but below entities
+		move_child(modifier_node, 1)
+		LogWrapper.debug(self, "Level modifier decals/layout assembled.")
 
 
 func _process(delta: float) -> void:
@@ -169,11 +203,6 @@ func _setup_initial_doors() -> void:
 	var doors: Array[Node] = get_tree().get_nodes_in_group("object_door")
 	for door: Node in doors:
 		if door is ObjectDoor:
-			# Use set_deferred or direct internal access if we were the owner,
-			# but ObjectDoor manages its own is_open now.
-			# To force a close animation, we can just call close_door().
-			# If we need to force it, ObjectDoor needs a way.
-			# Since we just updated ObjectDoor, we should ensure it handles initial state.
 			door.close_door()
 
 
@@ -276,39 +305,6 @@ func _build_spawn_queue() -> void:
 		self, "Built unified spawn queue with %d total events scheduled." % _spawn_queue.size()
 	)
 
-	# --- 4. Detailed Logging Summary ---
-	LogWrapper.debug(self, "--- Level Spawn Schedule Summary ---")
-
-	LogWrapper.debug(self, "[Enemy Waves]")
-	for wave: EnemyWaveConfig in level_data.enemy_wave_config:
-		var boss_tag: String = " [BOSS WAVE]" if wave.is_boss_wave else ""
-		LogWrapper.debug(
-			self,
-			(
-				"  - %s: %d x %s (over %.1fs)%s"
-				% [
-					wave.time_stamp,
-					wave.number_of_enemies,
-					wave.enemy_name,
-					wave.seconds_to_spawn_over,
-					boss_tag
-				]
-			)
-		)
-
-	if level_data.powerup_wave_config.size() > 0:
-		LogWrapper.debug(self, "[Powerup Waves]")
-		for powerup: PowerupWaveConfig in level_data.powerup_wave_config:
-			LogWrapper.debug(
-				self,
-				(
-					"  - %s: %s (random factor: %d)"
-					% [powerup.time_stamp, powerup.display_name, powerup.random_factor]
-				)
-			)
-
-	LogWrapper.debug(self, "-----------------------------------")
-
 
 func _update_active_waves_clearance() -> void:
 	var enemies: Array[Node] = get_tree().get_nodes_in_group("enemy")
@@ -348,7 +344,6 @@ func _check_spawns() -> void:
 			var enemies: Array[Node] = get_tree().get_nodes_in_group("enemy")
 			if enemies.size() > 0:
 				break
-			# Start of a boss wave and level is clear: close all doors
 			LogWrapper.debug(self, "Wait condition met: Closing all doors for boss wave.")
 			_force_close_all_doors()
 
@@ -372,7 +367,6 @@ func _check_spawns() -> void:
 			spawn_data.category == "enemy"
 			and _last_indices_for_waves.get(spawn_data.wave_stamp) == _current_spawn_index
 		):
-			# Instead of closing immediately, we add to the clearance queue
 			if spawn_data.wave_stamp not in _active_waves_waiting_to_close:
 				_active_waves_waiting_to_close.append(spawn_data.wave_stamp)
 
@@ -397,7 +391,6 @@ func _handle_boss_victory() -> void:
 	_current_spawn_index = 0
 	_all_spawns_completed = true
 
-	# Kill every node in standard enemy group
 	var enemies_to_kill: Array[Node] = get_tree().get_nodes_in_group("enemy")
 	if enemies_to_kill.size() > 0:
 		LogWrapper.debug(self, "Killing %d remaining spawned enemies." % enemies_to_kill.size())
@@ -407,7 +400,7 @@ func _handle_boss_victory() -> void:
 	_last_boss_wave_enemies.clear()
 
 	_open_all_doors_final()
-	_is_spawner_paused = true  # Victory achieved, stop processing spawns
+	_is_spawner_paused = true
 
 
 func _close_doors_for_wave(wave_stamp: String) -> void:
@@ -432,20 +425,14 @@ func _open_all_doors_final() -> void:
 
 
 func _force_close_all_doors() -> void:
-	# This clears all active tracking for open doors and shuts them immediately
 	_active_waves_waiting_to_close.clear()
 	_wave_spawners.clear()
 	_opened_doors_per_wave.clear()
 	var doors: Array[Node] = get_tree().get_nodes_in_group("object_door")
 	for door: Node in doors:
 		if door is ObjectDoor:
-			# Force a single close animation.
-			# ObjectDoor already handles is_open/is_final_open checks inside close_door.
-			# But we want to ensure any current spawn_request_count is reset.
-			# We'll just loop until it's closed since close_door decrements.
 			while door._spawn_request_count > 0:
 				door.close_door()
-			# In case count was already 0 but it was somehow open:
 			door.close_door()
 
 
@@ -473,7 +460,6 @@ func _get_spawn_position(
 		var spawner_pos: Vector2 = chosen_spawner.global_position
 		var door: ObjectDoor = null
 
-		# Handle doors near spawner if wave_stamp provided AND not a boss wave
 		if wave_stamp != "" and not is_boss_wave:
 			door = _handle_doors_near_spawner(spawner_pos, wave_stamp)
 
@@ -502,7 +488,7 @@ func _get_spawn_position(
 func _handle_doors_near_spawner(spawner_pos: Vector2, wave_stamp: String) -> ObjectDoor:
 	var doors: Array[Node] = get_tree().get_nodes_in_group("object_door")
 	var closest_door: ObjectDoor = null
-	var min_dist: float = 120.0  # Proximity threshold for door association
+	var min_dist: float = 120.0
 
 	for door: Node in doors:
 		if door is ObjectDoor:
@@ -519,7 +505,6 @@ func _handle_doors_near_spawner(spawner_pos: Vector2, wave_stamp: String) -> Obj
 			closest_door.open_door_for_spawn()
 			_opened_doors_per_wave[wave_stamp].append(closest_door)
 
-			# Record spawner position for clearance check
 			if not _wave_spawners.has(wave_stamp):
 				_wave_spawners[wave_stamp] = []
 			if spawner_pos not in _wave_spawners[wave_stamp]:
@@ -576,7 +561,6 @@ func _spawn_enemy(
 		if wave_stamp == _last_boss_wave_stamp:
 			_last_boss_wave_enemies.append(enemy_instance)
 
-		# Generic component check for intro logic (skip for boss waves)
 		if not is_boss_wave:
 			var is_edge: bool = (
 				location
@@ -595,11 +579,9 @@ func _spawn_enemy(
 					as SpawnIntroComponent
 				)
 				if intro_comp:
-					# For RANDOM_SIDE, we need to know WHICH side was actually chosen
 					var actual_location: SpawnConfig.Location = location
 					if location == SpawnConfig.Location.RANDOM_SIDE:
-						# Infer location from door proximity if possible
-						var viewport_center: Vector2 = Vector2(576, 324)  # Approximate
+						var viewport_center: Vector2 = Vector2(576, 324)
 						var dir: Vector2 = door.global_position - viewport_center
 						if abs(dir.x) > abs(dir.y):
 							actual_location = (
@@ -638,7 +620,6 @@ func _spawn_powerup(
 
 	if powerup_scene:
 		var powerup_instance: Node2D = powerup_scene.instantiate() as Node2D
-		# Do not pass wave_stamp to _get_spawn_position for powerups to avoid opening doors
 		var result: Array = _get_spawn_position(location, "")
 		var spawn_pos: Vector2 = result[0]
 		powerup_instance.global_position = spawn_pos

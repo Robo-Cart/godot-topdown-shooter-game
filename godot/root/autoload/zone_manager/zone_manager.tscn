@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://c6j2k8vuddx8r"]
+
+[ext_resource type="Script" uid="uid://bbx6cbj4j573m" path="res://root/autoload/zone_manager/zone_manager.gd" id="1_zm"]
+[ext_resource type="Resource" uid="uid://c6j2k8vuddx8o" path="res://root/autoload/level_data/zones/jurassic_zone.tres" id="2_jur"]
+[ext_resource type="Script" uid="uid://dh0jhayciru88" path="res://root/autoload/level_data/zone_data.gd" id="script_zone_data"]
+[ext_resource type="Resource" uid="uid://b6j2k8vuddx8p" path="res://root/autoload/level_data/zones/tv_studio_zone.tres" id="3_tvs"]
+[ext_resource type="Resource" uid="uid://b46y6ylr53hy" path="res://root/autoload/level_data/zones/scifi_zone.tres" id="4_sci"]
+
+[node name="ZoneManager" type="Node" unique_id=424097909]
+script = ExtResource("1_zm")
+zones = Array[ExtResource("script_zone_data")]([ExtResource("3_tvs"), ExtResource("2_jur"), ExtResource("4_sci")])

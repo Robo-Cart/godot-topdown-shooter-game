@@ -2,13 +2,8 @@
 class_name LevelTransition
 extends Area2D
 
-signal transition_to_level(
-	next_level_path: String, target_transition_area: String, location_offset: Vector2
-)
-
 enum SIDE { NORTH, EAST, SOUTH, WEST }
 
-@export_file("*.tscn") var level: String
 @export var target_transition_area: String = "LevelTransition"
 
 @export_category("Collision Area Settings")
@@ -106,7 +101,7 @@ func _player_entered(_player: Node2D) -> void:
 	if game_scene and game_scene.has_method("fade_out"):
 		await game_scene.fade_out()
 
-	transition_to_level.emit(level, target_transition_area, get_offset(_player))
+	SignalBus.level_transition_triggered.emit(target_transition_area, get_offset(_player))
 
 	if game_scene and game_scene.has_method("fade_in"):
 		game_scene.fade_in()

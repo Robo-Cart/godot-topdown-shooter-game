@@ -12,6 +12,7 @@ var _transition_rect: ColorRect
 var _first_gamepad_handled: bool = false
 var _takeover_device_id: int = -1
 var _pausing_player: Player = null
+var _is_counting_down: bool = false
 
 @onready var game_content: Node = $GameContent
 @onready var pause_menu: PauseMenu = %PauseMenu
@@ -73,9 +74,53 @@ func _ready() -> void:
 	ui_builder.build()
 
 	_connect_signals()
+
+	SignalBus.is_game_over = false
 	_setup_hud()
 
+	SignalBus.game_over.connect(_on_game_over)
+	get_tree().node_removed.connect(_on_node_removed)
+
 	LogWrapper.debug(self, "Ready.")
+
+
+func _on_game_over() -> void:
+	SignalBus.is_game_over = true
+
+
+func _on_node_removed(node: Node) -> void:
+	if node.is_in_group("player"):
+		hud.remove_player_ui(node as Player)
+		_check_player_respawn.call_deferred()
+
+
+func _check_player_respawn() -> void:
+	if _is_counting_down:
+		return
+
+	if get_tree().get_nodes_in_group("player").size() == 0 and not SignalBus.is_game_over:
+		_start_respawn_countdown()
+
+
+func _start_respawn_countdown() -> void:
+	_is_counting_down = true
+	hud.show_countdown(3)
+
+	for i in range(2, -1, -1):
+		await get_tree().create_timer(1.0).timeout
+		if SignalBus.is_game_over:
+			hud.hide_countdown()
+			_is_counting_down = false
+			return
+		if i > 0:
+			hud.update_countdown(i)
+
+	hud.hide_countdown()
+	_is_counting_down = false
+
+	# Re-check in case a player joined during countdown or game over triggered
+	if get_tree().get_nodes_in_group("player").size() == 0 and not SignalBus.is_game_over:
+		_spawn_player(-1)
 
 
 func _setup_takeover_dialog() -> void:
@@ -128,6 +173,8 @@ func _setup_hud() -> void:
 		player.apply_tint()
 		hud.add_player_ui()
 		hud.setup_player_ui(0, player)
+	elif not SignalBus.is_game_over:
+		_spawn_player(-1)
 
 
 func _spawn_player(device_id: int) -> void:
@@ -144,12 +191,11 @@ func _spawn_player(device_id: int) -> void:
 	if camera:
 		spawn_center = camera.get_screen_center_position()
 
-	var max_offset_x: float = viewport_rect.size.x * 0.25
-	var max_offset_y: float = viewport_rect.size.y * 0.25
+	var max_offset: float = viewport_rect.size.x * 0.25
 
 	new_player.global_position = spawn_center + Vector2(
-		randf_range(-max_offset_x, max_offset_x),
-		randf_range(-max_offset_y, max_offset_y)
+		randf_range(-max_offset, max_offset),
+		randf_range(-max_offset, max_offset)
 	)
 
 	new_player.color_index = _get_next_available_color_index()
