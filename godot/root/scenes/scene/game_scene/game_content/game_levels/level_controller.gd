@@ -15,8 +15,10 @@ var _environment_manager: Node
 func _ready() -> void:
 	_identify_components()
 
-	if not level_data:
-		level_data = ZoneManager.get_current_level_data()
+	# Prioritize dynamic data from ZoneManager at runtime
+	var dynamic_data: LevelData = ZoneManager.get_current_level_data()
+	if dynamic_data:
+		level_data = dynamic_data
 
 	if not level_data:
 		LogWrapper.error(self, "No LevelData found for LevelController!")

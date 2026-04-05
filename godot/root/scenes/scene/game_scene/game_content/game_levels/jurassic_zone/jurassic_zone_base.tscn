@@ -1008,7 +1008,6 @@ sources/4 = SubResource("TileSetAtlasSource_q51of")
 
 [node name="Level" type="Node2D" unique_id=287349216]
 script = ExtResource("1_rqgsv")
-level_data = ExtResource("2_vi8mh")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=719361270]
 scale = Vector2(1.8, 1.8)

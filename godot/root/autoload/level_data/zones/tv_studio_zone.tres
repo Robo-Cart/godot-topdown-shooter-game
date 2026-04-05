@@ -3,11 +3,11 @@
 [ext_resource type="PackedScene" uid="uid://bg68tckg7pxkn" path="res://root/scenes/scene/game_scene/game_content/game_levels/tvstudio_zone/tvstudio_zone_base.tscn" id="1_h2j5v"]
 [ext_resource type="Script" uid="uid://dh0jhayciru88" path="res://root/autoload/level_data/zone_data.gd" id="1_script"]
 [ext_resource type="Script" uid="uid://5kaliud6km2p" path="res://root/autoload/level_data/level_data.gd" id="1_v5bmp"]
-[ext_resource type="Resource" uid="uid://c8fq001rmakho" path="res://root/autoload/level_data/levels/003/level_data_003.tres" id="2_data3"]
+[ext_resource type="Resource" uid="uid://b14ummy131opn" path="res://root/autoload/level_data/levels/002/level_data_002.tres" id="3_h2j5v"]
 
 [resource]
 script = ExtResource("1_script")
 zone_name = "TV_Studio"
 base_tilemap = ExtResource("1_h2j5v")
-levels = Array[ExtResource("1_v5bmp")]([ExtResource("2_data3")])
+levels = Array[ExtResource("1_v5bmp")]([ExtResource("3_h2j5v")])
 zone_difficulty = 2

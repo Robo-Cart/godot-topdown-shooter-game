@@ -701,7 +701,6 @@ sources/2 = SubResource("TileSetAtlasSource_5057w")
 
 [node name="Level" type="Node2D" unique_id=287349216]
 script = ExtResource("1_r0kat")
-level_data = ExtResource("2_yq8sx")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=719361270]
 scale = Vector2(1.8, 1.8)

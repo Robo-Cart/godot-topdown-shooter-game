@@ -22,11 +22,12 @@ func _assemble_modifier() -> void:
 	var modifier_instance: Node = _level_data.modifier_scene.instantiate()
 
 	# Add as a child of the current level root (the parent of this component)
-	get_parent().add_child(modifier_instance)
+	var parent_node: Node = get_parent()
+	parent_node.add_child(modifier_instance)
 
-	# Ensure it is moved to an appropriate layer (usually above the base tilemap)
-	# In this architecture, we add it and let standard node order handle it,
-	# or explicitly move it if needed.
+	# Ensure it is moved to an appropriate layer (directly above the base tilemap at index 0)
+	if parent_node.get_child_count() > 1:
+		parent_node.move_child(modifier_instance, 1)
 
 	LogWrapper.debug(self, "Modifier scene instantiated: %s" %
 			_level_data.modifier_scene.resource_path)
