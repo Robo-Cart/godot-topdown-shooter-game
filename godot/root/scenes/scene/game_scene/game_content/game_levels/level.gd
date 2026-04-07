@@ -1,8 +1,9 @@
 extends Node2D
 
 const DOOR_CLEARANCE_RADIUS: float = 160.0
-const SCALING_DATA_PATH: String = \
-		"res://root/scenes/component/multiplayer_scaling/multiplayer_scaling_data.gd"
+const SCALING_DATA_PATH: String = (
+	"res://root/scenes/component/multiplayer_scaling/multiplayer_scaling_data.gd"
+)
 
 @export var level_data: LevelData
 
@@ -419,9 +420,20 @@ func _open_all_doors_final() -> void:
 	_active_waves_waiting_to_close.clear()
 	_wave_spawners.clear()
 	var doors: Array[Node] = get_tree().get_nodes_in_group("object_door")
+	var viewport_center: Vector2 = Vector2(576, 324)
+
 	for door: Node in doors:
 		if door is ObjectDoor:
-			door.open_door_final()
+			var dir: Vector2 = door.global_position - viewport_center
+			var direction_offset: Vector2i = Vector2i.ZERO
+
+			if abs(dir.x) > abs(dir.y):
+				direction_offset = Vector2i(1, 0) if dir.x > 0 else Vector2i(-1, 0)
+			else:
+				direction_offset = Vector2i(0, 1) if dir.y > 0 else Vector2i(0, -1)
+
+			if ZoneManager.is_door_valid(direction_offset):
+				door.open_door_final()
 
 
 func _force_close_all_doors() -> void:

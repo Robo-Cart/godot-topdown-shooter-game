@@ -77,7 +77,7 @@ func _load_level(
 
 						# Calculate spread grid (e.g., 3x3 for up to 8-9 players)
 						var cols: int = ceili(sqrt(players_count))
-						var grid_spacing: float = 50.0 # Enough to clear collision shapes
+						var grid_spacing: float = 50.0  # Enough to clear collision shapes
 
 						for i in range(players_count):
 							var row: int = i / cols
@@ -91,7 +91,7 @@ func _load_level(
 							)
 
 							(players[i] as Node2D).global_position = base_pos + offset
-	elif Data.game.current_level_index == 0:
+	elif Data.game.visited_levels.size() == 0:
 		# Reposition all players within 25% of screen width from camera center
 		var viewport_rect: Rect2 = get_viewport().get_visible_rect()
 		var camera: Camera2D = get_viewport().get_camera_2d()
@@ -102,9 +102,11 @@ func _load_level(
 		var max_offset: float = viewport_rect.size.x * 0.25
 
 		for p in players:
-			(p as Node2D).global_position = spawn_center + Vector2(
-				randf_range(-max_offset, max_offset),
-				randf_range(-max_offset, max_offset)
+			(p as Node2D).global_position = (
+				spawn_center
+				+ Vector2(
+					randf_range(-max_offset, max_offset), randf_range(-max_offset, max_offset)
+				)
 			)
 
 	await get_tree().process_frame
@@ -125,9 +127,20 @@ func _load_level(
 
 
 func _on_level_transition_triggered(
-	_target_transition_area: String, _position_offset: Vector2
+	_target_transition_area: String, _position_offset: Vector2, _side: int = 1
 ) -> void:
-	if ZoneManager.advance_to_next_level():
+	var direction_offset: Vector2i = Vector2i.ZERO
+	# 0=NORTH, 1=EAST, 2=SOUTH, 3=WEST
+	if _side == 0:
+		direction_offset = Vector2i(0, -1)
+	elif _side == 1:
+		direction_offset = Vector2i(1, 0)
+	elif _side == 2:
+		direction_offset = Vector2i(0, 1)
+	elif _side == 3:
+		direction_offset = Vector2i(-1, 0)
+
+	if ZoneManager.advance_to_next_level(direction_offset):
 		load_current_level(_target_transition_area, _position_offset)
 	else:
 		LogWrapper.debug(self, "Zone completed!")
