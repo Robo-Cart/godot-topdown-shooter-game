@@ -26,7 +26,6 @@ var player: Player:
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D
 
 
-
 func _set_size(_v: int) -> void:
 	size = _v
 	_update_area()
@@ -89,6 +88,18 @@ func get_offset(p: Node2D) -> Vector2:
 	return offset
 
 
+func get_target_transition_area() -> String:
+	if side == SIDE.NORTH:
+		return "LevelTransition_S"
+	if side == SIDE.SOUTH:
+		return "LevelTransition_N"
+	if side == SIDE.EAST:
+		return "LevelTransition_W"
+	if side == SIDE.WEST:
+		return "LevelTransition_E"
+	return "LevelTransition"
+
+
 func _player_entered(_player: Node2D) -> void:
 	if not _player.is_in_group("player"):
 		return
@@ -101,7 +112,9 @@ func _player_entered(_player: Node2D) -> void:
 	if game_scene and game_scene.has_method("fade_out"):
 		await game_scene.fade_out()
 
-	SignalBus.level_transition_triggered.emit(target_transition_area, get_offset(_player))
+	SignalBus.level_transition_triggered.emit(
+		get_target_transition_area(), get_offset(_player), side
+	)
 
 	if game_scene and game_scene.has_method("fade_in"):
 		game_scene.fade_in()

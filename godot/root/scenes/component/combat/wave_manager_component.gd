@@ -8,8 +8,9 @@ signal enemy_spawned(enemy: Node2D)
 signal all_spawns_completed
 
 const DOOR_CLEARANCE_RADIUS: float = 160.0
-const SCALING_DATA_PATH: String = \
-		"res://root/scenes/component/multiplayer_scaling/multiplayer_scaling_data.gd"
+const SCALING_DATA_PATH: String = (
+	"res://root/scenes/component/multiplayer_scaling/multiplayer_scaling_data.gd"
+)
 
 @export_group("Spawn Positioning")
 @export var spawn_distance_towards_player: float = 60.0
@@ -80,9 +81,20 @@ func open_all_doors_final() -> void:
 	_active_waves_waiting_to_close.clear()
 	_wave_spawners.clear()
 	var doors: Array[Node] = get_tree().get_nodes_in_group("object_door")
+	var viewport_center: Vector2 = Vector2(576, 324)
+
 	for door: Node in doors:
 		if door is ObjectDoor:
-			door.open_door_final()
+			var dir: Vector2 = door.global_position - viewport_center
+			var direction_offset: Vector2i = Vector2i.ZERO
+
+			if abs(dir.x) > abs(dir.y):
+				direction_offset = Vector2i(1, 0) if dir.x > 0 else Vector2i(-1, 0)
+			else:
+				direction_offset = Vector2i(0, 1) if dir.y > 0 else Vector2i(0, -1)
+
+			if ZoneManager.is_door_valid(direction_offset):
+				door.open_door_final()
 
 
 func _build_spawn_queue() -> void:
@@ -122,16 +134,18 @@ func _build_spawn_queue() -> void:
 
 		for i: int in range(num_enemies):
 			var exact_spawn_time: float = wave.time + (i * time_interval)
-			_spawn_queue.append({
-				"time": exact_spawn_time,
-				"category": "enemy",
-				"scene_path": wave.enemy_scene_path,
-				"location": wave.spawn_points[i % num_spawn_points],
-				"wave_stamp": wave.time_stamp,
-				"wait_before_spawn": wave.is_boss_wave and i == 0,
-				"is_boss_wave": wave.is_boss_wave,
-				"nice_name": wave.enemy_name
-			})
+			_spawn_queue.append(
+				{
+					"time": exact_spawn_time,
+					"category": "enemy",
+					"scene_path": wave.enemy_scene_path,
+					"location": wave.spawn_points[i % num_spawn_points],
+					"wave_stamp": wave.time_stamp,
+					"wait_before_spawn": wave.is_boss_wave and i == 0,
+					"is_boss_wave": wave.is_boss_wave,
+					"nice_name": wave.enemy_name
+				}
+			)
 
 	# 2. Powerup Waves
 	for powerup: PowerupWaveConfig in _level_data.powerup_wave_config:
@@ -143,14 +157,16 @@ func _build_spawn_queue() -> void:
 				if powerup.spawn_points.size() > 0
 				else SpawnConfig.Location.RANDOM_INNER
 			)
-			_spawn_queue.append({
-				"time": exact_spawn_time,
-				"category": "powerup",
-				"scene_path": powerup.powerup_scene_path,
-				"location": chosen_loc,
-				"wave_stamp": powerup.time_stamp,
-				"nice_name": powerup.display_name
-			})
+			_spawn_queue.append(
+				{
+					"time": exact_spawn_time,
+					"category": "powerup",
+					"scene_path": powerup.powerup_scene_path,
+					"location": chosen_loc,
+					"wave_stamp": powerup.time_stamp,
+					"nice_name": powerup.display_name
+				}
+			)
 
 	_spawn_queue.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return a.time < b.time)
 
@@ -241,9 +257,7 @@ func _get_scene(path: String) -> PackedScene:
 	return _cached_scenes.get(path) as PackedScene
 
 
-func _get_spawn_position(
-	loc: SpawnConfig.Location, stamp: String, is_boss: bool
-) -> Array:
+func _get_spawn_position(loc: SpawnConfig.Location, stamp: String, is_boss: bool) -> Array:
 	var valid_spawners: Array[Node] = []
 	var spawners: Array[Node] = get_tree().get_nodes_in_group("enemy_wave_spawner_edge")
 
@@ -257,7 +271,7 @@ func _get_spawn_position(
 				valid_spawners.append(s)
 
 	if valid_spawners.size() == 0:
-		valid_spawners = spawners # Fallback
+		valid_spawners = spawners  # Fallback
 
 	var chosen: Node = valid_spawners.pick_random()
 	var spawner_pos: Vector2 = chosen.global_position
@@ -310,10 +324,14 @@ func _update_active_waves_clearance() -> void:
 		var is_clear: bool = true
 		for spawner_pos: Vector2 in _wave_spawners.get(stamp, []):
 			for enemy: Node in enemies:
-				if enemy is Node2D and enemy.global_position.distance_to(spawner_pos) < DOOR_CLEARANCE_RADIUS:
+				if (
+					enemy is Node2D
+					and enemy.global_position.distance_to(spawner_pos) < DOOR_CLEARANCE_RADIUS
+				):
 					is_clear = false
 					break
-			if not is_clear: break
+			if not is_clear:
+				break
 
 		if is_clear:
 			_close_doors_for_wave(stamp)

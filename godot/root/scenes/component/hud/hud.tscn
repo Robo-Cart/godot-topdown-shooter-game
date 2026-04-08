@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=4 format=3]
 
 [ext_resource type="Script" path="res://root/scenes/component/hud/hud.gd" id="1_x8q2k"]
+[ext_resource type="PackedScene" uid="uid://cx6i8d7wab2e" path="res://root/scenes/component/hud/world_map_hud.tscn" id="2_wmap"]
 
 [node name="HUD" type="CanvasLayer"]
 layer = 10
@@ -32,3 +33,5 @@ grow_horizontal = 2
 grow_vertical = 0
 theme_override_constants/separation = 16
 alignment = 1
+
+[node name="WorldMapHUD" parent="." instance=ExtResource("2_wmap")]
