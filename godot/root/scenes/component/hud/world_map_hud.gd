@@ -4,15 +4,15 @@ extends Control
 const GRID_WIDTH: int = 7
 const GRID_HEIGHT: int = 3
 const CELL_GAP: float = 4.0
+const BG_COLOR: Color = Color(0.8, 0.8, 0.8, 0.5) # Semi-transparent light grey
+const BORDER_COLOR: Color = Color.BLACK
 
 var _debug_show_all: bool = false
 var _world_map: WorldMap = null
 
-
 func _ready() -> void:
 	SignalBus.level_transition_triggered.connect(_on_level_transition_triggered)
 	_update_map_data()
-
 
 func _unhandled_input(event: InputEvent) -> void:
 	if OS.is_debug_build() and event is InputEventKey:
@@ -20,17 +20,14 @@ func _unhandled_input(event: InputEvent) -> void:
 			_debug_show_all = not _debug_show_all
 			queue_redraw()
 
-
 func _on_level_transition_triggered(_target: String, _offset: Vector2, _side: int) -> void:
 	call_deferred("_update_map_data")
-
 
 func _update_map_data() -> void:
 	var zm: Node = get_node_or_null("/root/ZoneManager")
 	if zm and zm.has_method("get_world_map"):
 		_world_map = zm.call("get_world_map") as WorldMap
 	queue_redraw()
-
 
 func _draw() -> void:
 	if not _world_map:
@@ -39,14 +36,18 @@ func _draw() -> void:
 	var viewport_size: Vector2 = get_viewport_rect().size
 	var max_width: float = viewport_size.x / 8.0
 	var max_height: float = viewport_size.y / 8.0
-
 	var cell_size_x: float = (max_width - (GRID_WIDTH - 1) * CELL_GAP) / GRID_WIDTH
 	var cell_size_y: float = (max_height - (GRID_HEIGHT - 1) * CELL_GAP) / GRID_HEIGHT
 	var cell_size: float = minf(cell_size_x, cell_size_y)
-
 	var total_width: float = GRID_WIDTH * cell_size + (GRID_WIDTH - 1) * CELL_GAP
-
+	var total_height: float = GRID_HEIGHT * cell_size + (GRID_HEIGHT - 1) * CELL_GAP
 	var start_pos: Vector2 = Vector2(size.x - total_width - 16.0, 16.0)
+
+	# Draw Container Background and Outline
+	var container_rect: Rect2 = Rect2(
+		start_pos.x - 4.0, start_pos.y - 4.0, total_width + 8.0, total_height + 8.0)
+	draw_rect(container_rect, BG_COLOR, true)
+	draw_rect(container_rect, BORDER_COLOR, false, 1.0)
 
 	var current_coords: Vector2i = Data.game.current_level_coords
 	var visited: Array[Vector2i] = Data.game.visited_levels
@@ -84,23 +85,28 @@ func _draw() -> void:
 				cell_size
 			)
 
+			# Adjusted colors for contrast against light grey background
 			var color: Color
 			if is_current:
-				color = Color.WHITE
+				color = Color.YELLOW # High visibility for current position
 			elif cell.is_entrance and is_visited:
-				color = Color.GREEN
+				color = Color.DARK_GREEN
 			elif cell.is_exit and is_visited:
-				color = Color.RED
+				color = Color.DARK_RED
 			elif cell.is_entrance and (is_adjacent or _debug_show_all):
-				color = Color.GREEN.lerp(Color.TRANSPARENT, 0.5)
+				color = Color.DARK_GREEN.lerp(Color.TRANSPARENT, 0.5)
 			elif cell.is_exit and (is_adjacent or _debug_show_all):
-				color = Color.RED.lerp(Color.TRANSPARENT, 0.5)
+				color = Color.DARK_RED.lerp(Color.TRANSPARENT, 0.5)
 			elif is_visited:
-				color = Color.SLATE_GRAY
+				color = Color.DIM_GRAY
 			else:
-				color = Color.SLATE_GRAY.lerp(Color.TRANSPARENT, 0.7)
+				color = Color.DIM_GRAY.lerp(Color.TRANSPARENT, 0.7)
 
-			draw_rect(rect, color)
+			# Draw cell fill
+			draw_rect(rect, color, true)
+			# Draw cell border (1px black)
+			draw_rect(rect, BORDER_COLOR, false, 1.0)
 
 			if not is_visited and not is_current:
+				# Subtle inner highlight for unexplored cells
 				draw_rect(rect, Color.WHITE.lerp(Color.TRANSPARENT, 0.8), false, 1.0)
