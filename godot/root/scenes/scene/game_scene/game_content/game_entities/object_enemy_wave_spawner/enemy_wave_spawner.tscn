@@ -5,6 +5,8 @@
 [node name="EnemyWaveSpawner" type="Node2D" unique_id=99171236]
 script = ExtResource("1_u56dv")
 
+[node name="SpawnTarget" type="Marker2D" parent="." unique_id=27521193]
+
 [node name="ReferenceRect" type="ReferenceRect" parent="." unique_id=63889668]
 offset_left = -26.0
 offset_top = -26.0

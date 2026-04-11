@@ -227,6 +227,7 @@ func _spawn_enemy(data: Dictionary) -> void:
 	var result: Array = _get_spawn_position(data.location, data.wave_stamp, data.is_boss_wave)
 	var spawn_pos: Vector2 = result[0]
 	var door: ObjectDoor = result[1]
+	var spawner: Node2D = result[2]
 
 	enemy.global_position = spawn_pos
 	_add_multiplayer_scaling(enemy, data.is_boss_wave)
@@ -235,7 +236,7 @@ func _spawn_enemy(data: Dictionary) -> void:
 	enemy_spawned.emit(enemy)
 
 	if not data.is_boss_wave and door:
-		_setup_spawn_intro(enemy, data.location, door)
+		_setup_spawn_intro(enemy, data.location, door, spawner)
 
 
 func _spawn_powerup(data: Dictionary) -> void:
@@ -273,7 +274,7 @@ func _get_spawn_position(loc: SpawnConfig.Location, stamp: String, is_boss: bool
 	if valid_spawners.size() == 0:
 		valid_spawners = spawners  # Fallback
 
-	var chosen: Node = valid_spawners.pick_random()
+	var chosen: Node2D = valid_spawners.pick_random() as Node2D
 	var spawner_pos: Vector2 = chosen.global_position
 	var door: ObjectDoor = null
 
@@ -282,13 +283,13 @@ func _get_spawn_position(loc: SpawnConfig.Location, stamp: String, is_boss: bool
 
 	var player: Node2D = get_tree().get_first_node_in_group("player")
 	if not player:
-		return [spawner_pos, door]
+		return [spawner_pos, door, chosen]
 
 	var dir: Vector2 = spawner_pos.direction_to(player.global_position)
 	var pos: Vector2 = spawner_pos + (dir * spawn_distance_towards_player)
 	var slide: float = randf_range(-spawn_perpendicular_variance, spawn_perpendicular_variance)
 
-	return [pos + (dir.orthogonal() * slide), door]
+	return [pos + (dir.orthogonal() * slide), door, chosen]
 
 
 func _handle_doors_near_spawner(spawner_pos: Vector2, stamp: String) -> ObjectDoor:
@@ -364,7 +365,9 @@ func _add_multiplayer_scaling(enemy: Node2D, is_boss: bool) -> void:
 	enemy.add_child(scaler)
 
 
-func _setup_spawn_intro(enemy: Node2D, loc: SpawnConfig.Location, door: ObjectDoor) -> void:
+func _setup_spawn_intro(
+	enemy: Node2D, loc: SpawnConfig.Location, door: ObjectDoor, spawner: Node2D
+) -> void:
 	var intro: SpawnIntroComponent = enemy.find_child("*SpawnIntroComponent*", true, false)
 	if intro:
 		var actual_loc: SpawnConfig.Location = loc
@@ -375,4 +378,9 @@ func _setup_spawn_intro(enemy: Node2D, loc: SpawnConfig.Location, door: ObjectDo
 				actual_loc = SpawnConfig.Location.EAST if dir.x > 0 else SpawnConfig.Location.WEST
 			else:
 				actual_loc = SpawnConfig.Location.SOUTH if dir.y > 0 else SpawnConfig.Location.NORTH
-		intro.setup(actual_loc, door)
+
+		var target_pos: Vector2 = Vector2.ZERO
+		if spawner and spawner.has_method("get_target_position"):
+			target_pos = spawner.get_target_position()
+
+		intro.setup(actual_loc, door, target_pos)

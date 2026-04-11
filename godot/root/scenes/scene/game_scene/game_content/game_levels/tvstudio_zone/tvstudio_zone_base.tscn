@@ -2388,17 +2388,32 @@ position = Vector2(-2, 333)
 [node name="EnemyWaveSpawner" parent="." unique_id=99171236 instance=ExtResource("8_kerni")]
 position = Vector2(546, -25)
 
+[node name="SpawnTarget" parent="EnemyWaveSpawner" index="0" unique_id=27521193]
+position = Vector2(0, 92)
+
+[node name="ReferenceRect" parent="EnemyWaveSpawner" index="1" unique_id=63889668]
+metadata/_edit_use_anchors_ = true
+
 [node name="EnemyWaveSpawner2" parent="." unique_id=836936471 instance=ExtResource("8_kerni")]
 position = Vector2(1181, 332)
 location = 1
+
+[node name="SpawnTarget" parent="EnemyWaveSpawner2" index="0" unique_id=27521193]
+position = Vector2(-56, 0)
 
 [node name="EnemyWaveSpawner3" parent="." unique_id=1288930692 instance=ExtResource("8_kerni")]
 position = Vector2(546, 660)
 location = 2
 
+[node name="SpawnTarget" parent="EnemyWaveSpawner3" index="0" unique_id=27521193]
+position = Vector2(0, -106)
+
 [node name="EnemyWaveSpawner4" parent="." unique_id=1060793127 instance=ExtResource("8_kerni")]
 position = Vector2(-25, 333)
 location = 3
+
+[node name="SpawnTarget" parent="EnemyWaveSpawner4" index="0" unique_id=27521193]
+position = Vector2(64, 2)
 
 [node name="EnemyWaveSpawner5" parent="." unique_id=1464128436 instance=ExtResource("8_kerni")]
 position = Vector2(485, 248)
@@ -2444,3 +2459,8 @@ script = ExtResource("13_1dte4")
 
 [node name="EnvironmentManagerComponent" type="Node" parent="." unique_id=1121163151]
 script = ExtResource("14_f7x6x")
+
+[editable path="EnemyWaveSpawner"]
+[editable path="EnemyWaveSpawner2"]
+[editable path="EnemyWaveSpawner3"]
+[editable path="EnemyWaveSpawner4"]
